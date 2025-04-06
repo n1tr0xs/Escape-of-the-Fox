@@ -6,6 +6,7 @@ Player::Player(float x, float y, float width, float height, SDL_Texture* texture
 	addAnimation("idle", 0, 4, fw, fh);
 	addAnimation("running", 1, 4, fw, fh);
 	addAnimation("jumping", 2, 4, fw, fh);
+	addAnimation("crouching", 3, 4, fw, fh);
 	m_current_animation = m_animations["idle"];
 }
 
@@ -26,6 +27,9 @@ void Player::update(Uint64 deltaTime) {
 		m_rect.x += m_x_vel * deltaTime;
 		m_current_animation = m_animations[m_on_ground ? "running" : "jumping"];
 		m_texture_flip = SDL_FLIP_NONE;
+	}
+	else if (state[SDL_SCANCODE_S]) {
+		m_current_animation = m_animations["crouching"];
 	}
 	else {
 		m_current_animation = m_animations[m_on_ground ? "idle" : "jumping"];
