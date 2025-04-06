@@ -1,11 +1,11 @@
 #include "Player.h"
 
 Player::Player(float x, float y, float width, float height, SDL_Texture* texture) : Entity(x, y, width, height, texture) {
-	int fw = 64;
-	int fh = 64;
-	addAnimation("idle", 0, 1, fw, fh);
+	int fw = 256;
+	int fh = 256;
+	addAnimation("idle", 0, 4, fw, fh);
 	addAnimation("running", 1, 4, fw, fh);
-	addAnimation("jumping", 2, 1, fw, fh);
+	addAnimation("jumping", 2, 4, fw, fh);
 	m_current_animation = m_animations["idle"];
 }
 
