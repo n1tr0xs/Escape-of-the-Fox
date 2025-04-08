@@ -12,27 +12,26 @@ Player::Player(float x, float y, float width, float height, SDL_Texture* texture
 
 void Player::update(Uint64 deltaTime) {
 	const auto state = SDL_GetKeyboardState(NULL);
+	
+	m_current_animation = m_animations[m_on_ground ? "idle" : "jumping"];
 
 	if (state[SDL_SCANCODE_SPACE] && m_on_ground) {
 		m_y_velocity = m_jump_strength;
 		m_on_ground = false;
 		m_current_animation = m_animations["jumping"];
 	}
-	else if (state[SDL_SCANCODE_A]) {
+	if (state[SDL_SCANCODE_A]) {
 		m_rect.x -= m_x_vel * deltaTime;
 		m_current_animation = m_animations[m_on_ground ? "running" : "jumping"];
 		m_texture_flip = SDL_FLIP_HORIZONTAL;
 	}
-	else if (state[SDL_SCANCODE_D]) {
+	if (state[SDL_SCANCODE_D]) {
 		m_rect.x += m_x_vel * deltaTime;
 		m_current_animation = m_animations[m_on_ground ? "running" : "jumping"];
 		m_texture_flip = SDL_FLIP_NONE;
 	}
-	else if (state[SDL_SCANCODE_S]) {
+	if (state[SDL_SCANCODE_S]) {
 		m_current_animation = m_animations["crouching"];
-	}
-	else {
-		m_current_animation = m_animations[m_on_ground ? "idle" : "jumping"];
 	}
 
 	// Update vertical velocity (gravity)
