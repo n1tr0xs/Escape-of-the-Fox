@@ -5,7 +5,7 @@ Game::Game(const std::string& title, int width, int height) {
 		SDL_Fail("Failed to initialize SDL:");
 	}
 
-	m_window = SDL_CreateWindow(title.c_str(), width, height, SDL_WINDOW_RESIZABLE);
+	m_window = SDL_CreateWindow(title.c_str(), width, height, SDL_WINDOW_FULLSCREEN|SDL_WINDOW_BORDERLESS);
 	if (!m_window) {
 		SDL_Fail("Window couldn't be created!");
 	}
