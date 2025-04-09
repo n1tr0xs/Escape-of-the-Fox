@@ -1,7 +1,8 @@
 ﻿#include "Game.h"
 
 int main() {
-	Game game("Escape of the Fox", 800, 600);
+	int t = 256;
+	Game game("Escape of the Fox", t*4, t*2);
 	game.run();
 	return 0;
 }

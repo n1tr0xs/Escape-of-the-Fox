@@ -6,6 +6,8 @@
 #include <vector>
 
 #include "ResourceManager.h"
+#include "Entity.h"
+#include "Player.h"
 #include "Level.h"
 
 class Game {
@@ -35,4 +37,5 @@ private:
 	std::unique_ptr<ResourceManager> m_resourceManager; // Resource manager
 
 	std::unique_ptr<Level> level; // Level
+	std::vector<std::unique_ptr<Entity>> m_entities; // Game entities
 };

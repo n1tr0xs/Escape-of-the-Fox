@@ -6,6 +6,7 @@
 #include <memory>
 
 #include "Animation.h"
+#include "Level.h"
 
 // Entity rect
 struct Rect {
@@ -25,7 +26,7 @@ public:
 	// Updates Animation frame
 	virtual void updateAnimationFrame(Uint64 deltaTime);
 	// Updates Entity state
-	virtual void update(Uint64 deltaTime)=0;
+	virtual void update(Uint64 deltaTime, Level* level) = 0;
 	
 
 protected:

@@ -1,12 +1,14 @@
 #include "Level.h"
 
-Level::Level(SDL_Texture* texture, ResourceManager* resMgr) :
-	m_texture(texture), m_resourceManager(resMgr) {
+#include "Player.h"
+
+Level::Level(SDL_Texture* texture) :
+	m_texture(texture) {
 
 	addRows(2, 1);
 	addRows(1, 2);
 
-	m_entities.emplace_back(std::make_unique<Player>(100, 100, 8 * 32, 4 * 32, texture));
+	
 }
 
 void Level::addRow(Uint8 block) {
@@ -49,7 +51,7 @@ void Level::render(SDL_Renderer* renderer) {
 		}
 		dest.y -= tileSize;
 	}
-	
+	payload_min_y = dest.y;
 	// Rendering empty tiles as background
 	src.x = 0;
 	src.y = 0;
@@ -61,14 +63,25 @@ void Level::render(SDL_Renderer* renderer) {
 		dest.y -= tileSize;
 	}
 
-	// Rendering entities
-	for (const auto& entity : m_entities) {
-		entity->render(renderer);
-	}
+	
 }
 
 void Level::update(Uint64 deltaTime) {
-	for (const auto& entity : m_entities) {
-		entity->update(deltaTime);
-	}
+	
+}
+
+bool Level::isSolidAtPixel(float x, float y) {
+	SDL_Log("Level::isSolidAtPixel called with:\nx: %f. y: %f", x, y);
+	if (y < payload_min_y)
+		return false;
+	SDL_Log("Level::isSolidAtPixel payload_min_y: %f", payload_min_y);
+	int tileX = x / 32;
+	int tileY = (y-payload_min_y) / 32;
+	SDL_Log("tX: %d. tY: %d.", tileX, tileY);
+	if (tileY > m_tileMap.size())
+		return false;
+	Uint8 tile = m_tileMap[tileY][tileX];
+	if (tile == 1 || tile == 2)
+		return true;
+	return false;
 }

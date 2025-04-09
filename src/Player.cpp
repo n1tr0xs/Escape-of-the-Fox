@@ -10,7 +10,7 @@ Player::Player(float x, float y, float width, float height, SDL_Texture* texture
 	m_current_animation = m_animations["idle"];
 }
 
-void Player::update(Uint64 deltaTime) {
+void Player::update(Uint64 deltaTime, Level* level) {
 	const auto state = SDL_GetKeyboardState(NULL);
 	
 	m_current_animation = m_animations[m_on_ground ? "idle" : "jumping"];
@@ -33,12 +33,34 @@ void Player::update(Uint64 deltaTime) {
 	if (state[SDL_SCANCODE_S]) {
 		m_current_animation = m_animations["crouching"];
 	}
+	
+	const int TILE_SIZE = 32;
 
 	// Update vertical velocity (gravity)
 	if (!m_on_ground) {
 		m_y_velocity += 0.01f * deltaTime;  // Gravity (constant fall speed)
 	}
+	
+	
+	// Predict next Y position
+	float nextY = m_rect.y + m_y_velocity * deltaTime;
 
+	// Check if there's a solid tile below player's feet
+	float feetY = nextY + m_rect.height; // Bottom of player
+	
+	if (!level->isSolidAtPixel(m_rect.x, feetY)) {
+		m_rect.y = nextY; // Apply gravity
+		m_on_ground = false;
+	}
+	else {
+		// Snap player to tile and reset velocity
+		m_rect.y = (int(feetY / TILE_SIZE)) * TILE_SIZE - m_rect.height;
+		m_y_velocity = 0;
+		m_on_ground = true;
+		SDL_Log("Snapped to: %f. feet: %f", m_rect.y, m_rect.y+m_rect.height);
+		SDL_Log("veloctity set to: %f", m_y_velocity);
+	}
+	/*
 	// Apply vertical movement
 	m_rect.y += m_y_velocity * deltaTime;
 
@@ -49,7 +71,7 @@ void Player::update(Uint64 deltaTime) {
 		m_on_ground = true;
 		m_y_velocity = 0;
 	}
-
+	*/
 
 	updateAnimationFrame(deltaTime);
 }

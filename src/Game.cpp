@@ -18,11 +18,11 @@ Game::Game(const std::string& title, int width, int height) {
 	m_resourceManager = std::make_unique<ResourceManager>();
 
 	// Loading Player texture
-	m_resourceManager->loadTexture("assets/fox.png", m_renderer);
-	
+	SDL_Texture* texture = m_resourceManager->loadTexture("assets/fox.png", m_renderer);
+	m_entities.emplace_back(std::make_unique<Player>(100, 100, 8 * 32, 4 * 32, texture));
 	// Creating Level
 	SDL_Texture* levelTexture = m_resourceManager->loadTexture("assets/back.png", m_renderer);
-	level = std::make_unique<Level>(levelTexture, m_resourceManager.get());
+	level = std::make_unique<Level>(levelTexture);
 
 	m_running = true;
 }
@@ -73,6 +73,9 @@ void Game::processEvents() {
 
 void Game::update(Uint64 deltaTime) {
 	level->update(deltaTime);
+	for (const auto& entity : m_entities) {
+		entity->update(deltaTime, level.get());
+	}
 }
 
 void Game::render() {
@@ -80,5 +83,10 @@ void Game::render() {
 	SDL_RenderClear(m_renderer);
 
 	level->render(m_renderer);
+	// Rendering entities
+	for (const auto& entity : m_entities) {
+		entity->render(m_renderer);
+	}
+
 	SDL_RenderPresent(m_renderer);
 }

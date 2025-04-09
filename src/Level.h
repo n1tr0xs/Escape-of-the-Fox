@@ -5,23 +5,22 @@
 #include <vector>
 #include <memory>
 
-
-#include "Entity.h"
-#include "Player.h"
 #include "ResourceManager.h"
 
 class Level {
 public:
-	Level(SDL_Texture* texture, ResourceManager* resMgr);
+	Level(SDL_Texture* texture);
 
 	void render(SDL_Renderer* renderer);
 	void update(Uint64 deltaTime);
-private:
-	ResourceManager* m_resourceManager;
-	std::vector<std::unique_ptr<Entity>> m_entities; // Game entities
+
+	bool isSolidAtPixel(float x, float y);
+private:	
 	SDL_Texture* m_texture;
 	std::vector<std::vector<Uint8>> m_tileMap;
 	
 	void addRow(Uint8 block);
 	void addRows(int rows, Uint8 block);
+
+	float payload_min_y = 10000.0f;
 };
