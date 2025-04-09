@@ -1,9 +1,12 @@
 #include "Level.h"
 
-Level::Level(SDL_Texture* texture) :
-	m_texture(texture) {
+Level::Level(SDL_Texture* texture, ResourceManager* resMgr) :
+	m_texture(texture), m_resourceManager(resMgr) {
+
 	addRows(2, 1);
 	addRows(1, 2);
+
+	m_entities.emplace_back(std::make_unique<Player>(100, 100, 8 * 32, 4 * 32, texture));
 }
 
 void Level::addRow(Uint8 block) {
@@ -51,10 +54,21 @@ void Level::render(SDL_Renderer* renderer) {
 	src.x = 0;
 	src.y = 0;
 	while (dest.y > 0) {
-		for (int x = 0; x < w; x += tileSize) {
+		for (int x = 0.0f; x < w; x += tileSize) {
 			dest.x = x;
 			SDL_RenderTexture(renderer, m_texture, &src, &dest);
 		}
 		dest.y -= tileSize;
+	}
+
+	// Rendering entities
+	for (const auto& entity : m_entities) {
+		entity->render(renderer);
+	}
+}
+
+void Level::update(Uint64 deltaTime) {
+	for (const auto& entity : m_entities) {
+		entity->update(deltaTime);
 	}
 }

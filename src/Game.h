@@ -6,8 +6,6 @@
 #include <vector>
 
 #include "ResourceManager.h"
-#include "Entity.h"
-#include "Player.h"
 #include "Level.h"
 
 class Game {
@@ -35,7 +33,6 @@ private:
 	SDL_Window* m_window = nullptr; // Game window
 	SDL_Renderer* m_renderer = nullptr; // Game renderer
 	std::unique_ptr<ResourceManager> m_resourceManager; // Resource manager
-	std::vector<std::unique_ptr<Entity>> m_entities; // Game entities
 
-	std::unique_ptr<Level> level;
+	std::unique_ptr<Level> level; // Level
 };

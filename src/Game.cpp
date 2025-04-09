@@ -5,7 +5,7 @@ Game::Game(const std::string& title, int width, int height) {
 		SDL_Fail("Failed to initialize SDL:");
 	}
 
-	m_window = SDL_CreateWindow(title.c_str(), width, height, SDL_WINDOW_FULLSCREEN|SDL_WINDOW_BORDERLESS);
+	m_window = SDL_CreateWindow(title.c_str(), width, height, 0);
 	if (!m_window) {
 		SDL_Fail("Window couldn't be created!");
 	}
@@ -17,11 +17,12 @@ Game::Game(const std::string& title, int width, int height) {
 
 	m_resourceManager = std::make_unique<ResourceManager>();
 
-	SDL_Texture* texture = m_resourceManager->loadTexture("assets/fox.png", m_renderer);
-	m_entities.emplace_back(std::make_unique<Player>(100, 100, 8*32, 4*32, texture));
+	// Loading Player texture
+	m_resourceManager->loadTexture("assets/fox.png", m_renderer);
 	
+	// Creating Level
 	SDL_Texture* levelTexture = m_resourceManager->loadTexture("assets/back.png", m_renderer);
-	level = std::make_unique<Level>(levelTexture);
+	level = std::make_unique<Level>(levelTexture, m_resourceManager.get());
 
 	m_running = true;
 }
@@ -71,9 +72,7 @@ void Game::processEvents() {
 }
 
 void Game::update(Uint64 deltaTime) {
-	for (const auto& entity : m_entities) {
-		entity->update(deltaTime);
-	}
+	level->update(deltaTime);
 }
 
 void Game::render() {
@@ -81,10 +80,5 @@ void Game::render() {
 	SDL_RenderClear(m_renderer);
 
 	level->render(m_renderer);
-
-	for (const auto& entity : m_entities) {
-		entity->render(m_renderer);
-	}
-
 	SDL_RenderPresent(m_renderer);
 }
