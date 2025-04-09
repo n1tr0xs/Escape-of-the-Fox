@@ -1,19 +1,11 @@
 #include "Game.h"
 
 Game::Game(const std::string& title, int width, int height) {
-	if (!SDL_Init(SDL_INIT_VIDEO)) {
+	if (!SDL_Init(SDL_INIT_VIDEO))
 		SDL_Fail("Failed to initialize SDL:");
-	}
-
-	m_window = SDL_CreateWindow(title.c_str(), width, height, 0);
-	if (!m_window) {
-		SDL_Fail("Window couldn't be created!");
-	}
-
-	m_renderer = SDL_CreateRenderer(m_window, nullptr);
-	if (!m_renderer) {
-		SDL_Fail("Renderer couldn't be created!");
-	}
+	
+	if (!SDL_CreateWindowAndRenderer(title.c_str(), width, height, 0, &m_window, &m_renderer);)
+		SDL_Fail("Couldn't create window and renderer.");
 
 	m_resourceManager = std::make_unique<ResourceManager>();
 
