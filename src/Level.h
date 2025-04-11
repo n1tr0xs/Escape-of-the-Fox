@@ -5,6 +5,7 @@
 #include <vector>
 #include <memory>
 
+#include "constants.h"
 #include "ResourceManager.h"
 
 class Level {
