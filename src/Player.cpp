@@ -1,6 +1,7 @@
 #include "Player.h"
 
-Player::Player(float x, float y, float width, float height, SDL_Texture* texture) : Entity(x, y, width, height, texture) {
+Player::Player(float x, float y, float width, float height, SDL_Texture* texture) :
+	Entity(x, y, width, height, texture) {
 	int fw = 256;
 	int fh = 128;
 	//addAnimation("idle", 0, 4, fw, fh);
@@ -10,69 +11,41 @@ Player::Player(float x, float y, float width, float height, SDL_Texture* texture
 	m_current_animation = m_animations["idle"];
 }
 
-void Player::update(Uint64 deltaTime, Level* level) {
-	const auto state = SDL_GetKeyboardState(NULL);
-	
-	m_current_animation = m_animations[m_on_ground ? "idle" : "jumping"];
+void Player::update(Uint64 deltaTime, Level* level) {	
+	int TILE_SIZE = 32;
+	float speedX = 0.5f;	
+	float jumpStrength = .15f * TILE_SIZE;
+	float gravity = 0.05f;
+	float floor = 13 * TILE_SIZE;
 
-	if (state[SDL_SCANCODE_SPACE] && m_on_ground) {
-		m_y_velocity = m_jump_strength;
+	const bool* keyState = SDL_GetKeyboardState(NULL);
+	
+	if (keyState[SDL_SCANCODE_SPACE] && m_on_ground) {
+		vy = -jumpStrength;
 		m_on_ground = false;
-		m_current_animation = m_animations["jumping"];
 	}
-	if (state[SDL_SCANCODE_A]) {
-		m_rect.x -= m_x_vel * deltaTime;
-		m_current_animation = m_animations[m_on_ground ? "running" : "jumping"];
-		m_texture_flip = SDL_FLIP_HORIZONTAL;
-	}
-	if (state[SDL_SCANCODE_D]) {
-		m_rect.x += m_x_vel * deltaTime;
-		m_current_animation = m_animations[m_on_ground ? "running" : "jumping"];
-		m_texture_flip = SDL_FLIP_NONE;
-	}
-	if (state[SDL_SCANCODE_S]) {
-		m_current_animation = m_animations["crouching"];
+
+	if (keyState[SDL_SCANCODE_A]) {
+		m_rect.x -= speedX * deltaTime;
 	}
 	
-	const int TILE_SIZE = 32;
+	if (keyState[SDL_SCANCODE_D]) {
+		m_rect.x += speedX * deltaTime;
+	}
 
-	// Update vertical velocity (gravity)
 	if (!m_on_ground) {
-		m_y_velocity += 0.01f * deltaTime;  // Gravity (constant fall speed)
+		vy += gravity * deltaTime;
 	}
-	
-	
-	// Predict next Y position
-	float nextY = m_rect.y + m_y_velocity * deltaTime;
 
-	// Check if there's a solid tile below player's feet
-	float feetY = nextY + m_rect.height; // Bottom of player
-	
-	if (!level->isSolidAtPixel(m_rect.x, feetY)) {
-		m_rect.y = nextY; // Apply gravity
-		m_on_ground = false;
-	}
-	else {
-		// Snap player to tile and reset velocity
-		m_rect.y = (int(feetY / TILE_SIZE)) * TILE_SIZE - m_rect.height;
-		m_y_velocity = 0;
+	m_rect.y += vy * deltaTime;
+
+	if (m_rect.y + m_rect.height >= floor) {
+		m_rect.y = floor - m_rect.height;
 		m_on_ground = true;
-		SDL_Log("Snapped to: %f. feet: %f", m_rect.y, m_rect.y+m_rect.height);
-		SDL_Log("veloctity set to: %f", m_y_velocity);
+		vy = 0;
 	}
-	/*
-	// Apply vertical movement
-	m_rect.y += m_y_velocity * deltaTime;
 
-	// Check if player has landed on the ground (simple ground check)
-	float floor = 32*25;
-	if (m_rect.y >= floor){  // Example ground level (y = 400)
-		m_rect.y = floor;  // Snap to the ground level
-		m_on_ground = true;
-		m_y_velocity = 0;
-	}
-	*/
-
+	
 	updateAnimationFrame(deltaTime);
 }
 
@@ -86,4 +59,5 @@ void Player::render(SDL_Renderer* renderer) {
 	};
 	//SDL_RenderTexture(renderer, m_texture, NULL, &rect);
 	SDL_RenderFillRect(renderer, &rect);
+	SDL_Log("Rendered Player at: %f %f", rect.x, rect.y);
 }

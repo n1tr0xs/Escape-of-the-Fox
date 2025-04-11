@@ -10,8 +10,7 @@ public:
 	void update(Uint64 deltaTime, Level* level) override;
 	void render(SDL_Renderer* renderer) override;
 private:
-	float m_x_vel = .5f;
-	float m_jump_strength = -2.6f;
-	float m_y_velocity = 0.0f;
 	bool m_on_ground = false;
+	float vx = 0.0f;
+	float vy = 0.0f;
 };

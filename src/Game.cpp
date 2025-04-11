@@ -4,14 +4,14 @@ Game::Game(const std::string& title, int width, int height) {
 	if (!SDL_Init(SDL_INIT_VIDEO))
 		SDL_Fail("Failed to initialize SDL:");
 	
-	if (!SDL_CreateWindowAndRenderer(title.c_str(), width, height, 0, &m_window, &m_renderer);)
+	if (!SDL_CreateWindowAndRenderer(title.c_str(), width, height, 0, &m_window, &m_renderer))
 		SDL_Fail("Couldn't create window and renderer.");
 
 	m_resourceManager = std::make_unique<ResourceManager>();
 
 	// Loading Player texture
 	SDL_Texture* texture = m_resourceManager->loadTexture("assets/fox.png", m_renderer);
-	m_entities.emplace_back(std::make_unique<Player>(100, 100, 8 * 32, 4 * 32, texture));
+	m_entities.emplace_back(std::make_unique<Player>(100, 100, 4 * 32, 2 * 32, texture));
 	// Creating Level
 	SDL_Texture* levelTexture = m_resourceManager->loadTexture("assets/back.png", m_renderer);
 	level = std::make_unique<Level>(levelTexture);
@@ -56,11 +56,8 @@ void Game::processEvents() {
 		if (event.type == SDL_EVENT_QUIT) {
 			m_running = false;
 		}
-		const auto state = SDL_GetKeyboardState(NULL);
-		if (state[SDL_SCANCODE_ESCAPE]) {
-			m_running = false;
-		}
 	}
+	const bool* keyState = SDL_GetKeyboardState(NULL);
 }
 
 void Game::update(Uint64 deltaTime) {

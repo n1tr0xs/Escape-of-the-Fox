@@ -27,7 +27,6 @@ public:
 	virtual void updateAnimationFrame(Uint64 deltaTime);
 	// Updates Entity state
 	virtual void update(Uint64 deltaTime, Level* level) = 0;
-	
 
 protected:
 	virtual void addAnimation(const std::string& name, const int row, const int numFrames, const float frameWidth, const float frameHeight);

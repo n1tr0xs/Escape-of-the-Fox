@@ -21,6 +21,4 @@ private:
 	
 	void addRow(Uint8 block);
 	void addRows(int rows, Uint8 block);
-
-	float payload_min_y = 10000.0f;
 };
