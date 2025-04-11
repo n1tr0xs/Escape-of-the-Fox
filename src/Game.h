@@ -21,10 +21,8 @@ public:
 	void run();
 
 private:
-	// Process events
+	// Process events and user input
 	void processEvents();
-	// Handles input
-	void handleInput();
 	// Updates game logic
 	void update(Uint64 deltaTime);
 	// Renders the game

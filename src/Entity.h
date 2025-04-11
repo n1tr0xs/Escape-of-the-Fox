@@ -33,11 +33,11 @@ protected:
 	Rect m_rect; // Entity position and size
 	SDL_Texture* m_texture; // Animation texture sheet
 	std::unordered_map<std::string, std::shared_ptr<Animation>> m_animations; // Entity animations
-	std::shared_ptr<Animation> m_current_animation; // Current entity animation
+	std::shared_ptr<Animation> m_currentAnimation; // Current entity animation
 
-	float m_frame_timer = 0; // Frame timer
-	float m_frame_duration = 100; // Frame duration
-	int m_current_frame_index = 0; // Index for current frame in animation
+	float m_frameTimer = 0; // Frame timer
+	float m_frameDuration = 100; // Frame duration
+	int m_currentFrameIndex = 0; // Index for current frame in animation
 
-	SDL_FlipMode m_texture_flip = SDL_FLIP_NONE;
+	SDL_FlipMode m_textureFlip = SDL_FLIP_NONE;
 };

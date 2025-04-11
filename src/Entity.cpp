@@ -5,14 +5,14 @@ Entity::Entity(float x, float y, float width, float height, SDL_Texture* texture
 }
 
 void Entity::updateAnimationFrame(Uint64 deltaTime) {
-	if (!m_current_animation)
+	if (!m_currentAnimation)
 		return;
 
-	m_frame_timer += deltaTime;
+	m_frameTimer += deltaTime;
 
-	if (m_frame_timer >= m_frame_duration) {
-		m_frame_timer = 0.0f;
-		m_current_frame_index = (m_current_frame_index + 1) % m_current_animation->getFrameCount();
+	if (m_frameTimer >= m_frameDuration) {
+		m_frameTimer = 0.0f;
+		m_currentFrameIndex = (m_currentFrameIndex + 1) % m_currentAnimation->getFrameCount();
 	}
 }
 
@@ -21,7 +21,7 @@ void Entity::addAnimation(const std::string& name, const int row, const int numF
 }
 
 void Entity::render(SDL_Renderer* renderer) {
-	const auto& src = m_current_animation->getFRect(m_current_frame_index);
+	const auto& src = m_currentAnimation->getFRect(m_currentFrameIndex);
 	SDL_FRect dest = {
 		m_rect.x,
 		m_rect.y,
@@ -29,5 +29,5 @@ void Entity::render(SDL_Renderer* renderer) {
 		m_rect.height
 	};
 	
-	SDL_RenderTextureRotated(renderer, m_texture, &src, &dest, 0.0, nullptr, m_texture_flip);
+	SDL_RenderTextureRotated(renderer, m_texture, &src, &dest, 0.0, nullptr, m_textureFlip);
 }

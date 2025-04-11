@@ -10,7 +10,6 @@ public:
 	void update(Uint64 deltaTime, Level* level) override;
 	void render(SDL_Renderer* renderer) override;
 private:
-	bool m_on_ground = false;
-	float vx = 0.0f;
+	bool m_isOnGround = false;
 	float vy = 0.0f;
 };

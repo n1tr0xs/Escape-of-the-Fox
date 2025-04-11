@@ -8,11 +8,11 @@ Player::Player(float x, float y, float width, float height, SDL_Texture* texture
 	//addAnimation("running", 1, 4, fw, fh);
 	//addAnimation("jumping", 2, 4, fw, fh);
 	//addAnimation("crouching", 3, 4, fw, fh);
-	m_current_animation = m_animations["idle"];
+	m_currentAnimation = m_animations["idle"];
 }
 
 void Player::update(Uint64 deltaTime, Level* level) {	
-	int TILE_SIZE = 32;
+	const int TILE_SIZE = 32;
 	float speedX = 0.5f;	
 	float jumpStrength = .15f * TILE_SIZE;
 	float gravity = 0.05f;
@@ -20,9 +20,9 @@ void Player::update(Uint64 deltaTime, Level* level) {
 
 	const bool* keyState = SDL_GetKeyboardState(NULL);
 	
-	if (keyState[SDL_SCANCODE_SPACE] && m_on_ground) {
+	if (keyState[SDL_SCANCODE_SPACE] && m_isOnGround) {
 		vy = -jumpStrength;
-		m_on_ground = false;
+		m_isOnGround = false;
 	}
 
 	if (keyState[SDL_SCANCODE_A]) {
@@ -33,7 +33,7 @@ void Player::update(Uint64 deltaTime, Level* level) {
 		m_rect.x += speedX * deltaTime;
 	}
 
-	if (!m_on_ground) {
+	if (!m_isOnGround) {
 		vy += gravity * deltaTime;
 	}
 
@@ -41,7 +41,7 @@ void Player::update(Uint64 deltaTime, Level* level) {
 
 	if (m_rect.y + m_rect.height >= floor) {
 		m_rect.y = floor - m_rect.height;
-		m_on_ground = true;
+		m_isOnGround = true;
 		vy = 0;
 	}
 
