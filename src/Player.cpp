@@ -59,5 +59,4 @@ void Player::render(SDL_Renderer* renderer) {
 	};
 	//SDL_RenderTexture(renderer, m_texture, NULL, &rect);
 	SDL_RenderFillRect(renderer, &rect);
-	SDL_Log("Rendered Player at: %f %f", rect.x, rect.y);
 }
