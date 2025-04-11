@@ -5,6 +5,7 @@
 #include <memory>
 #include <vector>
 
+#include "constants.h"
 #include "ResourceManager.h"
 #include "Entity.h"
 #include "Player.h"
@@ -13,7 +14,7 @@
 class Game {
 public:
 	// Constructor
-	Game(const std::string& title, int width, int height);
+	Game(const std::string& title);
 	// Destructor
 	~Game();
 
@@ -38,4 +39,5 @@ private:
 
 	std::unique_ptr<Level> level; // Level
 	std::vector<std::unique_ptr<Entity>> m_entities; // Game entities
+	SDL_Texture* m_renderTexture; // "virtual screen"
 };
