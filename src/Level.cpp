@@ -56,11 +56,8 @@ void Level::update(Uint64 deltaTime) {
 }
 
 bool Level::isSolidAtPixel(float x, float y) {
-	SDL_Log("isSolidAtPixel | x: %f. y: %f.", x, y);
-
 	int tileX = x / TILE_SIZE;
 	int tileY = y / TILE_SIZE;
-	SDL_Log("tileX: %d. tileY: %d", tileX, tileY);
 
 	if (tileY < 0)
 		return false;
@@ -72,7 +69,7 @@ bool Level::isSolidAtPixel(float x, float y) {
 	if (tileX >= m_tileMap[0].size())
 		return false;
 
-	
+
 	if (m_tileMap[tileY][tileX] == 0)
 		return false;
 
