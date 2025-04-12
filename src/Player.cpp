@@ -15,7 +15,6 @@ void Player::update(Uint64 deltaTime, Level* level) {
 	float speedX = 0.5f;
 	float jumpStrength = .15f * TILE_SIZE;
 	float gravity = 0.02f;
-	float floor = 13 * TILE_SIZE;
 
 	const bool* keyState = SDL_GetKeyboardState(NULL);
 
@@ -31,94 +30,13 @@ void Player::update(Uint64 deltaTime, Level* level) {
 	if (keyState[SDL_SCANCODE_D]) {
 		vx = speedX * deltaTime;
 	}
-	
+
 	if (!m_isOnGround) {
 		vy += gravity * deltaTime;
 	}
-	
-	// Horizontal collision with tiles
-	{
-		float newX = m_rect.x + vx * deltaTime;
-		float topY = m_rect.y;
-		float bottomY = topY + m_rect.height;
 
-		bool hitWall = false;
-		{
-			float rightEdge = newX + m_rect.width;
-			for (float y = topY; y < bottomY; ++y) {
-				if (level->isSolidAtPixel(rightEdge, y)) {
-					hitWall = true;
-					break;
-				}
-			}
-			if (hitWall) {
-				float tileX = std::floor(rightEdge / TILE_SIZE);
-				newX = tileX * TILE_SIZE - m_rect.width;
-			}
-		}
-		m_rect.x = newX;
-		hitWall = false;
-		{
-			float leftEdge = newX;
-			for (float y = topY; y < bottomY; ++y) {
-				if (level->isSolidAtPixel(leftEdge, y)) {
-					hitWall = true;
-					break;
-				}
-			}
-			if (hitWall) {
-				float tileX = std::floor(leftEdge / TILE_SIZE);
-				newX = (tileX + 1) * TILE_SIZE;
-			}
-		}
-
-		vx = 0.0f;
-		m_rect.x = newX;
-	}
-
-	// Vertical collision with tiles
-	{
-		float newY = m_rect.y + vy * deltaTime;
-		float feetY = newY + m_rect.height;
-		float leftX = m_rect.x;
-		float rightX = leftX + m_rect.width;
-
-		bool isTouchingGround = false;
-
-		for (float x = leftX; x < rightX; ++x) {
-			if (level->isSolidAtPixel(x, feetY)) {
-				isTouchingGround = true;
-				break;
-			}
-		}
-
-		if (isTouchingGround) {
-			float alignedFeet = std::floor((feetY) / TILE_SIZE) * TILE_SIZE;
-			newY = alignedFeet - m_rect.height;
-			vy = 0.0f;
-			m_isOnGround = true;
-		}
-		else {
-			m_isOnGround = false;
-		}
-		m_rect.y = newY;
-
-		float headY = newY;
-		
-		bool hitCeiling = false;
-		for (float x = leftX; x < rightX; ++x) {
-			if (level->isSolidAtPixel(x, headY)) {
-				hitCeiling = true;
-				break;
-			}
-		}
-		if (hitCeiling) {
-			float tileY = std::floor(headY / TILE_SIZE);
-			newY = (tileY + 1) * TILE_SIZE;
-			vy = 0.0f;
-		}
-		m_rect.y = newY;		
-	}	
+	resolveHorizontalCollision(deltaTime, level);
+	resolveVerticalCollision(deltaTime, level);
 
 	updateAnimationFrame(deltaTime);
 }
@@ -133,4 +51,60 @@ void Player::render(SDL_Renderer* renderer) {
 	};
 	//SDL_RenderTexture(renderer, m_texture, NULL, &rect);
 	SDL_RenderFillRect(renderer, &rect);
+}
+
+void Player::resolveHorizontalCollision(Uint64 deltaTime, Level* level) {
+	float newX = m_rect.x + vx * deltaTime;
+
+	float topY = m_rect.y;
+	float bottomY = topY + m_rect.height;
+
+	float leftEdge = newX;
+	float rightEdge = newX + m_rect.width;
+
+	// Check left
+	if (level->isSolidVertically(leftEdge, topY, bottomY)) {
+		float tileX = std::floor(leftEdge / TILE_SIZE);
+		newX = (tileX + 1) * TILE_SIZE;
+		vx = 0.0f;
+	}
+
+	// Check right
+	if (level->isSolidVertically(rightEdge, topY, bottomY)) {
+		float tileX = std::floor(rightEdge / TILE_SIZE);
+		newX = tileX * TILE_SIZE - m_rect.width;
+		vx = 0.0f;
+	}
+
+	m_rect.x = newX;
+}
+
+void Player::resolveVerticalCollision(Uint64 deltaTime, Level* level) {
+	float newY = m_rect.y + vy * deltaTime;
+
+	float headY = newY;
+	float feetY = headY + m_rect.height;
+
+	float leftX = m_rect.x;
+	float rightX = leftX + m_rect.width;
+
+	// Check ground
+	if (level->isSolidHorizontally(feetY, leftX, rightX)) {
+		float tileY = std::floor(feetY / TILE_SIZE);
+		newY = tileY * TILE_SIZE - m_rect.height;
+		m_isOnGround = true;
+		vy = 0.0f;
+	}
+	else {
+		m_isOnGround = false;
+	}
+
+	// Check head
+	if (level->isSolidHorizontally(headY, leftX, rightX)) {
+		float tileY = std::floor(headY / TILE_SIZE);
+		newY = (tileY + 1) * TILE_SIZE;
+		vy = 0.0f;
+	}
+
+	m_rect.y = newY;
 }

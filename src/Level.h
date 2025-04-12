@@ -16,6 +16,9 @@ public:
 	void update(Uint64 deltaTime);
 
 	bool isSolidAtPixel(float x, float y);
+	bool isSolidVertically(float x, float topY, float bottomY);
+	bool isSolidHorizontally(float y, float leftX, float rightX);
+
 private:
 	SDL_Texture* m_texture;
 	std::vector<std::vector<Uint8>> m_tileMap;

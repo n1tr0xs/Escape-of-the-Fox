@@ -90,3 +90,21 @@ bool Level::isSolidAtPixel(float x, float y) {
 
 	return true;
 }
+
+bool Level::isSolidVertically(float x, float topY, float bottomY) {
+	for (float y = topY; y < bottomY; ++y) {
+		if (isSolidAtPixel(x, y)) {
+			return true;
+		}
+	}
+	return false;
+}
+
+bool Level::isSolidHorizontally(float y, float leftX, float rightX) {
+	for (float x = leftX; x < rightX; ++x) {
+		if (isSolidAtPixel(x, y)) {
+			return true;
+		}
+	}
+	return false;
+}
