@@ -22,4 +22,6 @@ private:
 	
 	void addRow(Uint8 block);
 	void addRows(int rows, Uint8 block);
+	void renderGrid(SDL_Renderer* renderer);
+	void renderTextures(SDL_Renderer* renderer);
 };

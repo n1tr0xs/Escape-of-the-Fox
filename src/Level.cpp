@@ -23,14 +23,17 @@ void Level::addRows(int rows, Uint8 block) {
 		addRow(block);
 }
 
-void Level::render(SDL_Renderer* renderer) {
-	/*SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0);
+void Level::renderGrid(SDL_Renderer* renderer) {
+	SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0);
 	for (float x = 0; x < RENDERER_WIDTH_IN_PIXELS; x += TILE_SIZE) {
 		for (float y = 0; y < RENDERER_HEIGHT_IN_PIXELS; y += TILE_SIZE) {
 			SDL_FRect rect = { x, y, TILE_SIZE, TILE_SIZE };
 			SDL_RenderRect(renderer, &rect);
 		}
-	}*/
+	}
+}
+
+void Level::renderTextures(SDL_Renderer* renderer) {
 	SDL_FRect src = { 0.0f, 0.0f, TILE_SIZE, TILE_SIZE };
 	SDL_FRect dest = { 0.0f, 0.0f, TILE_SIZE, TILE_SIZE };
 	for (size_t row = 0; row < m_tileMap.size(); ++row) {
@@ -41,7 +44,11 @@ void Level::render(SDL_Renderer* renderer) {
 			SDL_RenderTexture(renderer, m_texture, &src, &dest);
 		}
 	}
-	
+}
+
+void Level::render(SDL_Renderer* renderer) {
+	renderGrid(renderer);
+	renderTextures(renderer);
 }
 
 void Level::update(Uint64 deltaTime) {
