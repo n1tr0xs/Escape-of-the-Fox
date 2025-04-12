@@ -67,9 +67,9 @@ bool Level::isSolidAtPixel(float x, float y) {
 	if (tileX < 0)
 		return false;
 
-	if (tileY > m_tileMap.size())
+	if (tileY >= m_tileMap.size())
 		return true;
-	if (tileX > m_tileMap[0].size())
+	if (tileX >= m_tileMap[0].size())
 		return false;
 
 	
