@@ -25,12 +25,49 @@ void Player::update(Uint64 deltaTime, Level* level) {
 	}
 
 	if (keyState[SDL_SCANCODE_A]) {
-		m_rect.x -= speedX * deltaTime;
+		vx = -speedX * deltaTime;
 	}
 
 	if (keyState[SDL_SCANCODE_D]) {
-		m_rect.x += speedX * deltaTime;
+		vx = speedX * deltaTime;
 	}
+	
+	// Horizontal collision
+	float newX = m_rect.x + vx * deltaTime;
+	float topY = m_rect.y;
+	float bottomY = m_rect.y + m_rect.height-1;
+	float stepY = 8.0f;
+	bool hitWall = false;
+
+	if (vx > 0) {
+		float rightEdge = newX + m_rect.width;
+		for (float y = topY; y <= bottomY; y += stepY) {
+			if (level->isSolidAtPixel(rightEdge, y)) {
+				hitWall = true;
+				break;
+			}
+		}
+		if (hitWall) {
+			float tileX = std::floor(rightEdge / TILE_SIZE);
+			newX = tileX * TILE_SIZE - m_rect.width;
+		}
+	}
+	else if (vx < 0) {
+		float leftEdge = newX;
+		for (float y = topY; y <= bottomY; y += stepY) {
+			if (level->isSolidAtPixel(leftEdge, y)) {
+				hitWall = true;
+				break;
+			}
+		}
+		if (hitWall) {
+			float tileX = std::floor(leftEdge / TILE_SIZE);
+			newX = (tileX + 1) * TILE_SIZE;
+		}
+	}
+	
+	vx = 0.0f;
+	m_rect.x = newX;
 
 	if (!m_isOnGround) {
 		vy += gravity * deltaTime;

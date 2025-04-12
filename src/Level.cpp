@@ -9,9 +9,15 @@ Level::Level(SDL_Texture* texture) :
 	addRows(2, 1);
 	addRows(1, 2);
 
+	// Horizontal platform
 	m_tileMap[8][5] = 1;
 	m_tileMap[8][6] = 1;
 	m_tileMap[8][7] = 1;
+
+	// Wall
+	m_tileMap[12][15] = 1;
+	m_tileMap[11][15] = 1;
+	m_tileMap[10][15] = 1;
 }
 
 void Level::addRow(Uint8 block) {
