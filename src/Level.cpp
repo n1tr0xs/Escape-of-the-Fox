@@ -10,14 +10,10 @@ Level::Level(SDL_Texture* texture) :
 	addRows(1, 2);
 
 	// Horizontal platform
-	m_tileMap[8][5] = 1;
-	m_tileMap[8][6] = 1;
-	m_tileMap[8][7] = 1;
-
+	fillWith(5, 8, 7, 8, 1);
+	
 	// Wall
-	m_tileMap[12][15] = 1;
-	m_tileMap[11][15] = 1;
-	m_tileMap[10][15] = 1;
+	fillWith(15, 10, 15, 12, 1);	
 }
 
 void Level::addRow(Uint8 block) {
@@ -48,6 +44,19 @@ void Level::renderTextures(SDL_Renderer* renderer) {
 			dest.x = col * TILE_SIZE;
 			src.x = m_tileMap[row][col] * TILE_SIZE;
 			SDL_RenderTexture(renderer, m_texture, &src, &dest);
+		}
+	}
+}
+
+void Level::fillWith(int startX, int startY, int endX, int endY, Uint8 block) {
+	if (startY < 0 || startX < 0)
+		return;
+	if (endY >= m_tileMap.size() || endX >= m_tileMap[0].size())
+		return;
+
+	for (int x = startX; x <= endX; ++x) {
+		for (int y = startY; y <= endY; ++y) {
+			m_tileMap[y][x] = block;
 		}
 	}
 }

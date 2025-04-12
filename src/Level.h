@@ -16,12 +16,14 @@ public:
 	void update(Uint64 deltaTime);
 
 	bool isSolidAtPixel(float x, float y);
-private:	
+private:
 	SDL_Texture* m_texture;
 	std::vector<std::vector<Uint8>> m_tileMap;
-	
+
 	void addRow(Uint8 block);
 	void addRows(int rows, Uint8 block);
 	void renderGrid(SDL_Renderer* renderer);
 	void renderTextures(SDL_Renderer* renderer);
+
+	void fillWith(int startX, int startY, int endX, int endY, Uint8 block);
 };
