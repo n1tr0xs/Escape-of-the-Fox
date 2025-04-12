@@ -32,77 +32,77 @@ void Player::update(Uint64 deltaTime, Level* level) {
 		vx = speedX * deltaTime;
 	}
 	
-	// Horizontal collision
-	float newX = m_rect.x + vx * deltaTime;
-	float topY = m_rect.y;
-	float bottomY = m_rect.y + m_rect.height-1;
-	float stepY = 8.0f;
-	bool hitWall = false;
-
-	if (vx > 0) {
-		float rightEdge = newX + m_rect.width;
-		for (float y = topY; y <= bottomY; y += stepY) {
-			if (level->isSolidAtPixel(rightEdge, y)) {
-				hitWall = true;
-				break;
-			}
-		}
-		if (hitWall) {
-			float tileX = std::floor(rightEdge / TILE_SIZE);
-			newX = tileX * TILE_SIZE - m_rect.width;
-		}
-	}
-	else if (vx < 0) {
-		float leftEdge = newX;
-		for (float y = topY; y <= bottomY; y += stepY) {
-			if (level->isSolidAtPixel(leftEdge, y)) {
-				hitWall = true;
-				break;
-			}
-		}
-		if (hitWall) {
-			float tileX = std::floor(leftEdge / TILE_SIZE);
-			newX = (tileX + 1) * TILE_SIZE;
-		}
-	}
-	
-	vx = 0.0f;
-	m_rect.x = newX;
-
 	if (!m_isOnGround) {
 		vy += gravity * deltaTime;
 	}
+	
+	// Horizontal collision with tiles
+	{
+		float newX = m_rect.x + vx * deltaTime;
+		float topY = m_rect.y;
+		float bottomY = topY + m_rect.height;
 
-	float newY = m_rect.y + vy * deltaTime;
-	float feetY = newY + m_rect.height;
-
-	// Sample bottom width of player to check how many points are solid
-	const int sampleSpacing = 8; // every 8px across width
-	const int totalSamples = m_rect.width / sampleSpacing;
-	const int requiredSolidSamples = 6; // 48px = 1.5 tiles
-
-	int solidSamples = 0;
-	for (int i = 0; i < totalSamples; ++i) {
-		float sampleX = m_rect.x + i * sampleSpacing;
-		if (level->isSolidAtPixel(sampleX, feetY)) {
-			++solidSamples;
+		bool hitWall = false;
+		{
+			float rightEdge = newX + m_rect.width;
+			for (float y = topY; y < bottomY; ++y) {
+				if (level->isSolidAtPixel(rightEdge, y)) {
+					hitWall = true;
+					break;
+				}
+			}
+			if (hitWall) {
+				float tileX = std::floor(rightEdge / TILE_SIZE);
+				newX = tileX * TILE_SIZE - m_rect.width;
+			}
 		}
+		m_rect.x = newX;
+		hitWall = false;
+		{
+			float leftEdge = newX;
+			for (float y = topY; y < bottomY; ++y) {
+				if (level->isSolidAtPixel(leftEdge, y)) {
+					hitWall = true;
+					break;
+				}
+			}
+			if (hitWall) {
+				float tileX = std::floor(leftEdge / TILE_SIZE);
+				newX = (tileX + 1) * TILE_SIZE;
+			}
+		}
+
+		vx = 0.0f;
+		m_rect.x = newX;
 	}
 
-	bool isTouchingGround = solidSamples >= requiredSolidSamples;
+	// Vertical collision with tiles
+	{
+		float newY = m_rect.y + vy * deltaTime;
+		float feetY = newY + m_rect.height;
+		float leftX = m_rect.x;
+		float rightX = leftX + m_rect.width;
 
-	if (isTouchingGround) {
-		float alignedFeet = std::floor((feetY) / TILE_SIZE) * TILE_SIZE;
-		newY = alignedFeet - m_rect.height;
+		bool isTouchingGround = false;
 
-		vy = 0.0f;
-		m_isOnGround = true;
+		for (float x = leftX; x < rightX; ++x) {
+			if (level->isSolidAtPixel(x, feetY)) {
+				isTouchingGround = true;
+				break;
+			}
+		}
+
+		if (isTouchingGround) {
+			float alignedFeet = std::floor((feetY) / TILE_SIZE) * TILE_SIZE;
+			newY = alignedFeet - m_rect.height;
+			vy = 0.0f;
+			m_isOnGround = true;
+		}
+		else {
+			m_isOnGround = false;
+		}
+		m_rect.y = newY;
 	}
-	else {
-		m_isOnGround = false;
-	}
-	m_rect.y = newY;
-
 
 	updateAnimationFrame(deltaTime);
 }
