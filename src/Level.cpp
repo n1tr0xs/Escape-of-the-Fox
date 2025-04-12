@@ -9,12 +9,13 @@ Level::Level(SDL_Texture* texture) :
 	addRows(2, 1);
 	addRows(1, 2);
 
-
+	m_tileMap[8][5] = 1;
+	m_tileMap[8][6] = 1;
+	m_tileMap[8][7] = 1;
 }
 
 void Level::addRow(Uint8 block) {
-	int rowLength = 1920 / 32 * 6;
-	m_tileMap.push_back(std::vector<Uint8>(rowLength, block));
+	m_tileMap.push_back(std::vector<Uint8>(RENDERER_WIDTH_IN_TILES, block));
 }
 
 void Level::addRows(int rows, Uint8 block) {
@@ -40,6 +41,7 @@ void Level::render(SDL_Renderer* renderer) {
 			SDL_RenderTexture(renderer, m_texture, &src, &dest);
 		}
 	}
+	
 }
 
 void Level::update(Uint64 deltaTime) {
@@ -47,5 +49,25 @@ void Level::update(Uint64 deltaTime) {
 }
 
 bool Level::isSolidAtPixel(float x, float y) {
-	return false;
+	SDL_Log("isSolidAtPixel | x: %f. y: %f.", x, y);
+
+	int tileX = x / TILE_SIZE;
+	int tileY = y / TILE_SIZE;
+	SDL_Log("tileX: %d. tileY: %d", tileX, tileY);
+
+	if (tileY < 0)
+		return false;
+	if (tileX < 0)
+		return false;
+
+	if (tileY > m_tileMap.size())
+		return true;
+	if (tileX > m_tileMap[0].size())
+		return false;
+
+	
+	if (m_tileMap[tileY][tileX] == 0)
+		return false;
+
+	return true;
 }
