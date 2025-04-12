@@ -70,6 +70,9 @@ void Game::processEvents() {
 		}
 	}
 	const bool* keyState = SDL_GetKeyboardState(NULL);
+	if (keyState[SDL_SCANCODE_ESCAPE]) {
+		m_running = false;
+	}
 }
 
 void Game::update(Uint64 deltaTime) {
