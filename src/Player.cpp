@@ -102,7 +102,23 @@ void Player::update(Uint64 deltaTime, Level* level) {
 			m_isOnGround = false;
 		}
 		m_rect.y = newY;
-	}
+
+		float headY = newY;
+		
+		bool hitCeiling = false;
+		for (float x = leftX; x < rightX; ++x) {
+			if (level->isSolidAtPixel(x, headY)) {
+				hitCeiling = true;
+				break;
+			}
+		}
+		if (hitCeiling) {
+			float tileY = std::floor(headY / TILE_SIZE);
+			newY = (tileY + 1) * TILE_SIZE;
+			vy = 0.0f;
+		}
+		m_rect.y = newY;		
+	}	
 
 	updateAnimationFrame(deltaTime);
 }
