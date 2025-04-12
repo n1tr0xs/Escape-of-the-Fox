@@ -36,19 +36,35 @@ void Player::update(Uint64 deltaTime, Level* level) {
 		vy += gravity * deltaTime;
 	}
 
-	m_rect.y += vy * deltaTime;
+	float newY = m_rect.y + vy * deltaTime;
+	float feetY = newY + m_rect.height;
 
-	float feetY = m_rect.y + m_rect.height;
-	if (!m_isOnGround && level->isSolidAtPixel(m_rect.x, feetY)) {
-		while (level->isSolidAtPixel(m_rect.x, m_rect.y + m_rect.height)) {
-			m_rect.y -= 0.1f;
+	// Sample bottom width of player to check how many points are solid
+	const int sampleSpacing = 8; // every 8px across width
+	const int totalSamples = m_rect.width / sampleSpacing;
+	const int requiredSolidSamples = 6; // 48px = 1.5 tiles
+
+	int solidSamples = 0;
+	for (int i = 0; i < totalSamples; ++i) {
+		float sampleX = m_rect.x + i * sampleSpacing;
+		if (level->isSolidAtPixel(sampleX, feetY)) {
+			++solidSamples;
 		}
-		m_isOnGround = true;
-		vy = 0.0f;
 	}
-	else if (level->isSolidAtPixel(m_rect.x, feetY + 1)) {
+
+	bool isTouchingGround = solidSamples >= requiredSolidSamples;
+
+	if (isTouchingGround) {
+		float alignedFeet = std::floor((feetY) / TILE_SIZE) * TILE_SIZE;
+		newY = alignedFeet - m_rect.height;
+
+		vy = 0.0f;
+		m_isOnGround = true;
+	}
+	else {
 		m_isOnGround = false;
 	}
+	m_rect.y = newY;
 
 
 	updateAnimationFrame(deltaTime);
