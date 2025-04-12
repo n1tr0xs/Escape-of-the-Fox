@@ -2,8 +2,8 @@
 
 Player::Player(float x, float y, float width, float height, SDL_Texture* texture) :
 	Entity(x, y, width, height, texture) {
-	int fw = TILE_SIZE*8;
-	int fh = TILE_SIZE*4;
+	int fw = TILE_SIZE * 4;
+	int fh = TILE_SIZE * 2;
 	//addAnimation("idle", 0, 4, fw, fh);
 	//addAnimation("running", 1, 4, fw, fh);
 	//addAnimation("jumping", 2, 4, fw, fh);
@@ -11,14 +11,14 @@ Player::Player(float x, float y, float width, float height, SDL_Texture* texture
 	m_currentAnimation = m_animations["idle"];
 }
 
-void Player::update(Uint64 deltaTime, Level* level) {	
-	float speedX = 0.5f;	
+void Player::update(Uint64 deltaTime, Level* level) {
+	float speedX = 0.5f;
 	float jumpStrength = .15f * TILE_SIZE;
 	float gravity = 0.02f;
 	float floor = 13 * TILE_SIZE;
 
 	const bool* keyState = SDL_GetKeyboardState(NULL);
-	
+
 	if (keyState[SDL_SCANCODE_SPACE] && m_isOnGround) {
 		vy = -jumpStrength;
 		m_isOnGround = false;
@@ -27,7 +27,7 @@ void Player::update(Uint64 deltaTime, Level* level) {
 	if (keyState[SDL_SCANCODE_A]) {
 		m_rect.x -= speedX * deltaTime;
 	}
-	
+
 	if (keyState[SDL_SCANCODE_D]) {
 		m_rect.x += speedX * deltaTime;
 	}
@@ -35,9 +35,9 @@ void Player::update(Uint64 deltaTime, Level* level) {
 	if (!m_isOnGround) {
 		vy += gravity * deltaTime;
 	}
-	
+
 	m_rect.y += vy * deltaTime;
-	
+
 	float feetY = m_rect.y + m_rect.height;
 	if (!m_isOnGround && level->isSolidAtPixel(m_rect.x, feetY)) {
 		while (level->isSolidAtPixel(m_rect.x, m_rect.y + m_rect.height)) {
@@ -50,7 +50,7 @@ void Player::update(Uint64 deltaTime, Level* level) {
 		m_isOnGround = false;
 	}
 
-	
+
 	updateAnimationFrame(deltaTime);
 }
 
