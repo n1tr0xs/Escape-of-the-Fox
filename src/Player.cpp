@@ -35,13 +35,19 @@ void Player::update(Uint64 deltaTime, Level* level) {
 	if (!m_isOnGround) {
 		vy += gravity * deltaTime;
 	}
-
+	
 	m_rect.y += vy * deltaTime;
-
-	if (m_rect.y + m_rect.height >= floor) {
-		m_rect.y = floor - m_rect.height;
+	
+	float feetY = m_rect.y + m_rect.height;
+	if (level->isSolidAtPixel(m_rect.x, feetY)) {
+		while (level->isSolidAtPixel(m_rect.x, m_rect.y + m_rect.height)) {
+			m_rect.y -= 1.0f;
+		}
 		m_isOnGround = true;
-		vy = 0;
+		vy = 0.0f;
+	}
+	else if (level->isSolidAtPixel(m_rect.x, feetY + 1)) {
+		m_isOnGround = false;
 	}
 
 	
