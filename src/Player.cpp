@@ -41,11 +41,11 @@ void Player::update(Uint64 deltaTime, Level* level) {
 	updateAnimationFrame(deltaTime);
 }
 
-void Player::render(SDL_Renderer* renderer) {
+void Player::render(SDL_Renderer* renderer, Camera* camera) {
 	SDL_SetRenderDrawColor(renderer, 255, 100, 100, 255);
 	SDL_FRect rect = {
-		m_rect.x,
-		m_rect.y,
+		m_rect.x - camera->view.x,
+		m_rect.y - camera->view.y,
 		m_rect.width,
 		m_rect.height
 	};

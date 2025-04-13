@@ -14,10 +14,13 @@ Level::Level(SDL_Texture* texture) :
 	
 	// Wall
 	fillWith(15, 10, 15, 12, 1);	
+
+	// Wall 2
+	fillWith(40, 10, 40, 15, 1);
 }
 
 void Level::addRow(Uint8 block) {
-	m_tileMap.push_back(std::vector<Uint8>(RENDERER_WIDTH_IN_TILES, block));
+	m_tileMap.push_back(std::vector<Uint8>(RENDERER_WIDTH_IN_TILES*5, block));
 }
 
 void Level::addRows(int rows, Uint8 block) {
@@ -35,13 +38,13 @@ void Level::renderGrid(SDL_Renderer* renderer) {
 	}
 }
 
-void Level::renderTextures(SDL_Renderer* renderer) {
+void Level::renderTextures(SDL_Renderer* renderer, Camera* camera) {
 	SDL_FRect src = { 0.0f, 0.0f, TILE_SIZE, TILE_SIZE };
 	SDL_FRect dest = { 0.0f, 0.0f, TILE_SIZE, TILE_SIZE };
 	for (size_t row = 0; row < m_tileMap.size(); ++row) {
-		dest.y = row * TILE_SIZE;
+		dest.y = row * TILE_SIZE - camera->view.y;
 		for (size_t col = 0; col < m_tileMap[0].size(); ++col) {
-			dest.x = col * TILE_SIZE;
+			dest.x = col * TILE_SIZE - camera->view.x;
 			src.x = m_tileMap[row][col] * TILE_SIZE;
 			SDL_RenderTexture(renderer, m_texture, &src, &dest);
 		}
@@ -61,9 +64,9 @@ void Level::fillWith(int startX, int startY, int endX, int endY, Uint8 block) {
 	}
 }
 
-void Level::render(SDL_Renderer* renderer) {
+void Level::render(SDL_Renderer* renderer, Camera* camera) {
 	renderGrid(renderer);
-	renderTextures(renderer);
+	renderTextures(renderer, camera);
 }
 
 void Level::update(Uint64 deltaTime) {
@@ -107,4 +110,12 @@ bool Level::isSolidHorizontally(float y, float leftX, float rightX) {
 		}
 	}
 	return false;
+}
+
+float Level::getMapHeightInPixels() {
+	return m_tileMap.size() * TILE_SIZE;
+}
+
+float Level::getMapWidthInPixels() {
+	return m_tileMap[0].size() * TILE_SIZE;
 }

@@ -1,12 +1,13 @@
 #include "Game.h"
 
-Game::Game(const std::string& title) {
+Game::Game(const std::string& title) :
+	m_camera(RENDERER_WIDTH_IN_PIXELS, RENDERER_HEIGHT_IN_PIXELS) {
 	if (!SDL_Init(SDL_INIT_VIDEO))
 		SDL_Fail("Failed to initialize SDL:");
-	
-	if (!SDL_CreateWindowAndRenderer(title.c_str(), 0, 0, SDL_WINDOW_FULLSCREEN|SDL_WINDOW_BORDERLESS, &m_window, &m_renderer))
+
+	if (!SDL_CreateWindowAndRenderer(title.c_str(), 0, 0, SDL_WINDOW_FULLSCREEN | SDL_WINDOW_BORDERLESS, &m_window, &m_renderer))
 		SDL_Fail("Couldn't create window and renderer.");
-	
+
 	m_renderTexture = SDL_CreateTexture(
 		m_renderer,
 		SDL_PIXELFORMAT_RGBA8888,
@@ -19,7 +20,7 @@ Game::Game(const std::string& title) {
 
 	// Loading Player texture
 	SDL_Texture* texture = m_resourceManager->loadTexture("assets/fox.png", m_renderer);
-	m_entities.emplace_back(std::make_unique<Player>(0, 0, TILE_SIZE*4, TILE_SIZE*2, texture));
+	m_entities.emplace_back(std::make_unique<Player>(0, 0, TILE_SIZE * 4, TILE_SIZE * 2, texture));
 	// Creating Level
 	SDL_Texture* levelTexture = m_resourceManager->loadTexture("assets/back.png", m_renderer);
 	level = std::make_unique<Level>(levelTexture);
@@ -80,6 +81,7 @@ void Game::update(Uint64 deltaTime) {
 	for (const auto& entity : m_entities) {
 		entity->update(deltaTime, level.get());
 	}
+	m_camera.follow(m_entities[0]->getRect(), level->getMapWidthInPixels(), level->getMapHeightInPixels());
 }
 
 void Game::render() {
@@ -87,12 +89,11 @@ void Game::render() {
 	SDL_SetRenderTarget(m_renderer, m_renderTexture);
 	SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
 	SDL_RenderClear(m_renderer);
-	
-	level->render(m_renderer);
-	for (const auto& entity : m_entities) {
-		entity->render(m_renderer);
-	}
 
+	level->render(m_renderer, &m_camera);
+	for (const auto& entity : m_entities) {
+		entity->render(m_renderer, &m_camera);
+	}
 	// Rendering "virtual screen" to real screen
 	SDL_SetRenderTarget(m_renderer, nullptr);
 	SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);

@@ -22,11 +22,12 @@ public:
 	Entity(float x, float y, float width, float height, SDL_Texture* texture);
 	
 	// Renders Entity
-	virtual void render(SDL_Renderer* renderer);
+	virtual void render(SDL_Renderer* renderer, Camera* camera);
 	// Updates Animation frame
 	virtual void updateAnimationFrame(Uint64 deltaTime);
 	// Updates Entity state
 	virtual void update(Uint64 deltaTime, Level* level) = 0;
+	SDL_FRect getRect();
 
 protected:
 	virtual void addAnimation(const std::string& name, const int row, const int numFrames, const float frameWidth, const float frameHeight);

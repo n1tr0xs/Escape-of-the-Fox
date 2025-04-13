@@ -16,15 +16,19 @@ void Entity::updateAnimationFrame(Uint64 deltaTime) {
 	}
 }
 
+SDL_FRect Entity::getRect() {
+	return { m_rect.x, m_rect.y, m_rect.width, m_rect.height };
+}
+
 void Entity::addAnimation(const std::string& name, const int row, const int numFrames, const float frameWidth, const float frameHeight) {
 	m_animations[name] = std::make_shared<Animation>(row, numFrames, frameWidth, frameHeight);
 }
 
-void Entity::render(SDL_Renderer* renderer) {
+void Entity::render(SDL_Renderer* renderer, Camera* camera) {
 	const auto& src = m_currentAnimation->getFRect(m_currentFrameIndex);
 	SDL_FRect dest = {
-		m_rect.x,
-		m_rect.y,
+		m_rect.x-camera->view.x,
+		m_rect.y-camera->view.y,
 		m_rect.width,
 		m_rect.height
 	};

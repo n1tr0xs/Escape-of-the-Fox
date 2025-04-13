@@ -10,6 +10,7 @@
 #include "Entity.h"
 #include "Player.h"
 #include "Level.h"
+#include "Camera.h"
 
 class Game {
 public:
@@ -37,6 +38,7 @@ private:
 	SDL_Renderer* m_renderer = nullptr; // Game renderer
 	std::unique_ptr<ResourceManager> m_resourceManager; // Resource manager
 
+	Camera m_camera;
 	std::unique_ptr<Level> level; // Level
 	std::vector<std::unique_ptr<Entity>> m_entities; // Game entities
 	SDL_Texture* m_renderTexture; // "virtual screen"
