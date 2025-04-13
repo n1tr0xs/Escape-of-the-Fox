@@ -46,8 +46,8 @@ void Player::render(SDL_Renderer* renderer, Camera* camera) {
 	SDL_FRect rect = {
 		m_rect.x - camera->view.x,
 		m_rect.y - camera->view.y,
-		m_rect.width,
-		m_rect.height
+		m_rect.w,
+		m_rect.h
 	};
 	//SDL_RenderTexture(renderer, m_texture, NULL, &rect);
 	SDL_RenderFillRect(renderer, &rect);
@@ -57,10 +57,10 @@ void Player::resolveHorizontalCollision(Uint64 deltaTime, Level* level) {
 	float newX = m_rect.x + vx * deltaTime;
 
 	float topY = m_rect.y;
-	float bottomY = topY + m_rect.height;
+	float bottomY = topY + m_rect.h;
 
 	float leftEdge = newX;
-	float rightEdge = newX + m_rect.width;
+	float rightEdge = newX + m_rect.h;
 
 	// Check left
 	if (level->isSolidVertically(leftEdge, topY, bottomY)) {
@@ -71,7 +71,7 @@ void Player::resolveHorizontalCollision(Uint64 deltaTime, Level* level) {
 	// Check right
 	if (level->isSolidVertically(rightEdge, topY, bottomY)) {
 		float tileX = std::floor(rightEdge / TILE_SIZE);
-		newX = tileX * TILE_SIZE - m_rect.width;
+		newX = tileX * TILE_SIZE - m_rect.h;
 	}
 
 	vx = 0.0f;
@@ -82,15 +82,15 @@ void Player::resolveVerticalCollision(Uint64 deltaTime, Level* level) {
 	float newY = m_rect.y + vy * deltaTime;
 
 	float headY = newY;
-	float feetY = headY + m_rect.height;
+	float feetY = headY + m_rect.h;
 
 	float leftX = m_rect.x;
-	float rightX = leftX + m_rect.width;
+	float rightX = leftX + m_rect.w;
 
 	// Check ground
 	if (level->isSolidHorizontally(feetY, leftX, rightX)) {
 		float tileY = std::floor(feetY / TILE_SIZE);
-		newY = tileY * TILE_SIZE - m_rect.height;
+		newY = tileY * TILE_SIZE - m_rect.h;
 		m_isOnGround = true;
 		vy = 0.0f;
 	}

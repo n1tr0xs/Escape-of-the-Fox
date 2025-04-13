@@ -17,7 +17,7 @@ void Entity::updateAnimationFrame(Uint64 deltaTime) {
 }
 
 SDL_FRect Entity::getRect() {
-	return { m_rect.x, m_rect.y, m_rect.width, m_rect.height };
+	return m_rect;
 }
 
 void Entity::addAnimation(const std::string& name, const int row, const int numFrames, const float frameWidth, const float frameHeight) {
@@ -29,8 +29,8 @@ void Entity::render(SDL_Renderer* renderer, Camera* camera) {
 	SDL_FRect dest = {
 		m_rect.x-camera->view.x,
 		m_rect.y-camera->view.y,
-		m_rect.width,
-		m_rect.height
+		m_rect.w,
+		m_rect.h
 	};
 	
 	SDL_RenderTextureRotated(renderer, m_texture, &src, &dest, 0.0, nullptr, m_textureFlip);

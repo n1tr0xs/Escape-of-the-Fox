@@ -8,14 +8,6 @@
 #include "Animation.h"
 #include "Level.h"
 
-// Entity rect
-struct Rect {
-	float x;
-	float y;
-	float width;
-	float height;
-};
-
 class Entity {
 public:
 	// Constuctor
@@ -31,7 +23,7 @@ public:
 
 protected:
 	virtual void addAnimation(const std::string& name, const int row, const int numFrames, const float frameWidth, const float frameHeight);
-	Rect m_rect; // Entity position and size
+	SDL_FRect m_rect; // Entity position and size
 	SDL_Texture* m_texture; // Animation texture sheet
 	std::unordered_map<std::string, std::shared_ptr<Animation>> m_animations; // Entity animations
 	std::shared_ptr<Animation> m_currentAnimation; // Current entity animation
