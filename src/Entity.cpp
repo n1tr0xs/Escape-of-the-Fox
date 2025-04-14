@@ -1,8 +1,7 @@
 #include "Entity.h"
 
 Entity::Entity(float x, float y, float width, float height, SDL_Texture* texture) :
-	m_rect{ x, y, width, height }, m_texture(texture) {
-}
+	m_rect{ x, y, width, height }, m_texture(texture) {}
 
 void Entity::updateAnimationFrame(Uint64 deltaTime) {
 	if (!m_currentAnimation)
@@ -16,7 +15,7 @@ void Entity::updateAnimationFrame(Uint64 deltaTime) {
 	}
 }
 
-SDL_FRect Entity::getRect() {
+SDL_FRect Entity::getRect() const {
 	return m_rect;
 }
 
@@ -27,11 +26,11 @@ void Entity::addAnimation(const std::string& name, const int row, const int numF
 void Entity::render(SDL_Renderer* renderer, Camera* camera) {
 	const auto& src = m_currentAnimation->getFRect(m_currentFrameIndex);
 	SDL_FRect dest = {
-		m_rect.x-camera->view.x,
-		m_rect.y-camera->view.y,
+		m_rect.x - camera->getX(),
+		m_rect.y - camera->getY(),
 		m_rect.w,
 		m_rect.h
 	};
-	
+
 	SDL_RenderTextureRotated(renderer, m_texture, &src, &dest, 0.0, nullptr, m_textureFlip);
 }

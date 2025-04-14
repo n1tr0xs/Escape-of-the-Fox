@@ -1,5 +1,4 @@
 #include "Level.h"
-
 #include "Player.h"
 
 Level::Level(SDL_Texture* texture) :
@@ -42,9 +41,9 @@ void Level::renderTextures(SDL_Renderer* renderer, Camera* camera) {
 	SDL_FRect src = { 0.0f, 0.0f, TILE_SIZE, TILE_SIZE };
 	SDL_FRect dest = { 0.0f, 0.0f, TILE_SIZE, TILE_SIZE };
 	for (size_t row = 0; row < m_tileMap.size(); ++row) {
-		dest.y = row * TILE_SIZE - camera->view.y;
+		dest.y = row * TILE_SIZE - camera->getY();
 		for (size_t col = 0; col < m_tileMap[0].size(); ++col) {
-			dest.x = col * TILE_SIZE - camera->view.x;
+			dest.x = col * TILE_SIZE - camera->getX();
 			src.x = m_tileMap[row][col] * TILE_SIZE;
 			SDL_RenderTexture(renderer, m_texture, &src, &dest);
 		}

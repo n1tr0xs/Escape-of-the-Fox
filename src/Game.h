@@ -36,10 +36,10 @@ private:
 	bool m_running = false; // Is game running ?
 	SDL_Window* m_window = nullptr; // Game window
 	SDL_Renderer* m_renderer = nullptr; // Game renderer
+	SDL_Texture* m_renderTexture; // "virtual screen"
 	std::unique_ptr<ResourceManager> m_resourceManager; // Resource manager
 
-	Camera m_camera;
-	std::unique_ptr<Level> level; // Level
+	std::unique_ptr<Level> m_level; // Level
+	std::unique_ptr<Camera> m_camera; // Camera
 	std::vector<std::unique_ptr<Entity>> m_entities; // Game entities
-	SDL_Texture* m_renderTexture; // "virtual screen"
 };
