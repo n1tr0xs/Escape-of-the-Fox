@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "GameScene.h"
 
 Game::Game(const std::string& title) {
 	if (!SDL_Init(SDL_INIT_VIDEO))
@@ -11,16 +12,10 @@ Game::Game(const std::string& title) {
 	m_renderTexture = SDL_CreateTexture(m_renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, RENDERER_WIDTH_IN_PIXELS, RENDERER_HEIGHT_IN_PIXELS);
 
 	// Creating ResourceManager
-	m_resourceManager = std::make_unique<ResourceManager>();
+	m_resourceManager = std::make_unique<ResourceManager>(m_renderer);
 
-	// Creating Level
-	SDL_Texture* levelTexture = m_resourceManager->loadTexture("assets/back.png", m_renderer);
-	m_level = std::make_unique<Level>(levelTexture);
-	// Creating Camera
-	m_camera = std::make_unique<Camera>(RENDERER_WIDTH_IN_PIXELS, RENDERER_HEIGHT_IN_PIXELS);
-	// Creating Player
-	SDL_Texture* texture = m_resourceManager->loadTexture("assets/fox.png", m_renderer);
-	m_entities.emplace_back(std::make_unique<Player>(0, 0, TILE_SIZE * 4, TILE_SIZE * 2, texture));
+	// Creating Scene
+	m_currentScene = std::make_unique<GameScene>(m_resourceManager.get());
 
 	m_running = true;
 }
@@ -74,19 +69,7 @@ void Game::processEvents() {
 }
 
 void Game::update(Uint64 deltaTime) {
-	// Updating level
-	m_level->update(deltaTime);
-	
-	// Updating entities
-	for (const auto& entity : m_entities) {
-		entity->update(deltaTime, m_level.get());
-	}
-	
-	// Updating camera position
-	SDL_FRect cameraTarget = m_entities[0]->getRect();
-	float mapWidth = m_level->getMapWidthInPixels();
-	float mapHeight = m_level->getMapHeightInPixels();
-	m_camera->follow(cameraTarget, mapWidth, mapHeight);
+	m_currentScene->update(deltaTime);
 }
 
 void Game::render() {
@@ -94,12 +77,9 @@ void Game::render() {
 	SDL_SetRenderTarget(m_renderer, m_renderTexture);
 	SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
 	SDL_RenderClear(m_renderer);
-	// Rendering level
-	m_level->render(m_renderer, m_camera.get());
-	// Rendering entities
-	for (const auto& entity : m_entities) {
-		entity->render(m_renderer, m_camera.get());
-	}
+	
+	m_currentScene->render(m_renderer);
+
 	// Rendering "virtual screen" to real screen
 	SDL_SetRenderTarget(m_renderer, nullptr);
 	SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);

@@ -7,10 +7,11 @@
 
 #include "constants.h"
 #include "ResourceManager.h"
-#include "Entity.h"
-#include "Player.h"
-#include "Level.h"
-#include "Camera.h"
+#include "Scene.h"
+//#include "Entity.h"
+//#include "Player.h"
+//#include "Level.h"
+//#include "Camera.h"
 
 class Game {
 public:
@@ -32,6 +33,7 @@ private:
 	// Logs error and quit the program
 	void SDL_Fail(const std::string& message);
 	
+	
 
 	bool m_running = false; // Is game running ?
 	SDL_Window* m_window = nullptr; // Game window
@@ -39,7 +41,8 @@ private:
 	SDL_Texture* m_renderTexture; // "virtual screen"
 	std::unique_ptr<ResourceManager> m_resourceManager; // Resource manager
 
-	std::unique_ptr<Level> m_level; // Level
-	std::unique_ptr<Camera> m_camera; // Camera
-	std::vector<std::unique_ptr<Entity>> m_entities; // Game entities
+	std::unique_ptr<Scene> m_currentScene;
+	//std::unique_ptr<Level> m_level; // Level
+	//std::unique_ptr<Camera> m_camera; // Camera
+	//std::vector<std::unique_ptr<Entity>> m_entities; // Game entities
 };

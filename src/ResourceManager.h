@@ -7,11 +7,12 @@
 
 class ResourceManager {
 public:
-	ResourceManager();
+	ResourceManager(SDL_Renderer* renderer);
 	~ResourceManager();
 
-	SDL_Texture* loadTexture(const std::string& filePath, SDL_Renderer* renderer);
+	SDL_Texture* loadTexture(const std::string& filePath);
 
 private:
+	SDL_Renderer* m_renderer;
 	std::unordered_map<std::string, SDL_Texture*> m_textures;
 };
