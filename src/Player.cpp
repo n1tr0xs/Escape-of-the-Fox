@@ -8,7 +8,7 @@ Player::Player(float x, float y, float width, float height, SDL_Texture* texture
 	//addAnimation("running", 1, 4, fw, fh);
 	//addAnimation("jumping", 2, 4, fw, fh);
 	//addAnimation("crouching", 3, 4, fw, fh);
-	m_currentAnimation = m_animations["idle"];
+	m_currentAnimation = m_animations["idle"].get();
 }
 
 void Player::update(Uint64 deltaTime, Level* level) {

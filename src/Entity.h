@@ -24,10 +24,12 @@ public:
 
 protected:
 	virtual void addAnimation(const std::string& name, const int row, const int numFrames, const float frameWidth, const float frameHeight);
+	
 	SDL_FRect m_rect; // Entity position and size
 	SDL_Texture* m_texture; // Animation texture sheet
-	std::unordered_map<std::string, std::shared_ptr<Animation>> m_animations; // Entity animations
-	std::shared_ptr<Animation> m_currentAnimation; // Current entity animation
+	
+	std::unordered_map<std::string, std::unique_ptr<Animation>> m_animations; // Entity animations
+	Animation* m_currentAnimation; // Current entity animation
 
 	float m_frameTimer = 0; // Frame timer
 	float m_frameDuration = 100; // Frame duration

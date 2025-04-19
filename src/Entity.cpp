@@ -20,7 +20,7 @@ SDL_FRect Entity::getRect() const {
 }
 
 void Entity::addAnimation(const std::string& name, const int row, const int numFrames, const float frameWidth, const float frameHeight) {
-	m_animations[name] = std::make_shared<Animation>(row, numFrames, frameWidth, frameHeight);
+	m_animations[name] = std::make_unique<Animation>(row, numFrames, frameWidth, frameHeight);
 }
 
 void Entity::render(SDL_Renderer* renderer, Camera* camera) {
