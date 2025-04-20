@@ -1,9 +1,9 @@
 #pragma once
 
+#include "Scene.h"
 #include "ResourceManager.h"
 #include "Level.h"
 #include "Player.h"
-#include "Scene.h"
 #include <vector>
 
 class GameScene : public Scene {
@@ -11,7 +11,7 @@ public:
 	GameScene(ResourceManager* resourceManager);
 	void update(float deltaTime) override;
 	void render(SDL_Renderer* renderer) override;
-
+	SceneResult getResult() const;
 private:
 	ResourceManager* m_resourceManager;
 
@@ -20,4 +20,5 @@ private:
 	std::unique_ptr<Camera> m_camera;
 
 	bool m_levelCompleted = false;
+	SceneResult m_sceneResult = SceneResult::None;
 };

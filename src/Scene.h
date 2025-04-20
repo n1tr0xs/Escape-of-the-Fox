@@ -4,10 +4,18 @@
 
 #include "ResourceManager.h"
 
+enum class SceneResult {
+	None,
+	StartGame,
+	Quit,
+	Victory,
+};
+
 class Scene {
 public:
 	Scene() = default;
 	virtual void update(float deltaTime) = 0;
 	virtual void render(SDL_Renderer* renderer) = 0;
+	virtual SceneResult getResult() const { return SceneResult::None; }
 	virtual ~Scene() = default;
 };

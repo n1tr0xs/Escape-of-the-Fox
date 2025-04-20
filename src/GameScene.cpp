@@ -27,11 +27,15 @@ void GameScene::update(float deltaTime) {
 	float rightPlayerEdge = m_player->getRect().x + m_player->getRect().w;
 	if (rightPlayerEdge >= mapWidth) {
 		m_levelCompleted = true;
-		SDL_Log("Level complete.");
+		m_sceneResult = SceneResult::Victory;
 	}
 }
 
 void GameScene::render(SDL_Renderer* renderer) {
 	m_level->render(renderer, m_camera.get());
 	m_player->render(renderer, m_camera.get());
+}
+
+SceneResult GameScene::getResult() const {
+	return m_sceneResult;
 }

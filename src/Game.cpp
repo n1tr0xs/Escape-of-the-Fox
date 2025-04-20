@@ -70,6 +70,20 @@ void Game::processEvents() {
 
 void Game::update(Uint64 deltaTime) {
 	m_currentScene->update(deltaTime);
+	SceneResult sceneResult = m_currentScene->getResult();
+	switch (sceneResult) {
+		case SceneResult::None:
+			break;
+		case SceneResult::StartGame:
+			break;
+		case SceneResult::Quit:
+			break;
+		case SceneResult::Victory:
+			m_currentScene = std::make_unique<GameScene>(m_resourceManager.get());
+			break;
+		default:
+			break;
+	}
 }
 
 void Game::render() {
