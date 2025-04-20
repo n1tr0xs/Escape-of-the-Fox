@@ -60,7 +60,7 @@ void Player::resolveHorizontalCollision(Uint64 deltaTime, Level* level) {
 	float bottomY = topY + m_rect.h;
 
 	float leftEdge = newX;
-	float rightEdge = newX + m_rect.h;
+	float rightEdge = newX + m_rect.w;
 
 	// Check left
 	if (level->isSolidVertically(leftEdge, topY, bottomY)) {
@@ -71,7 +71,7 @@ void Player::resolveHorizontalCollision(Uint64 deltaTime, Level* level) {
 	// Check right
 	if (level->isSolidVertically(rightEdge, topY, bottomY)) {
 		float tileX = std::floor(rightEdge / TILE_SIZE);
-		newX = tileX * TILE_SIZE - m_rect.h;
+		newX = tileX * TILE_SIZE - m_rect.w;
 	}
 
 	vx = 0.0f;
