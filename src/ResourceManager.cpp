@@ -4,9 +4,17 @@ ResourceManager::ResourceManager(SDL_Renderer* renderer) :
 	m_renderer(renderer){}
 
 ResourceManager::~ResourceManager() {
+	SDL_Log("Destructing ResourceManager.");
+	SDL_Log("\tDestructing m_textures.");
 	for (auto& pair : m_textures) {
 		SDL_DestroyTexture(pair.second);
 	}
+	/*
+	SDL_Log("\tDestructing m_fonts.");
+	for (auto& pair : m_fonts) {
+		TTF_CloseFont(pair.second);
+	}
+	*/
 }
 
 SDL_Texture* ResourceManager::loadTexture(const std::string& filePath) {
@@ -24,5 +32,19 @@ SDL_Texture* ResourceManager::loadTexture(const std::string& filePath) {
 
 	m_textures[filePath] = texture;
 	return texture;
+}
+
+TTF_Font* ResourceManager::loadFont(const std::string& filePath) {
+	auto it = m_fonts.find(filePath);
+	if (it != m_fonts.end()) {
+		return it->second;
+	}
+
+	TTF_Font* font = TTF_OpenFont(filePath.c_str(), 36);
+	if (!font) {
+		SDL_Log("Failed to load font: %s", SDL_GetError());
+	}
+	m_fonts[filePath] = font;
+	return font;
 }
 
