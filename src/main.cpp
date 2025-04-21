@@ -1,7 +1,7 @@
-﻿#include "Game.h"
+﻿#include "Engine.h"
 
 int main() {
-	Game game("Escape of the Fox");
+	Engine game("Escape of the Fox");
 	game.run();
 	return 0;
 }

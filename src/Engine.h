@@ -13,12 +13,12 @@
 //#include "Level.h"
 //#include "Camera.h"
 
-class Game {
+class Engine {
 public:
 	// Constructor
-	Game(const std::string& title);
+	Engine(const std::string& title);
 	// Destructor
-	~Game();
+	~Engine();
 
 	// Main game loop
 	void run();

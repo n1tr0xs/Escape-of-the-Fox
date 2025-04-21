@@ -15,7 +15,7 @@ find_package(SDL3_image REQUIRED)
 # Add src files
 add_executable (Escape-of-the-Fox 
 "src/main.cpp" 
-"src/Game.h" "src/Game.cpp" 
+"src/Engine.h" "src/Engine.cpp" 
 "src/ResourceManager.h" "src/ResourceManager.cpp" 
 "src/Entity.h" "src/Entity.cpp" 
 "src/Animation.h" "src/Animation.cpp" 

@@ -1,7 +1,7 @@
-#include "Game.h"
+#include "Engine.h"
 #include "GameScene.h"
 
-Game::Game(const std::string& title) {
+Engine::Engine(const std::string& title) {
 	if (!SDL_Init(SDL_INIT_VIDEO))
 		SDL_Fail("Failed to initialize SDL:");
 
@@ -20,7 +20,7 @@ Game::Game(const std::string& title) {
 	m_running = true;
 }
 
-Game::~Game() {
+Engine::~Engine() {
 	if (m_renderer) {
 		SDL_DestroyRenderer(m_renderer);
 		m_renderer = nullptr;
@@ -36,12 +36,12 @@ Game::~Game() {
 	SDL_Quit();
 }
 
-void Game::SDL_Fail(const std::string& message) {
+void Engine::SDL_Fail(const std::string& message) {
 	SDL_LogError(SDL_LOG_CATEGORY_ERROR, "%s %s", message.c_str(), SDL_GetError());
 	delete this;
 }
 
-void Game::run() {
+void Engine::run() {
 	Uint64 lastTime = SDL_GetTicks();
 	Uint64 currentTime, deltaTime;
 	while (m_running) {
@@ -55,7 +55,7 @@ void Game::run() {
 	}
 }
 
-void Game::processEvents() {
+void Engine::processEvents() {
 	SDL_Event event;
 	while (SDL_PollEvent(&event)) {
 		if (event.type == SDL_EVENT_QUIT) {
@@ -65,7 +65,7 @@ void Game::processEvents() {
 	}
 }
 
-void Game::update(Uint64 deltaTime) {
+void Engine::update(Uint64 deltaTime) {
 	m_currentScene->update(deltaTime);
 	SceneResult sceneResult = m_currentScene->getResult();
 	switch (sceneResult) {
@@ -83,7 +83,7 @@ void Game::update(Uint64 deltaTime) {
 	}
 }
 
-void Game::render() {
+void Engine::render() {
 	// Rendering to "virtual screen"
 	SDL_SetRenderTarget(m_renderer, m_renderTexture);
 	SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
