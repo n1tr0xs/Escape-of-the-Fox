@@ -11,6 +11,7 @@ project ("Escape of the Fox")
 
 find_package(SDL3 REQUIRED)
 find_package(SDL3_image REQUIRED)
+find_package(SDL3_ttf REQUIRED)
 
 # Add src files
 add_executable (Escape-of-the-Fox 
@@ -19,10 +20,10 @@ add_executable (Escape-of-the-Fox
 "src/ResourceManager.h" "src/ResourceManager.cpp" 
 "src/Entity.h" "src/Entity.cpp" 
 "src/Animation.h" "src/Animation.cpp" 
-"src/Player.h" "src/Player.cpp" "src/Level.h" "src/Level.cpp"  "src/constants.h" "src/Camera.h" "src/Camera.cpp" "src/Scene.h" "src/GameScene.h" "src/GameScene.cpp")
+"src/Player.h" "src/Player.cpp" "src/Level.h" "src/Level.cpp"  "src/constants.h" "src/Camera.h" "src/Camera.cpp" "src/Scene.h" "src/GameScene.h" "src/GameScene.cpp" "src/MenuScene.h" "src/MenuScene.cpp")
 
 
-target_link_libraries(Escape-of-the-Fox SDL3::SDL3 SDL3_image::SDL3_image)
+target_link_libraries(Escape-of-the-Fox SDL3::SDL3 SDL3_image::SDL3_image SDL3_ttf::SDL3_ttf)
 
 # Copy dll files
 add_custom_command(TARGET Escape-of-the-Fox POST_BUILD
