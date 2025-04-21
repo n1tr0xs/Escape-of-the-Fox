@@ -12,7 +12,7 @@ public:
 	void handleEvent(const SDL_Event& event) override;
 	void update(float deltaTime) override;
 	void render(SDL_Renderer* renderer) override;
-	SceneResult getResult() const;
+	SceneResult getResult() const override;
 private:
 	ResourceManager* m_resourceManager;
 
