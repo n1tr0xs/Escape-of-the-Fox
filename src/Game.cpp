@@ -5,7 +5,7 @@ Game::Game(const std::string& title) {
 	if (!SDL_Init(SDL_INIT_VIDEO))
 		SDL_Fail("Failed to initialize SDL:");
 
-	if (!SDL_CreateWindowAndRenderer(title.c_str(), 0, 0, SDL_WINDOW_FULLSCREEN | SDL_WINDOW_BORDERLESS, &m_window, &m_renderer))
+	if (!SDL_CreateWindowAndRenderer(title.c_str(), RENDERER_WIDTH_IN_PIXELS, RENDERER_HEIGHT_IN_PIXELS, 0/*SDL_WINDOW_FULLSCREEN | SDL_WINDOW_BORDERLESS*/, &m_window, &m_renderer))
 		SDL_Fail("Couldn't create window and renderer.");
 
 	// Creating "virtual screen"
@@ -61,10 +61,7 @@ void Game::processEvents() {
 		if (event.type == SDL_EVENT_QUIT) {
 			m_running = false;
 		}
-	}
-	const bool* keyState = SDL_GetKeyboardState(NULL);
-	if (keyState[SDL_SCANCODE_ESCAPE]) {
-		m_running = false;
+		m_currentScene->handleEvent(event);
 	}
 }
 

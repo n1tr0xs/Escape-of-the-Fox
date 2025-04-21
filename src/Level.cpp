@@ -10,16 +10,16 @@ Level::Level(SDL_Texture* texture) :
 
 	// Horizontal platform
 	fillWith(5, 8, 7, 8, 1);
-	
+
 	// Wall
-	fillWith(15, 10, 15, 12, 1);	
+	fillWith(15, 10, 15, 12, 1);
 
 	// Wall 2
 	fillWith(40, 10, 40, 15, 1);
 }
 
 void Level::addRow(Uint8 block) {
-	m_tileMap.push_back(std::vector<Uint8>(RENDERER_WIDTH_IN_TILES*5, block));
+	m_tileMap.push_back(std::vector<Uint8>(RENDERER_WIDTH_IN_TILES * 5, block));
 }
 
 void Level::addRows(int rows, Uint8 block) {
@@ -68,9 +68,9 @@ void Level::render(SDL_Renderer* renderer, Camera* camera) {
 	renderTextures(renderer, camera);
 }
 
-void Level::update(Uint64 deltaTime) {
+void Level::handleEvent(const SDL_Event& event) {}
 
-}
+void Level::update(Uint64 deltaTime) {}
 
 bool Level::isSolidAtPixel(float x, float y) {
 	int tileX = x / TILE_SIZE;

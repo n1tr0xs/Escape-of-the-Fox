@@ -11,23 +11,50 @@ Player::Player(float x, float y, float width, float height, SDL_Texture* texture
 	m_currentAnimation = m_animations["idle"].get();
 }
 
+void Player::handleEvent(const SDL_Event& event) {
+	if (event.type == SDL_EVENT_KEY_DOWN) {
+		switch (event.key.key) {
+			case SDLK_A:
+				m_movingLeft = true;
+				break;
+			case SDLK_D:
+				m_movingRight = true;
+				break;
+			case SDLK_SPACE:
+				m_jumpPressed = true;
+				break;
+		}
+	}
+	if (event.type == SDL_EVENT_KEY_UP) {
+		switch (event.key.key) {
+			case SDLK_A:
+				m_movingLeft = false;
+				break;
+			case SDLK_D:
+				m_movingRight = false;
+				break;
+			case SDLK_SPACE:
+				m_jumpPressed = false;
+				break;
+		}
+	}
+}
+
 void Player::update(Uint64 deltaTime, Level* level) {
 	float speedX = 0.5f;
 	float jumpStrength = .15f * TILE_SIZE;
 	float gravity = 0.02f;
 
-	const bool* keyState = SDL_GetKeyboardState(NULL);
-
-	if (keyState[SDL_SCANCODE_SPACE] && m_isOnGround) {
+	if (m_jumpPressed && m_isOnGround) {
 		vy = -jumpStrength;
 		m_isOnGround = false;
 	}
 
-	if (keyState[SDL_SCANCODE_A]) {
+	if (m_movingLeft) {
 		vx = -speedX * deltaTime;
 	}
 
-	if (keyState[SDL_SCANCODE_D]) {
+	if (m_movingRight) {
 		vx = speedX * deltaTime;
 	}
 

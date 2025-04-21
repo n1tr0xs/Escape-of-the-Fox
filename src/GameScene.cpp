@@ -14,6 +14,11 @@ GameScene::GameScene(ResourceManager* resourceManager) :
 
 }
 
+void GameScene::handleEvent(const SDL_Event& event) {
+	m_level->handleEvent(event);
+	m_player->handleEvent(event);
+}
+
 void GameScene::update(float deltaTime) {
 	float mapWidth = m_level->getMapWidthInPixels();
 	float mapHeight = m_level->getMapHeightInPixels();

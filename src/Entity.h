@@ -17,6 +17,8 @@ public:
 	virtual void render(SDL_Renderer* renderer, Camera* camera);
 	// Updates Animation frame
 	virtual void updateAnimationFrame(Uint64 deltaTime);
+	// Handles events (input)
+	virtual void handleEvent(const SDL_Event& event) = 0;
 	// Updates Entity state
 	virtual void update(Uint64 deltaTime, Level* level) = 0;
 	// Returns SDL_FRect of entity

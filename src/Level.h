@@ -14,6 +14,7 @@ public:
 	Level(SDL_Texture* texture);
 
 	void render(SDL_Renderer* renderer, Camera* camera);
+	void handleEvent(const SDL_Event& event);
 	void update(Uint64 deltaTime);
 
 	bool isSolidAtPixel(float x, float y);
