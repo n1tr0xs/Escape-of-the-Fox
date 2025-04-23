@@ -48,10 +48,6 @@ void MenuScene::render(SDL_Renderer* renderer) {
 	}
 }
 
-SceneResult MenuScene::getResult() const {
-	return m_sceneResult;
-}
-
 // MenuButton
 
 MenuButton::MenuButton(const std::string& text, SceneResult result) :

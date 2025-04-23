@@ -12,7 +12,6 @@ public:
 	void handleEvent(const SDL_Event& event) override;
 	void update(float deltaTime) override;
 	void render(SDL_Renderer* renderer) override;
-	SceneResult getResult() const override;
 private:
 	ResourceManager* m_resourceManager;
 
@@ -21,5 +20,4 @@ private:
 	std::unique_ptr<Camera> m_camera;
 
 	bool m_levelCompleted = false;
-	SceneResult m_sceneResult = SceneResult::None;
 };

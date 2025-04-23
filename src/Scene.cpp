@@ -1,5 +1,5 @@
 #include "Scene.h"
 
 SceneResult Scene::getResult() const {
-	return SceneResult::None;
+	return m_sceneResult;
 }
