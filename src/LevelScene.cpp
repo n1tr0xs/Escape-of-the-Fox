@@ -1,6 +1,6 @@
-#include "GameScene.h"
+#include "LevelScene.h"
 
-GameScene::GameScene(ResourceManager* resourceManager) :
+LevelScene::LevelScene(ResourceManager* resourceManager) :
 	m_resourceManager(resourceManager) {
 
 	// Creating Level
@@ -14,12 +14,12 @@ GameScene::GameScene(ResourceManager* resourceManager) :
 
 }
 
-void GameScene::handleEvent(const SDL_Event& event) {
+void LevelScene::handleEvent(const SDL_Event& event) {
 	m_level->handleEvent(event);
 	m_player->handleEvent(event);
 }
 
-void GameScene::update(float deltaTime) {
+void LevelScene::update(float deltaTime) {
 	float mapWidth = m_level->getMapWidthInPixels();
 	float mapHeight = m_level->getMapHeightInPixels();
 
@@ -36,11 +36,11 @@ void GameScene::update(float deltaTime) {
 	}
 }
 
-void GameScene::render(SDL_Renderer* renderer) {
+void LevelScene::render(SDL_Renderer* renderer) {
 	m_level->render(renderer, m_camera.get());
 	m_player->render(renderer, m_camera.get());
 }
 
-SceneResult GameScene::getResult() const {
+SceneResult LevelScene::getResult() const {
 	return m_sceneResult;
 }

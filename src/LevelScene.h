@@ -6,9 +6,9 @@
 #include "Player.h"
 #include <vector>
 
-class GameScene : public Scene {
+class LevelScene : public Scene {
 public:
-	GameScene(ResourceManager* resourceManager);
+	LevelScene(ResourceManager* resourceManager);
 	void handleEvent(const SDL_Event& event) override;
 	void update(float deltaTime) override;
 	void render(SDL_Renderer* renderer) override;

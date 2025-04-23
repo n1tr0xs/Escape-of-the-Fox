@@ -1,5 +1,5 @@
 #include "Engine.h"
-#include "GameScene.h"
+#include "LevelScene.h"
 #include "MenuScene.h"
 
 Engine::Engine(const std::string& title) {
@@ -87,13 +87,13 @@ void Engine::update(Uint64 deltaTime) {
 			case SceneResult::None:
 				break;
 			case SceneResult::StartGame:
-				m_currentScene = std::make_unique<GameScene>(m_resourceManager.get());
+				m_currentScene = std::make_unique<LevelScene>(m_resourceManager.get());
 				break;
 			case SceneResult::Quit:
 				m_running = false;
 				break;
 			case SceneResult::Victory:
-				m_currentScene = std::make_unique<GameScene>(m_resourceManager.get());
+				m_currentScene = std::make_unique<LevelScene>(m_resourceManager.get());
 				break;
 			default:
 				break;

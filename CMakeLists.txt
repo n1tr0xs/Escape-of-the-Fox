@@ -20,7 +20,7 @@ add_executable (Escape-of-the-Fox
 "src/ResourceManager.h" "src/ResourceManager.cpp" 
 "src/Entity.h" "src/Entity.cpp" 
 "src/Animation.h" "src/Animation.cpp" 
-"src/Player.h" "src/Player.cpp" "src/Level.h" "src/Level.cpp"  "src/constants.h" "src/Camera.h" "src/Camera.cpp" "src/Scene.h" "src/GameScene.h" "src/GameScene.cpp" "src/MenuScene.h" "src/MenuScene.cpp")
+"src/Player.h" "src/Player.cpp" "src/Level.h" "src/Level.cpp"  "src/constants.h" "src/Camera.h" "src/Camera.cpp" "src/Scene.h" "src/LevelScene.h" "src/LevelScene.cpp" "src/MenuScene.h" "src/MenuScene.cpp")
 
 
 target_link_libraries(Escape-of-the-Fox SDL3::SDL3 SDL3_image::SDL3_image SDL3_ttf::SDL3_ttf)
