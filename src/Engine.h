@@ -38,7 +38,7 @@ private:
 	bool m_running = false; // Is game running ?
 	SDL_Window* m_window = nullptr; // Game window
 	SDL_Renderer* m_renderer = nullptr; // Game renderer
-	SDL_Texture* m_renderTexture; // "virtual screen"
+	SDL_Texture* m_renderTexture = nullptr; // "virtual screen"
 	std::unique_ptr<ResourceManager> m_resourceManager; // Resource manager
 
 	std::unique_ptr<Scene> m_currentScene;
