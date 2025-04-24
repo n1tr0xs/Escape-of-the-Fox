@@ -93,6 +93,8 @@ void Engine::update(Uint64 deltaTime) {
 			case SceneResult::Victory:
 				m_currentScene = std::make_unique<LevelScene>(m_resourceManager.get());
 				break;
+			case SceneResult::GameOver:
+				m_currentScene = std::make_unique<MenuScene>(m_resourceManager.get());
 			default:
 				break;
 		}

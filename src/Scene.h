@@ -9,6 +9,7 @@ enum class SceneResult {
 	StartGame,
 	Quit,
 	Victory,
+	GameOver,
 };
 
 class Scene {

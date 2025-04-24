@@ -28,6 +28,12 @@ void LevelScene::update(float deltaTime) {
 	// Updating camera position
 	SDL_FRect cameraTarget = m_player->getRect();
 	m_camera->follow(cameraTarget, mapWidth, mapHeight);
+	// Is player dead ?
+	float playerBottom = m_player->getRect().y + m_player->getRect().h;
+	if (playerBottom > mapHeight) {
+		m_playerDead = true;
+		m_sceneResult = SceneResult::GameOver;
+	}
 	// Is level completed ?
 	float rightPlayerEdge = m_player->getRect().x + m_player->getRect().w;
 	if (rightPlayerEdge >= mapWidth) {

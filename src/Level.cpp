@@ -16,6 +16,9 @@ Level::Level(SDL_Texture* texture) :
 
 	// Wall 2
 	fillWith(40, 10, 40, 15, 1);
+
+	// Hole
+	fillWith(25, 0, 30, m_tileMap.size()-1, 0);
 }
 
 void Level::addRow(Uint8 block) {
@@ -55,7 +58,6 @@ void Level::fillWith(int startX, int startY, int endX, int endY, Uint8 block) {
 		return;
 	if (endY >= m_tileMap.size() || endX >= m_tileMap[0].size())
 		return;
-
 	for (int x = startX; x <= endX; ++x) {
 		for (int y = startY; y <= endY; ++y) {
 			m_tileMap[y][x] = block;
@@ -82,7 +84,7 @@ bool Level::isSolidAtPixel(float x, float y) {
 		return false;
 
 	if (tileY >= m_tileMap.size())
-		return true;
+		return false;
 	if (tileX >= m_tileMap[0].size())
 		return false;
 

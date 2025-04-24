@@ -20,4 +20,5 @@ private:
 	std::unique_ptr<Camera> m_camera;
 
 	bool m_levelCompleted = false;
+	bool m_playerDead = false;
 };
