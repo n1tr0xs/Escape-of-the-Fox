@@ -9,6 +9,8 @@
 #include "ResourceManager.h"
 #include "Camera.h"
 
+using Tile = int;
+
 class Level {
 public:
 	Level(SDL_Texture* texture);
@@ -16,6 +18,7 @@ public:
 	void render(SDL_Renderer* renderer, Camera* camera);
 	void handleEvent(const SDL_Event& event);
 	void update(Uint64 deltaTime);
+	bool loadFromFile(const std::string& filePath);
 
 	bool isSolidAtPixel(float x, float y);
 	bool isSolidVertically(float x, float topY, float bottomY);
@@ -25,12 +28,12 @@ public:
 	float getMapWidthInPixels();
 private:
 	SDL_Texture* m_texture;
-	std::vector<std::vector<Uint8>> m_tileMap;
+	std::vector<std::vector<Tile>> m_tileMap;
 
-	void addRow(Uint8 block);
-	void addRows(int rows, Uint8 block);
+	void addRow(Tile block);
+	void addRows(int rows, Tile block);
 	void renderGrid(SDL_Renderer* renderer);
 	void renderTextures(SDL_Renderer* renderer, Camera* camera);
 
-	void fillWith(int startX, int startY, int endX, int endY, Uint8 block);
+	void fillWith(int startX, int startY, int endX, int endY, Tile block);
 };

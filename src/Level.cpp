@@ -1,31 +1,20 @@
 #include "Level.h"
 #include "Player.h"
 
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <vector>
+#include <string>
+
 Level::Level(SDL_Texture* texture) :
-	m_texture(texture) {
+	m_texture(texture) {}
 
-	addRows(13, 0);
-	addRows(2, 1);
-	addRows(1, 2);
-
-	// Horizontal platform
-	fillWith(5, 8, 7, 8, 1);
-
-	// Wall
-	fillWith(15, 10, 15, 12, 1);
-
-	// Wall 2
-	fillWith(40, 10, 40, 15, 1);
-
-	// Hole
-	fillWith(25, 0, 30, m_tileMap.size()-1, 0);
+void Level::addRow(Tile block) {
+	m_tileMap.push_back(std::vector<Tile>(RENDERER_WIDTH_IN_TILES * 5, block));
 }
 
-void Level::addRow(Uint8 block) {
-	m_tileMap.push_back(std::vector<Uint8>(RENDERER_WIDTH_IN_TILES * 5, block));
-}
-
-void Level::addRows(int rows, Uint8 block) {
+void Level::addRows(int rows, Tile block) {
 	for (int i = 0; i < rows; ++i)
 		addRow(block);
 }
@@ -45,7 +34,7 @@ void Level::renderTextures(SDL_Renderer* renderer, Camera* camera) {
 	SDL_FRect dest = { 0.0f, 0.0f, TILE_SIZE, TILE_SIZE };
 	for (size_t row = 0; row < m_tileMap.size(); ++row) {
 		dest.y = row * TILE_SIZE - camera->getY();
-		for (size_t col = 0; col < m_tileMap[0].size(); ++col) {
+		for (size_t col = 0; col < m_tileMap[row].size(); ++col) {
 			dest.x = col * TILE_SIZE - camera->getX();
 			src.x = m_tileMap[row][col] * TILE_SIZE;
 			SDL_RenderTexture(renderer, m_texture, &src, &dest);
@@ -53,7 +42,7 @@ void Level::renderTextures(SDL_Renderer* renderer, Camera* camera) {
 	}
 }
 
-void Level::fillWith(int startX, int startY, int endX, int endY, Uint8 block) {
+void Level::fillWith(int startX, int startY, int endX, int endY, Tile block) {
 	if (startY < 0 || startX < 0)
 		return;
 	if (endY >= m_tileMap.size() || endX >= m_tileMap[0].size())
@@ -73,6 +62,28 @@ void Level::render(SDL_Renderer* renderer, Camera* camera) {
 void Level::handleEvent(const SDL_Event& event) {}
 
 void Level::update(Uint64 deltaTime) {}
+
+bool Level::loadFromFile(const std::string& filePath) {
+	m_tileMap.clear();
+	std::ifstream file(filePath);
+	if (!file.is_open()) {
+		SDL_Log("Failed to open level file: %s", filePath.c_str());
+		return false;
+	}
+
+	std::string line;
+	while (std::getline(file, line)) {
+		std::vector<Tile> row;
+		std::stringstream ss(line);
+		Tile tile;
+		while (ss >> tile) {
+			row.push_back(tile);
+		}
+		m_tileMap.push_back(row);
+	}
+	file.close();
+	return true;
+}
 
 bool Level::isSolidAtPixel(float x, float y) {
 	int tileX = x / TILE_SIZE;

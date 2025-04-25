@@ -1,11 +1,15 @@
 #include "LevelScene.h"
+#include <string>
+#include <format>
 
-LevelScene::LevelScene(ResourceManager* resourceManager) :
+LevelScene::LevelScene(ResourceManager* resourceManager, int levelNum) :
 	m_resourceManager(resourceManager) {
 
 	// Creating Level
 	SDL_Texture* levelTexture = m_resourceManager->loadTexture("assets/back.png");
 	m_level = std::make_unique<Level>(levelTexture);
+	std::string filePath = std::format("assets/level_{:02d}/tilemap.txt", levelNum);
+	m_level->loadFromFile(filePath);
 	// Creating Camera
 	m_camera = std::make_unique<Camera>(RENDERER_WIDTH_IN_PIXELS, RENDERER_HEIGHT_IN_PIXELS);
 	// Creating Player
