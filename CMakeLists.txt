@@ -28,6 +28,7 @@ add_executable (Escape-of-the-Fox
 "src/Scene.h" "src/Scene.cpp"
 "src/LevelScene.h" "src/LevelScene.cpp"
 "src/MenuScene.h" "src/MenuScene.cpp"
+"src/GameCompleteScene.h" "src/GameCompleteScene.cpp"
 )
 
 
