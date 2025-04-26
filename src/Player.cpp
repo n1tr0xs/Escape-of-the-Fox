@@ -46,20 +46,20 @@ void Player::update(Uint64 deltaTime, Level* level) {
 	float gravity = 0.02f;
 
 	if (m_jumpPressed && m_isOnGround) {
-		vy = -jumpStrength;
+		m_velocity.y = -jumpStrength;
 		m_isOnGround = false;
 	}
 
 	if (m_movingLeft) {
-		vx = -speedX * deltaTime;
+		m_velocity.x = -speedX * deltaTime;
 	}
 
 	if (m_movingRight) {
-		vx = speedX * deltaTime;
+		m_velocity.x = speedX * deltaTime;
 	}
 
 	if (!m_isOnGround) {
-		vy += gravity * deltaTime;
+		m_velocity.y += gravity * deltaTime;
 	}
 
 	resolveHorizontalCollision(deltaTime, level);
@@ -68,11 +68,11 @@ void Player::update(Uint64 deltaTime, Level* level) {
 	updateAnimationFrame(deltaTime);
 }
 
-void Player::render(SDL_Renderer* renderer, Camera* camera) {
+void Player::render(SDL_Renderer* renderer, SDL_FRect cameraRect) {
 	SDL_SetRenderDrawColor(renderer, 255, 100, 100, 255);
 	SDL_FRect rect = {
-		m_rect.x - camera->getX(),
-		m_rect.y - camera->getY(),
+		m_rect.x - cameraRect.x,
+		m_rect.y - cameraRect.y,
 		m_rect.w,
 		m_rect.h
 	};
@@ -81,7 +81,7 @@ void Player::render(SDL_Renderer* renderer, Camera* camera) {
 }
 
 void Player::resolveHorizontalCollision(Uint64 deltaTime, Level* level) {
-	float newX = m_rect.x + vx * deltaTime;
+	float newX = m_rect.x + m_velocity.x * deltaTime;
 
 	float topY = m_rect.y;
 	float bottomY = topY + m_rect.h;
@@ -101,12 +101,12 @@ void Player::resolveHorizontalCollision(Uint64 deltaTime, Level* level) {
 		newX = tileX * TILE_SIZE - m_rect.w;
 	}
 
-	vx = 0.0f;
+	m_velocity.x = 0.0f;
 	m_rect.x = newX;
 }
 
 void Player::resolveVerticalCollision(Uint64 deltaTime, Level* level) {
-	float newY = m_rect.y + vy * deltaTime;
+	float newY = m_rect.y + m_velocity.y * deltaTime;
 
 	float headY = newY;
 	float feetY = headY + m_rect.h;
@@ -119,7 +119,7 @@ void Player::resolveVerticalCollision(Uint64 deltaTime, Level* level) {
 		float tileY = std::floor(feetY / TILE_SIZE);
 		newY = tileY * TILE_SIZE - m_rect.h;
 		m_isOnGround = true;
-		vy = 0.0f;
+		m_velocity.y = 0.0f;
 	}
 	else {
 		m_isOnGround = false;
@@ -129,7 +129,7 @@ void Player::resolveVerticalCollision(Uint64 deltaTime, Level* level) {
 	if (level->isSolidHorizontally(headY, leftX, rightX)) {
 		float tileY = std::floor(headY / TILE_SIZE);
 		newY = (tileY + 1) * TILE_SIZE;
-		vy = 0.0f;
+		m_velocity.y = 0.0f;
 	}
 
 	m_rect.y = newY;

@@ -47,6 +47,6 @@ void LevelScene::update(float deltaTime) {
 }
 
 void LevelScene::render(SDL_Renderer* renderer) {
-	m_level->render(renderer, m_camera.get());
-	m_player->render(renderer, m_camera.get());
+	m_level->render(renderer, m_camera->getRect());
+	m_player->render(renderer, m_camera->getRect());
 }

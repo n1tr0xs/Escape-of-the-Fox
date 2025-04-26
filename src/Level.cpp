@@ -29,13 +29,13 @@ void Level::renderGrid(SDL_Renderer* renderer) {
 	}
 }
 
-void Level::renderTextures(SDL_Renderer* renderer, Camera* camera) {
+void Level::renderTextures(SDL_Renderer* renderer, SDL_FRect cameraRect) {
 	SDL_FRect src = { 0.0f, 0.0f, TILE_SIZE, TILE_SIZE };
 	SDL_FRect dest = { 0.0f, 0.0f, TILE_SIZE, TILE_SIZE };
 	for (size_t row = 0; row < m_tileMap.size(); ++row) {
-		dest.y = row * TILE_SIZE - camera->getY();
+		dest.y = row * TILE_SIZE - cameraRect.y;
 		for (size_t col = 0; col < m_tileMap[row].size(); ++col) {
-			dest.x = col * TILE_SIZE - camera->getX();
+			dest.x = col * TILE_SIZE - cameraRect.x;
 			src.x = m_tileMap[row][col] * TILE_SIZE;
 			SDL_RenderTexture(renderer, m_texture, &src, &dest);
 		}
@@ -54,9 +54,9 @@ void Level::fillWith(int startX, int startY, int endX, int endY, Tile block) {
 	}
 }
 
-void Level::render(SDL_Renderer* renderer, Camera* camera) {
+void Level::render(SDL_Renderer* renderer, SDL_FRect cameraRect) {
 	renderGrid(renderer);
-	renderTextures(renderer, camera);
+	renderTextures(renderer, cameraRect);
 }
 
 void Level::handleEvent(const SDL_Event& event) {}

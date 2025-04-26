@@ -15,7 +15,7 @@ class Level {
 public:
 	Level(SDL_Texture* texture);
 
-	void render(SDL_Renderer* renderer, Camera* camera);
+	void render(SDL_Renderer* renderer, SDL_FRect cameraRect);
 	void handleEvent(const SDL_Event& event);
 	void update(Uint64 deltaTime);
 	bool loadFromFile(const std::string& filePath);
@@ -33,7 +33,7 @@ private:
 	void addRow(Tile block);
 	void addRows(int rows, Tile block);
 	void renderGrid(SDL_Renderer* renderer);
-	void renderTextures(SDL_Renderer* renderer, Camera* camera);
+	void renderTextures(SDL_Renderer* renderer, SDL_FRect cameraRect);
 
 	void fillWith(int startX, int startY, int endX, int endY, Tile block);
 };
