@@ -42,6 +42,8 @@ private:
 	std::unique_ptr<ResourceManager> m_resourceManager; // Resource manager
 
 	std::unique_ptr<Scene> m_currentScene;
+	int m_currentLevel = 0;
+	const int m_maxLevel = 2;
 	//std::unique_ptr<Level> m_level; // Level
 	//std::unique_ptr<Camera> m_camera; // Camera
 	//std::vector<std::unique_ptr<Entity>> m_entities; // Game entities

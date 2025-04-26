@@ -85,15 +85,16 @@ void Engine::update(Uint64 deltaTime) {
 			case SceneResult::None:
 				break;
 			case SceneResult::StartGame:
-				m_currentScene = std::make_unique<LevelScene>(m_resourceManager.get(), 1);
+				m_currentScene = std::make_unique<LevelScene>(m_resourceManager.get(), ++m_currentLevel);
 				break;
 			case SceneResult::Quit:
 				m_running = false;
 				break;
 			case SceneResult::Victory:
-				m_currentScene = std::make_unique<LevelScene>(m_resourceManager.get(), 1);
+				m_currentScene = std::make_unique<LevelScene>(m_resourceManager.get(), ++m_currentLevel);
 				break;
 			case SceneResult::GameOver:
+				m_currentLevel = 0;
 				m_currentScene = std::make_unique<MenuScene>(m_resourceManager.get());
 			default:
 				break;
