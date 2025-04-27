@@ -6,19 +6,25 @@ LevelScene::LevelScene(ResourceManager* resourceManager, int levelNum) :
 	m_resourceManager(resourceManager) {
 
 	// Creating Level
-	SDL_Texture* levelTexture = m_resourceManager->loadTexture("assets/back.png");
+	std::string tileSheetPath = std::format(ASSET_PATH, "back.png");
+	SDL_Texture* levelTileSheetTexture = m_resourceManager->loadTexture(tileSheetPath);
 
-	SDL_Texture* backgroundBackTexture = m_resourceManager->loadLevelRelatedTexture("backgroundBack.png", levelNum);
-	SDL_Texture* backgroundFrontTexture = m_resourceManager->loadLevelRelatedTexture("backgroundFront.png", levelNum);
-	m_level = std::make_unique<Level>(levelTexture, backgroundBackTexture, backgroundFrontTexture);
-	std::string filePath = std::format("assets/level_{:02d}/tilemap.txt", levelNum);
+	std::string backgroundBackTexturePath = std::format(LEVEL_ASSET_PATH, levelNum, "backgroundBack.png");
+	SDL_Texture* backgroundBackTexture = m_resourceManager->loadTexture(backgroundBackTexturePath);
 
-	m_level->loadFromFile(filePath);
+	std::string backgroundFrontTexturePath = std::format(LEVEL_ASSET_PATH, levelNum, "backgroundFront.png");
+	SDL_Texture* backgroundFrontTexture = m_resourceManager->loadTexture(backgroundFrontTexturePath);
+
+	m_level = std::make_unique<Level>(levelTileSheetTexture, backgroundBackTexture, backgroundFrontTexture);
+	
+	std::string tileMapPath = std::format(LEVEL_ASSET_PATH, levelNum, "tilemap.txt");
+	m_level->loadFromFile(tileMapPath);
 	// Creating Camera
 	m_camera = std::make_unique<Camera>(RENDERER_WIDTH_IN_PIXELS, RENDERER_HEIGHT_IN_PIXELS);
 	// Creating Player
-	SDL_Texture* texture = m_resourceManager->loadTexture("assets/fox.png");
-	m_player = std::make_unique<Player>(0, 0, TILE_SIZE * 4, TILE_SIZE * 2, texture);
+	std::string playerTexturePath = std::format(ASSET_PATH, "fox.png");
+	SDL_Texture* playerTexture = m_resourceManager->loadTexture(playerTexturePath);
+	m_player = std::make_unique<Player>(0, 0, TILE_SIZE * 4, TILE_SIZE * 2, playerTexture);
 
 }
 

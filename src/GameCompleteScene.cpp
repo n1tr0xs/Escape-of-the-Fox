@@ -1,9 +1,14 @@
 #include "GameCompleteScene.h"
 
+#include "constants.h"
+#include <string>
+#include <format>
 
 GameCompleteScene::GameCompleteScene(ResourceManager* resourceManager) :
 	m_resourceManager(resourceManager) {
-	m_resourceManager->loadFont("assets/arial.ttf"); // Pre-load font
+	// Pre-load font
+	std::string fontPath = std::format(ASSET_PATH, "arial.ttf");
+	m_resourceManager->loadFont(fontPath); 
 
 	m_textLabels.emplace_back(std::make_unique<TextLabel>("Developer"));
 }
@@ -23,7 +28,8 @@ void GameCompleteScene::handleEvent(const SDL_Event& event) {
 void GameCompleteScene::update(float deltaTime) {}
 
 void GameCompleteScene::render(SDL_Renderer* renderer) {
-	TTF_Font* font = m_resourceManager->loadFont("assets/arial.ttf");
+	std::string fontPath = std::format(ASSET_PATH, "arial.ttf");
+	TTF_Font* font = m_resourceManager->loadFont(fontPath);
 	SDL_FRect dest = { 0, 0, 100, 100 };
 	SDL_Color textColor = { 255, 255, 255, 255 };
 	for (const auto& textLabel : m_textLabels) {

@@ -1,8 +1,5 @@
 #include "ResourceManager.h"
 
-#include <string>
-#include <format>
-
 ResourceManager::ResourceManager(SDL_Renderer* renderer) :
 	m_renderer(renderer){}
 
@@ -35,10 +32,6 @@ SDL_Texture* ResourceManager::loadTexture(const std::string& filePath) {
 
 	m_textures[filePath] = texture;
 	return texture;
-}
-
-SDL_Texture* ResourceManager::loadLevelRelatedTexture(const std::string& fileName, const int levelNum) {
-	return loadTexture(std::format("assets/level_{:02d}/{}", levelNum, fileName));
 }
 
 TTF_Font* ResourceManager::loadFont(const std::string& filePath) {
