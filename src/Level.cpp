@@ -7,16 +7,17 @@
 #include <vector>
 #include <string>
 
-Level::Level(SDL_Texture* texture) :
-	m_texture(texture) {}
+Level::Level(SDL_Texture* texture, SDL_Texture* backgroundBackTexture, SDL_Texture* backgroundFrontTexture) :
+	m_texture(texture), m_backgroundBackTexture(backgroundBackTexture), m_backgroundFrontTexture(backgroundFrontTexture) {}
 
 void Level::addRow(Tile block) {
 	m_tileMap.push_back(std::vector<Tile>(RENDERER_WIDTH_IN_TILES * 5, block));
 }
 
 void Level::addRows(int rows, Tile block) {
-	for (int i = 0; i < rows; ++i)
+	for (int i = 0; i < rows; ++i) {
 		addRow(block);
+	}
 }
 
 void Level::renderGrid(SDL_Renderer* renderer) {
@@ -36,10 +37,33 @@ void Level::renderTextures(SDL_Renderer* renderer, SDL_FRect cameraRect) {
 		dest.y = row * TILE_SIZE - cameraRect.y;
 		for (size_t col = 0; col < m_tileMap[row].size(); ++col) {
 			dest.x = col * TILE_SIZE - cameraRect.x;
-			src.x = m_tileMap[row][col] * TILE_SIZE;
+			Tile tile = m_tileMap[row][col];
+			if (tile == 0)
+				continue;
+			src.x = tile * TILE_SIZE;
 			SDL_RenderTexture(renderer, m_texture, &src, &dest);
 		}
 	}
+}
+
+void Level::renderBackground(SDL_Renderer* renderer, SDL_FRect cameraRect) {
+	float scale = static_cast<float>(RENDERER_HEIGHT_IN_PIXELS) / m_backgroundBackTexture->h;
+
+	SDL_FRect destBack = {
+		0 - cameraRect.x / 2,
+		0 - cameraRect.y / 2,
+		getMapWidthInPixels(),
+		getMapHeightInPixels(),
+	};
+	SDL_RenderTextureTiled(renderer, m_backgroundBackTexture, NULL, scale, &destBack);
+
+	SDL_FRect destFront = {
+		0 - cameraRect.x / 4,
+		0 - cameraRect.y / 4,
+		getMapWidthInPixels(),
+		getMapHeightInPixels(),
+	};
+	SDL_RenderTextureTiled(renderer, m_backgroundFrontTexture, NULL, scale, &destFront);
 }
 
 void Level::fillWith(int startX, int startY, int endX, int endY, Tile block) {
@@ -56,6 +80,7 @@ void Level::fillWith(int startX, int startY, int endX, int endY, Tile block) {
 
 void Level::render(SDL_Renderer* renderer, SDL_FRect cameraRect) {
 	renderGrid(renderer);
+	renderBackground(renderer, cameraRect);
 	renderTextures(renderer, cameraRect);
 }
 
@@ -98,7 +123,6 @@ bool Level::isSolidAtPixel(float x, float y) {
 		return false;
 	if (tileX >= m_tileMap[0].size())
 		return false;
-
 
 	if (m_tileMap[tileY][tileX] == 0)
 		return false;
