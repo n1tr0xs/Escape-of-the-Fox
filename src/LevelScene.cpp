@@ -8,10 +8,8 @@ LevelScene::LevelScene(ResourceManager* resourceManager, int levelNum) :
 	// Creating Level
 	SDL_Texture* levelTexture = m_resourceManager->loadTexture("assets/back.png");
 
-	std::string backgroundBackTexturePath = std::format("assets/level_{:02d}/backgroundBack.png", levelNum);
-	std::string backgroundFrontTexturePath = std::format("assets/level_{:02d}/backgroundFront.png", levelNum);
-	SDL_Texture* backgroundBackTexture = m_resourceManager->loadTexture(backgroundBackTexturePath);
-	SDL_Texture* backgroundFrontTexture = m_resourceManager->loadTexture(backgroundFrontTexturePath);
+	SDL_Texture* backgroundBackTexture = m_resourceManager->loadLevelRelatedTexture("backgroundBack.png", levelNum);
+	SDL_Texture* backgroundFrontTexture = m_resourceManager->loadLevelRelatedTexture("backgroundFront.png", levelNum);
 	m_level = std::make_unique<Level>(levelTexture, backgroundBackTexture, backgroundFrontTexture);
 	std::string filePath = std::format("assets/level_{:02d}/tilemap.txt", levelNum);
 

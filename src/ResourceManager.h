@@ -12,6 +12,7 @@ public:
 	~ResourceManager();
 
 	SDL_Texture* loadTexture(const std::string& filePath);
+	SDL_Texture* loadLevelRelatedTexture(const std::string& fileName, const int levelNum);
 	TTF_Font* loadFont(const std::string& filePath);
 
 private:
