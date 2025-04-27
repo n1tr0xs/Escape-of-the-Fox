@@ -6,8 +6,7 @@
 
 MenuScene::MenuScene(ResourceManager* resourceManager) :
 	m_resourceManager(resourceManager) {
-	std::string fontPath = std::format(ASSET_PATH, "arial.ttf");
-	m_resourceManager->loadFont(fontPath);
+	m_resourceManager->loadFont("arial.ttf");
 
 	m_buttons.emplace_back(std::make_unique<MenuButton>("Start game", SceneResult::StartGame));
 	m_buttons.emplace_back(std::make_unique<MenuButton>("Quit", SceneResult::Quit));
@@ -44,8 +43,7 @@ void MenuScene::render(SDL_Renderer* renderer) {
 	float buttonSpacing = 50;
 	SDL_Color textColor = { 255, 255, 255, 255 };
 	SDL_Color textSelectedColor = { 255, 255, 0 , 255 };
-	std::string fontPath = std::format(ASSET_PATH, "arial.ttf");
-	TTF_Font* font = m_resourceManager->loadFont(fontPath);
+	TTF_Font* font = m_resourceManager->loadFont("arial.ttf");
 
 	SDL_FRect dest = { 0, 0, 100, buttonHeight };
 	for (size_t i = 0; i < m_buttons.size(); ++i) {

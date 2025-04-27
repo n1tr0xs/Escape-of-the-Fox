@@ -1,5 +1,9 @@
 #include "ResourceManager.h"
 
+#include "constants.h"
+#include <format>
+#include <string>
+
 ResourceManager::ResourceManager(SDL_Renderer* renderer) :
 	m_renderer(renderer){}
 
@@ -17,7 +21,8 @@ ResourceManager::~ResourceManager() {
 	
 }
 
-SDL_Texture* ResourceManager::loadTexture(const std::string& filePath) {
+SDL_Texture* ResourceManager::loadTexture(const std::string& fileName) {
+	std::string filePath = std::format(ASSET_PATH, fileName);
 	// Check if texture already loaded
 	auto it = m_textures.find(filePath);
 	if (it != m_textures.end()) {
@@ -34,7 +39,26 @@ SDL_Texture* ResourceManager::loadTexture(const std::string& filePath) {
 	return texture;
 }
 
-TTF_Font* ResourceManager::loadFont(const std::string& filePath) {
+SDL_Texture* ResourceManager::loadTexture(const std::string& fileName, int levelNum) {
+	std::string filePath = std::format(LEVEL_ASSET_PATH, levelNum, fileName);
+	// Check if texture already loaded
+	auto it = m_textures.find(filePath);
+	if (it != m_textures.end()) {
+		return it->second;
+	}
+
+	SDL_Texture* texture = IMG_LoadTexture(m_renderer, filePath.c_str());
+	if (!texture) {
+		SDL_Log("Failed to load texture: %s", SDL_GetError());
+		return nullptr;
+	}
+
+	m_textures[filePath] = texture;
+	return texture;
+}
+
+TTF_Font* ResourceManager::loadFont(const std::string& fileName) {
+	std::string filePath = std::format(ASSET_PATH, fileName);
 	auto it = m_fonts.find(filePath);
 	if (it != m_fonts.end()) {
 		return it->second;

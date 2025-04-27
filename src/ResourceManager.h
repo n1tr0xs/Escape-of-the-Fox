@@ -11,7 +11,8 @@ public:
 	ResourceManager(SDL_Renderer* renderer);
 	~ResourceManager();
 
-	SDL_Texture* loadTexture(const std::string& filePath);
+	SDL_Texture* loadTexture(const std::string& fileName);
+	SDL_Texture* loadTexture(const std::string& fileName, int levelNum);
 	TTF_Font* loadFont(const std::string& filePath);
 
 private:
