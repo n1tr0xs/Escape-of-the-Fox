@@ -51,11 +51,11 @@ void Player::update(Uint64 deltaTime, Level* level) {
 	}
 
 	if (m_movingLeft) {
-		m_velocity.x = -speedX * deltaTime;
+		m_velocity.x = -speedX;
 	}
 
 	if (m_movingRight) {
-		m_velocity.x = speedX * deltaTime;
+		m_velocity.x = speedX;
 	}
 
 	if (!m_isOnGround) {
