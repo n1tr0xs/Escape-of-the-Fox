@@ -49,17 +49,19 @@ void Level::renderTextures(SDL_Renderer* renderer, SDL_FRect cameraRect) {
 void Level::renderBackground(SDL_Renderer* renderer, SDL_FRect cameraRect) {
 	float scale = static_cast<float>(RENDERER_HEIGHT_IN_PIXELS) / m_backgroundBackTexture->h;
 
+	float backSpeed = 4;
 	SDL_FRect destBack = {
-		0 - cameraRect.x / 2,
-		0 - cameraRect.y / 2,
+		0 - cameraRect.x / backSpeed,
+		0 - cameraRect.y / backSpeed,
 		getMapWidthInPixels(),
 		getMapHeightInPixels(),
 	};
 	SDL_RenderTextureTiled(renderer, m_backgroundBackTexture, NULL, scale, &destBack);
 
+	float frontSpeed = 2;
 	SDL_FRect destFront = {
-		0 - cameraRect.x / 4,
-		0 - cameraRect.y / 4,
+		0 - cameraRect.x / frontSpeed,
+		0 - cameraRect.y / frontSpeed,
 		getMapWidthInPixels(),
 		getMapHeightInPixels(),
 	};
