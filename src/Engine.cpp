@@ -12,7 +12,7 @@ Engine::Engine(const std::string& title) {
 	
 	if (!SDL_CreateWindowAndRenderer(title.c_str(), RENDERER_WIDTH_IN_PIXELS, RENDERER_HEIGHT_IN_PIXELS, 0/*SDL_WINDOW_FULLSCREEN | SDL_WINDOW_BORDERLESS*/, &m_window, &m_renderer))
 		SDL_Fail("Couldn't create window and renderer.");
-
+	
 	// Creating ResourceManager
 	m_resourceManager = std::make_unique<ResourceManager>(m_renderer);
 
@@ -56,10 +56,9 @@ void Engine::SDL_Fail(const std::string& message) {
 
 void Engine::run() {
 	Uint64 lastTime = SDL_GetTicks();
-	Uint64 currentTime, deltaTime;
 	while (m_running) {
-		currentTime = SDL_GetTicks();
-		deltaTime = currentTime - lastTime;
+		Uint64 currentTime = SDL_GetTicks();
+		Uint64 deltaTime = currentTime - lastTime;
 		lastTime = currentTime;
 
 		processEvents();
