@@ -31,7 +31,7 @@ void MenuScene::handleEvent(const SDL_Event& event) {
 	}
 }
 
-void MenuScene::update(float deltaTime) {
+void MenuScene::update(Uint64 deltaTime) {
 	if (m_enterPressed) {
 		m_sceneResult = m_buttons[m_selectedItem]->getResult();
 		m_enterPressed = false;

@@ -26,7 +26,7 @@ void LevelScene::handleEvent(const SDL_Event& event) {
 	m_player->handleEvent(event);
 }
 
-void LevelScene::update(float deltaTime) {
+void LevelScene::update(Uint64 deltaTime) {
 	float mapWidth = m_level->getMapWidthInPixels();
 	float mapHeight = m_level->getMapHeightInPixels();
 
