@@ -129,11 +129,11 @@ void Engine::render() {
 	float scale = std::min(scaleX, scaleY);
 
 	// Calculating destination rect
-	int destW = RENDERER_WIDTH_IN_PIXELS * scale;
-	int destH = RENDERER_HEIGHT_IN_PIXELS * scale;
+	float destW = RENDERER_WIDTH_IN_PIXELS * scale;
+	float destH = RENDERER_HEIGHT_IN_PIXELS * scale;
 	// Calculating offset for destination rect to be centered
-	int offsetX = (w - destW) / 2;
-	int offsetY = (h - destH) / 2;
+	float offsetX = (w - destW) / 2;
+	float offsetY = (h - destH) / 2;
 
 	SDL_FRect destRect = { offsetX, offsetY, destW, destH };
 	SDL_RenderTexture(m_renderer, m_renderTexture, nullptr, &destRect);

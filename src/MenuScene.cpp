@@ -13,7 +13,7 @@ MenuScene::MenuScene(ResourceManager* resourceManager) :
 }
 
 void MenuScene::handleEvent(const SDL_Event& event) {
-	int buttonsCount = m_buttons.size();
+	int buttonsCount = static_cast<int>(m_buttons.size());
 	if (event.type == SDL_EVENT_KEY_DOWN) {
 		switch (event.key.key) {
 			case SDLK_S:

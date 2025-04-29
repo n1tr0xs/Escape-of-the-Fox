@@ -40,7 +40,7 @@ void Level::renderTextures(SDL_Renderer* renderer, SDL_FRect cameraRect) {
 			Tile tile = m_tileMap[row][col];
 			if (tile == 0)
 				continue;
-			src.x = tile * TILE_SIZE;
+			src.x = static_cast<float>(tile * TILE_SIZE);
 			SDL_RenderTexture(renderer, m_texture, &src, &dest);
 		}
 	}
@@ -49,12 +49,15 @@ void Level::renderTextures(SDL_Renderer* renderer, SDL_FRect cameraRect) {
 void Level::renderBackground(SDL_Renderer* renderer, SDL_FRect cameraRect) {
 	float scale = static_cast<float>(RENDERER_HEIGHT_IN_PIXELS) / m_backgroundBackTexture->h;
 
+	float mapWidth = getMapWidthInPixels();
+	float mapHeight = getMapHeightInPixels();
+
 	float backSpeed = 4;
 	SDL_FRect destBack = {
 		0 - cameraRect.x / backSpeed,
 		0 - cameraRect.y / backSpeed,
-		getMapWidthInPixels(),
-		getMapHeightInPixels(),
+		mapWidth,
+		mapHeight,
 	};
 	SDL_RenderTextureTiled(renderer, m_backgroundBackTexture, NULL, scale, &destBack);
 
@@ -62,8 +65,8 @@ void Level::renderBackground(SDL_Renderer* renderer, SDL_FRect cameraRect) {
 	SDL_FRect destFront = {
 		0 - cameraRect.x / frontSpeed,
 		0 - cameraRect.y / frontSpeed,
-		getMapWidthInPixels(),
-		getMapHeightInPixels(),
+		mapWidth,
+		mapHeight,
 	};
 	SDL_RenderTextureTiled(renderer, m_backgroundFrontTexture, NULL, scale, &destFront);
 }
@@ -113,8 +116,8 @@ bool Level::loadFromFile(const std::string& filePath) {
 }
 
 bool Level::isSolidAtPixel(float x, float y) {
-	int tileX = x / TILE_SIZE;
-	int tileY = y / TILE_SIZE;
+	int tileX = static_cast<int>(x / TILE_SIZE);
+	int tileY = static_cast<int>(y / TILE_SIZE);
 
 	if (tileY < 0)
 		return false;
@@ -151,9 +154,9 @@ bool Level::isSolidHorizontally(float y, float leftX, float rightX) {
 }
 
 float Level::getMapHeightInPixels() {
-	return m_tileMap.size() * TILE_SIZE;
+	return static_cast<float>(m_tileMap.size() * TILE_SIZE);
 }
 
 float Level::getMapWidthInPixels() {
-	return m_tileMap[0].size() * TILE_SIZE;
+	return static_cast<float>(m_tileMap[0].size() * TILE_SIZE);
 }
