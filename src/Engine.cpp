@@ -10,8 +10,15 @@ Engine::Engine(const std::string& title) {
 	if (!TTF_Init())
 		SDL_Fail("Couldn't init TTF.");
 	
-	if (!SDL_CreateWindowAndRenderer(title.c_str(), RENDERER_WIDTH_IN_PIXELS, RENDERER_HEIGHT_IN_PIXELS, 0/*SDL_WINDOW_FULLSCREEN | SDL_WINDOW_BORDERLESS*/, &m_window, &m_renderer))
-		SDL_Fail("Couldn't create window and renderer.");
+	SDL_WindowFlags flags = 0;
+	//SDL_WindowFlags flags = SDL_WINDOW_FULLSCREEN | SDL_WINDOW_BORDERLESS;
+	m_window = SDL_CreateWindow(title.c_str(), RENDERER_WIDTH_IN_PIXELS, RENDERER_HEIGHT_IN_PIXELS, flags);
+	if (!m_window)
+		SDL_Fail("Couldn't create window.");
+	
+	m_renderer = SDL_CreateRenderer(m_window, NULL);
+	if(!m_renderer)
+		SDL_Fail("Couldn't create renderer.");
 	
 	// Creating ResourceManager
 	m_resourceManager = std::make_unique<ResourceManager>(m_renderer);
