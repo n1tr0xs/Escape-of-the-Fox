@@ -13,7 +13,7 @@ using Tile = int;
 
 class Level {
 public:
-	Level(SDL_Texture* texture, SDL_Texture* backgroundBackTexture, SDL_Texture* backgroundFrontTexture);
+	Level(SDL_Texture* texture, SDL_Texture* backgroundStaticTexture, SDL_Texture* backgroundBackTexture, SDL_Texture* backgroundFrontTexture);
 
 	void render(SDL_Renderer* renderer, SDL_FRect cameraRect);
 	void handleEvent(const SDL_Event& event);
@@ -28,6 +28,7 @@ public:
 	float getMapWidthInPixels();
 private:
 	SDL_Texture* m_texture;
+	SDL_Texture* m_backgroundStaticTexture;
 	SDL_Texture* m_backgroundBackTexture;
 	SDL_Texture* m_backgroundFrontTexture;
 	std::vector<std::vector<Tile>> m_tileMap;

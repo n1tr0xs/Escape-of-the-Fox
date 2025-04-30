@@ -7,8 +7,8 @@
 #include <vector>
 #include <string>
 
-Level::Level(SDL_Texture* texture, SDL_Texture* backgroundBackTexture, SDL_Texture* backgroundFrontTexture) :
-	m_texture(texture), m_backgroundBackTexture(backgroundBackTexture), m_backgroundFrontTexture(backgroundFrontTexture) {}
+Level::Level(SDL_Texture* texture, SDL_Texture* backgroundStaticTexture, SDL_Texture* backgroundBackTexture, SDL_Texture* backgroundFrontTexture) :
+	m_texture(texture), m_backgroundStaticTexture(backgroundStaticTexture), m_backgroundBackTexture(backgroundBackTexture), m_backgroundFrontTexture(backgroundFrontTexture) {}
 
 void Level::addRow(Tile block) {
 	m_tileMap.push_back(std::vector<Tile>(RENDERER_WIDTH_IN_TILES * 5, block));
@@ -51,6 +51,14 @@ void Level::renderBackground(SDL_Renderer* renderer, SDL_FRect cameraRect) {
 
 	float mapWidth = getMapWidthInPixels();
 	float mapHeight = getMapHeightInPixels();
+
+	SDL_FRect destStatic = {
+		0,
+		0,
+		RENDERER_WIDTH_IN_PIXELS,
+		RENDERER_HEIGHT_IN_PIXELS,
+	};
+	SDL_RenderTexture(renderer, m_backgroundStaticTexture, NULL, &destStatic);
 
 	float backSpeed = 4;
 	SDL_FRect destBack = {
