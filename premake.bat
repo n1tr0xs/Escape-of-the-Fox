@@ -1,3 +1,3 @@
-del /S /Q build
-cmake -S . -B build
+del /S /Q out
+cmake -S . -B out
 @pause
