@@ -8,11 +8,12 @@ public:
 	// Changes current position to be centered on target with boundaries mapWidth and mapHeight
 	void follow(const SDL_FRect& target, float mapWidth, float mapHeight);
 	
-	float getX() const; // Returns x of the camera top left corner
-	float getY() const; // Returns y of the camera top left corner
-	float getWidth() const; // Returns width of the camera
-	float getHeight() const; // Returns height of the camera
-	SDL_FRect getRect() const; // Returns SDL_FRect of the camera
+	// Getters
+	SDL_FRect getRect() const { return m_rect; };
+	float getX() const { return m_rect.x; };
+	float getY() const { return m_rect.y; };
+	float getWidth() const { return m_rect.w; };
+	float getHeight() const { return m_rect.h; };
 private:
 	SDL_FRect m_rect;
 };

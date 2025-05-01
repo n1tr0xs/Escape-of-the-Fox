@@ -1,33 +1,32 @@
 #pragma once
 
-#include <SDL3/SDL.h>
-#include <unordered_map>
-#include <string>
-#include <memory>
-
 #include "Animation.h"
 #include "Level.h"
+#include <memory>
+#include <SDL3/SDL.h>
+#include <string>
+#include <unordered_map>
 
 struct Velocity {
 	float x = 0;
 	float y = 0;
 };
 
+struct FrameInfo {
+	int index = 0;
+	float timer = 0;
+	float duration = 0;
+};
+
 class Entity {
 public:
-	// Constuctor
 	Entity(float x, float y, float width, float height, SDL_Texture* texture);
 
-	// Renders Entity
-	virtual void render(SDL_Renderer* renderer);
-	// Updates Animation frame
-	virtual void updateAnimationFrame(Uint64 deltaTime);
-	// Handles events (input)
-	virtual void handleEvent(const SDL_Event& event) = 0;
-	// Updates Entity state
-	virtual void update(Uint64 deltaTime, Level* level) = 0;
-	
-	// getters
+	virtual void render(SDL_Renderer* renderer); // Renders Entity
+	virtual void handleEvent(const SDL_Event& event) = 0; // Handles events (input)
+	virtual void update(Uint64 deltaTime, Level* level) = 0; // Updates Entity state
+
+	// Getters
 	SDL_FRect getRect() const { return m_rect; };
 	float getX() const { return m_rect.x; };
 	float getY() const { return m_rect.y; };
@@ -35,19 +34,16 @@ public:
 	float getHeight() const { return m_rect.h; };
 
 protected:
-	virtual void addAnimation(const std::string& name, const int row, const int numFrames, const float frameWidth, const float frameHeight);
+	virtual void updateAnimationFrame(Uint64 deltaTime); // Updates animation frame
+	virtual void addAnimation(const std::string& name, const int row, const int numFrames, const float frameWidth, const float frameHeight); // Adds an animation
 
-	SDL_FRect m_rect; // Entity position and size
 	SDL_Texture* m_texture; // Animation texture sheet
+	SDL_FRect m_rect; // Entity rect
+	Velocity m_velocity; // Entity velocity
 
 	std::unordered_map<std::string, std::unique_ptr<Animation>> m_animations; // Entity animations
-	Animation* m_currentAnimation; // Current entity animation
-
-	float m_frameTimer = 0; // Frame timer
-	float m_frameDuration = 100; // Frame duration
-	int m_currentFrameIndex = 0; // Index for current frame in animation
+	Animation* m_currentAnimation = nullptr; // Current entity animation
+	FrameInfo m_frameInfo{ 0, 100, 0 }; // Entity frame info
 
 	SDL_FlipMode m_textureFlip = SDL_FLIP_NONE;
-
-	Velocity m_velocity;
 };

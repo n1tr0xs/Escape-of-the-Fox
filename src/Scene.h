@@ -1,8 +1,7 @@
 #pragma once
 
-#include <SDL3/SDL.h>
-
 #include "ResourceManager.h"
+#include <SDL3/SDL.h>
 
 enum class SceneResult {
 	None,
@@ -15,11 +14,13 @@ enum class SceneResult {
 class Scene {
 public:
 	Scene() = default;
+	virtual ~Scene() = default;
+
 	virtual void handleEvent(const SDL_Event& event) = 0;
 	virtual void update(Uint64 deltaTime) = 0;
 	virtual void render(SDL_Renderer* renderer) = 0;
-	virtual SceneResult getResult() const;
-	virtual ~Scene() = default;
+	// Getters
+	virtual SceneResult getResult() const { return m_sceneResult; };
 protected:
 	SceneResult m_sceneResult = SceneResult::None;
 };

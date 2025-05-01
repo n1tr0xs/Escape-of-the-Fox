@@ -7,11 +7,11 @@ void Entity::updateAnimationFrame(Uint64 deltaTime) {
 	if (!m_currentAnimation)
 		return;
 
-	m_frameTimer += deltaTime;
+	m_frameInfo.timer += deltaTime;
 
-	if (m_frameTimer >= m_frameDuration) {
-		m_frameTimer = 0.0f;
-		m_currentFrameIndex = (m_currentFrameIndex + 1) % m_currentAnimation->getFrameCount();
+	if (m_frameInfo.timer >= m_frameInfo.duration) {
+		m_frameInfo.timer = 0.0f;
+		m_frameInfo.index = (m_frameInfo.index + 1) % m_currentAnimation->getFrameCount();
 	}
 }
 
@@ -20,13 +20,8 @@ void Entity::addAnimation(const std::string& name, const int row, const int numF
 }
 
 void Entity::render(SDL_Renderer* renderer) {
-	const auto& src = m_currentAnimation->getFRect(m_currentFrameIndex);
-	SDL_FRect dest = {
-		m_rect.x,
-		m_rect.y,
-		m_rect.w,
-		m_rect.h
-	};
-
-	SDL_RenderTextureRotated(renderer, m_texture, &src, &dest, 0.0, nullptr, m_textureFlip);
+	if (!m_currentAnimation)
+		return;
+	const auto& src = m_currentAnimation->getFRect(m_frameInfo.index);
+	SDL_RenderTextureRotated(renderer, m_texture, &src, &m_rect, 0.0, nullptr, m_textureFlip);
 }

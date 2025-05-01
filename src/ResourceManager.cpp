@@ -59,6 +59,7 @@ SDL_Texture* ResourceManager::loadTexture(const std::string& fileName, int level
 
 TTF_Font* ResourceManager::loadFont(const std::string& fileName) {
 	std::string filePath = std::format(ASSET_PATH, fileName);
+	// Check if font already loaded
 	auto it = m_fonts.find(filePath);
 	if (it != m_fonts.end()) {
 		return it->second;

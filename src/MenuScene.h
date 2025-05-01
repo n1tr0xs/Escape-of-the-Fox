@@ -2,15 +2,18 @@
 
 #include "Scene.h"
 #include "SDL3_ttf/SDL_ttf.h"
-#include <vector>
-#include <unordered_map>
-#include <string>
 #include <memory>
+#include <string>
+#include <unordered_map>
+#include <vector>
 
 class MenuButton {
 public:
 	MenuButton(const std::string& text, SceneResult result);
+
 	void render(SDL_Renderer* renderer, TTF_Font* font, SDL_FRect rect, SDL_Color textColor);
+
+	// Getters
 	std::string getText() const;
 	SceneResult getResult() const;
 private:

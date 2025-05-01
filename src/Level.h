@@ -1,13 +1,12 @@
 #pragma once
 
+#include "Camera.h"
+#include "constants.h"
+#include "ResourceManager.h"
+#include <memory>
 #include <SDL3/SDL.h>
 #include <SDL3_image/SDL_image.h>
 #include <vector>
-#include <memory>
-
-#include "constants.h"
-#include "ResourceManager.h"
-#include "Camera.h"
 
 using Tile = int;
 

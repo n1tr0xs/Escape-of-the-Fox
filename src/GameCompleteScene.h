@@ -1,15 +1,17 @@
 #pragma once
 
-#include "Scene.h"
 #include "ResourceManager.h"
-
+#include "Scene.h"
 #include <memory>
+
 
 class TextLabel {
 public:
 	TextLabel(const std::string& text);
+
 	void render(SDL_Renderer* renderer, TTF_Font* font, SDL_FRect rect, SDL_Color textColor);
-	std::string getText() const;
+	// Getters
+	std::string getText() const { return m_text; };
 private:
 	std::string m_text;
 };
@@ -17,6 +19,7 @@ private:
 class GameCompleteScene : public Scene {
 public:
 	GameCompleteScene(ResourceManager* resourceManager);
+
 	void handleEvent(const SDL_Event& event) override;
 	void update(Uint64 deltaTime) override;
 	void render(SDL_Renderer* renderer) override;

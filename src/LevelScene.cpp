@@ -1,7 +1,6 @@
 #include "LevelScene.h"
-
-#include <string>
 #include <format>
+#include <string>
 
 LevelScene::LevelScene(ResourceManager* resourceManager, int levelNum) :
 	m_resourceManager(resourceManager) {
@@ -15,10 +14,14 @@ LevelScene::LevelScene(ResourceManager* resourceManager, int levelNum) :
 	m_level = std::make_unique<Level>(levelTileSheetTexture, backgroundStaticTexture, backgroundBackTexture, backgroundFrontTexture);
 	m_level->loadFromFile(tileMapPath);
 	// Creating Camera
-	m_camera = std::make_unique<Camera>(RENDERER_WIDTH_IN_PIXELS, RENDERER_HEIGHT_IN_PIXELS);
+	float cameraWidth = static_cast<float>(RENDERER_WIDTH_IN_PIXELS);
+	float cameraHeight = static_cast<float>(RENDERER_HEIGHT_IN_PIXELS);
+	m_camera = std::make_unique<Camera>(cameraWidth, cameraHeight);
 	// Creating Player
 	SDL_Texture* playerTexture = m_resourceManager->loadTexture("fox.png");
-	m_player = std::make_unique<Player>(0, 0, TILE_SIZE * 4, TILE_SIZE * 2, playerTexture);
+	float playerWidth = static_cast<float>(TILE_SIZE * 4);
+	float playerHeight = static_cast<float>(TILE_SIZE * 2);
+	m_player = std::make_unique<Player>(0.0f, 0.0f, playerWidth, playerHeight, playerTexture);
 
 }
 

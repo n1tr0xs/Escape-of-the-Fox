@@ -1,7 +1,7 @@
 #include "Engine.h"
+#include "GameCompleteScene.h"
 #include "LevelScene.h"
 #include "MenuScene.h"
-#include "GameCompleteScene.h"
 
 Engine::Engine(const std::string& title) {
 	if (!SDL_Init(SDL_INIT_VIDEO))

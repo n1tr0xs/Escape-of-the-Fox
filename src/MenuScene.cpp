@@ -1,8 +1,7 @@
-#include "MenuScene.h"
-
 #include "constants.h"
-#include <string>
+#include "MenuScene.h"
 #include <format>
+#include <string>
 
 MenuScene::MenuScene(ResourceManager* resourceManager) :
 	m_resourceManager(resourceManager) {

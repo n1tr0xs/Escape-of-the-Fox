@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Scene.h"
-#include "ResourceManager.h"
 #include "Level.h"
 #include "Player.h"
+#include "ResourceManager.h"
+#include "Scene.h"
 #include <vector>
 
 class LevelScene : public Scene {
