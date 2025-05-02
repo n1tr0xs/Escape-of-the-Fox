@@ -143,6 +143,9 @@ bool Level::isSolidAtPixel(float x, float y) {
 }
 
 bool Level::isSolidVertically(float x, float topY, float bottomY) {
+	if (x < 0) {
+		return true;
+	}
 	for (float y = topY; y < bottomY; ++y) {
 		if (isSolidAtPixel(x, y)) {
 			return true;
