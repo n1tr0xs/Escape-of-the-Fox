@@ -22,6 +22,63 @@ void Entity::addAnimation(const std::string& name, const int row, const int numF
 void Entity::render(SDL_Renderer* renderer) {
 	if (!m_currentAnimation)
 		return;
-	const auto& src = m_currentAnimation->getFRect(m_frameInfo.index);
+	if (!m_texture)
+		return;
+	const SDL_FRect src = m_currentAnimation->getFRect(m_frameInfo.index);
 	SDL_RenderTextureRotated(renderer, m_texture, &src, &m_rect, 0.0, nullptr, m_textureFlip);
+}
+
+void Entity::resolveHorizontalCollision(Uint64 deltaTime, Level* level) {
+	float newX = m_rect.x + m_velocity.x * deltaTime;
+
+	float topY = m_rect.y;
+	float bottomY = topY + m_rect.h;
+
+	float leftEdge = newX;
+	float rightEdge = newX + m_rect.w;
+
+	// Check left
+	if (level->isSolidVertically(leftEdge, topY, bottomY)) {
+		float tileX = std::floor(leftEdge / TILE_SIZE);
+		newX = (tileX + 1) * TILE_SIZE;
+	}
+
+	// Check right
+	if (level->isSolidVertically(rightEdge, topY, bottomY)) {
+		float tileX = std::floor(rightEdge / TILE_SIZE);
+		newX = tileX * TILE_SIZE - m_rect.w;
+	}
+
+	m_velocity.x = 0.0f;
+	m_rect.x = newX;
+}
+
+void Entity::resolveVerticalCollision(Uint64 deltaTime, Level* level) {
+	float newY = m_rect.y + m_velocity.y * deltaTime;
+
+	float headY = newY;
+	float feetY = headY + m_rect.h;
+
+	float leftX = m_rect.x;
+	float rightX = leftX + m_rect.w;
+
+	// Check ground
+	if (level->isSolidHorizontally(feetY, leftX, rightX)) {
+		float tileY = std::floor(feetY / TILE_SIZE);
+		newY = tileY * TILE_SIZE - m_rect.h;
+		m_isOnGround = true;
+		m_velocity.y = 0.0f;
+	}
+	else {
+		m_isOnGround = false;
+	}
+
+	// Check head
+	if (level->isSolidHorizontally(headY, leftX, rightX)) {
+		float tileY = std::floor(headY / TILE_SIZE);
+		newY = (tileY + 1) * TILE_SIZE;
+		m_velocity.y = 0.0f;
+	}
+
+	m_rect.y = newY;
 }
