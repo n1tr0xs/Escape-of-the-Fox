@@ -4,12 +4,7 @@
 #include <string>
 
 MenuScene::MenuScene(ResourceManager* resourceManager) :
-	m_resourceManager(resourceManager) {
-	m_resourceManager->loadFont("arial.ttf");
-
-	m_buttons.emplace_back(std::make_unique<MenuButton>("Start game", SceneResult::StartGame));
-	m_buttons.emplace_back(std::make_unique<MenuButton>("Quit", SceneResult::Quit));
-}
+	m_resourceManager(resourceManager) {}
 
 void MenuScene::handleEvent(const SDL_Event& event) {
 	int buttonsCount = static_cast<int>(m_buttons.size());
@@ -49,6 +44,10 @@ void MenuScene::render(SDL_Renderer* renderer) {
 		m_buttons[i]->render(renderer, font, dest, m_selectedItem == i ? textSelectedColor : textColor);
 		dest.y += buttonHeight + buttonSpacing;
 	}
+}
+
+void MenuScene::addButton(const std::string& text, SceneResult result) {
+	m_buttons.push_back(std::make_unique<MenuButton>(text, result));
 }
 
 // MenuButton

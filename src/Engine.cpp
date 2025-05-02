@@ -27,7 +27,10 @@ Engine::Engine(const std::string& title) {
 	m_renderTexture = SDL_CreateTexture(m_renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, RENDERER_WIDTH_IN_PIXELS, RENDERER_HEIGHT_IN_PIXELS);
 
 	// Creating MenuScene
-	m_currentScene = std::make_unique<MenuScene>(m_resourceManager.get());
+	auto menuScene = std::make_unique<MenuScene>(m_resourceManager.get());
+	menuScene->addButton("Start game", SceneResult::StartGame);
+	menuScene->addButton("Quit", SceneResult::Quit);
+	m_currentScene = std::move(menuScene);
 
 	m_running = true;
 }
