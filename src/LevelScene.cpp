@@ -18,7 +18,7 @@ LevelScene::LevelScene(ResourceManager* resourceManager, int levelNum) :
 	float cameraHeight = static_cast<float>(RENDERER_HEIGHT_IN_PIXELS);
 	m_camera = std::make_unique<Camera>(cameraWidth, cameraHeight);
 	// Creating Player
-	SDL_Texture* playerTexture = m_resourceManager->loadTexture("fox.png");
+	SDL_Texture* playerTexture = m_resourceManager->loadTexture("player.png");
 	float playerWidth = static_cast<float>(TILE_SIZE * 4);
 	float playerHeight = static_cast<float>(TILE_SIZE * 2);
 	m_player = std::make_unique<Player>(0.0f, 0.0f, playerWidth, playerHeight, playerTexture);
