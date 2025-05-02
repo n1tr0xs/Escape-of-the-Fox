@@ -28,13 +28,14 @@ public:
 	virtual void render(SDL_Renderer* renderer, SDL_FRect cameraRect); // Renders Entity regarding to cameraRect
 	virtual void handleEvent(const SDL_Event& event) = 0; // Handles events (input)
 	virtual void update(Uint64 deltaTime, Level* level) = 0; // Updates Entity state
+	
+	virtual void addAnimation(const std::string& name, const int row, const int numFrames, const float frameWidth, const float frameHeight); // Adds an animation
+	virtual bool setAnimation(const std::string& name); // Sets current animation
 protected:
 	void resolveHorizontalCollision(Uint64 deltaTime, Level* level);
 	void resolveVerticalCollision(Uint64 deltaTime, Level* level);
 
 	virtual void updateAnimationFrame(Uint64 deltaTime); // Updates animation frame
-	virtual void addAnimation(const std::string& name, const int row, const int numFrames, const float frameWidth, const float frameHeight); // Adds an animation
-	virtual bool setAnimation(const std::string& name); // Sets current animation
 
 	SDL_Texture* m_texture; // Animation texture sheet
 	Velocity m_velocity; // Entity velocity
