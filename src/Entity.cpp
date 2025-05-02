@@ -28,6 +28,18 @@ void Entity::render(SDL_Renderer* renderer) {
 	SDL_RenderTextureRotated(renderer, m_texture, &src, &m_rect, 0.0, nullptr, m_textureFlip);
 }
 
+void Entity::render(SDL_Renderer* renderer, SDL_FRect cameraRect) {
+	SDL_SetRenderDrawColor(renderer, 255, 100, 100, 255);
+	const SDL_FRect rect = {
+		m_rect.x - cameraRect.x,
+		m_rect.y - cameraRect.y,
+		m_rect.w,
+		m_rect.h
+	};
+	const SDL_FRect src = m_currentAnimation->getFRect(m_frameInfo.index);
+	SDL_RenderTexture(renderer, m_texture, &src, &rect);
+}
+
 void Entity::resolveHorizontalCollision(Uint64 deltaTime, Level* level) {
 	float newX = m_rect.x + m_velocity.x * deltaTime;
 

@@ -25,6 +25,7 @@ public:
 	Entity(float x, float y, float width, float height, SDL_Texture* texture);
 
 	virtual void render(SDL_Renderer* renderer); // Renders Entity
+	virtual void render(SDL_Renderer* renderer, SDL_FRect cameraRect); // Renders Entity regarding to cameraRect
 	virtual void handleEvent(const SDL_Event& event) = 0; // Handles events (input)
 	virtual void update(Uint64 deltaTime, Level* level) = 0; // Updates Entity state
 protected:
