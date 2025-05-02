@@ -34,6 +34,7 @@ protected:
 
 	virtual void updateAnimationFrame(Uint64 deltaTime); // Updates animation frame
 	virtual void addAnimation(const std::string& name, const int row, const int numFrames, const float frameWidth, const float frameHeight); // Adds an animation
+	virtual bool setAnimation(const std::string& name); // Sets current animation
 
 	SDL_Texture* m_texture; // Animation texture sheet
 	Velocity m_velocity; // Entity velocity

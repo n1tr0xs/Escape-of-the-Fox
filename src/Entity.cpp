@@ -15,7 +15,16 @@ void Entity::updateAnimationFrame(Uint64 deltaTime) {
 }
 
 void Entity::addAnimation(const std::string& name, const int row, const int numFrames, const float frameWidth, const float frameHeight) {
-	m_animations[name] = std::make_unique<Animation>(row, numFrames, frameWidth, frameHeight);
+	m_animations[name] = std::make_shared<Animation>(row, numFrames, frameWidth, frameHeight);
+}
+
+bool Entity::setAnimation(const std::string& name) {
+	auto it = m_animations.find(name);
+	if (it != m_animations.end()) {
+		m_currentAnimation = it->second;
+		return true;
+	}
+	return false;
 }
 
 void Entity::render(SDL_Renderer* renderer) {
