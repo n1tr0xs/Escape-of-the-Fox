@@ -4,14 +4,13 @@ Entity::Entity(float x, float y, float width, float height, SDL_Texture* texture
 	GameObject(x, y, width, height), m_texture{ texture } {}
 
 void Entity::updateAnimationFrame(Uint64 deltaTime) {
-	if (!m_currentAnimation)
-		return;
-
 	m_frameInfo.timer += deltaTime;
 
 	if (m_frameInfo.timer >= m_frameInfo.duration) {
 		m_frameInfo.timer = 0.0f;
-		m_frameInfo.index = (m_frameInfo.index + 1) % m_currentAnimation->getFrameCount();
+		if (auto anim = m_currentAnimation.lock()) {
+			m_frameInfo.index = (m_frameInfo.index + 1) % anim->getFrameCount();
+		}
 	}
 }
 
@@ -20,24 +19,24 @@ void Entity::addAnimation(const std::string& name, const int row, const int numF
 }
 
 void Entity::render(SDL_Renderer* renderer) {
-	if (!m_currentAnimation)
-		return;
-	if (!m_texture)
-		return;
-	const SDL_FRect src = m_currentAnimation->getFRect(m_frameInfo.index);
-	SDL_RenderTextureRotated(renderer, m_texture, &src, &m_rect, 0.0, nullptr, m_textureFlip);
+	if (!m_texture) return;
+	if (auto anim = m_currentAnimation.lock()) {
+		const SDL_FRect src = anim->getFRect(m_frameInfo.index);
+		SDL_RenderTextureRotated(renderer, m_texture, &src, &m_rect, 0.0, nullptr, m_textureFlip);
+	}
 }
 
 void Entity::render(SDL_Renderer* renderer, SDL_FRect cameraRect) {
-	SDL_SetRenderDrawColor(renderer, 255, 100, 100, 255);
 	const SDL_FRect rect = {
 		m_rect.x - cameraRect.x,
 		m_rect.y - cameraRect.y,
 		m_rect.w,
 		m_rect.h
 	};
-	const SDL_FRect src = m_currentAnimation->getFRect(m_frameInfo.index);
-	SDL_RenderTexture(renderer, m_texture, &src, &rect);
+	if (auto anim = m_currentAnimation.lock()) {
+		const SDL_FRect src = anim->getFRect(m_frameInfo.index);
+		SDL_RenderTextureRotated(renderer, m_texture, &src, &m_rect, 0.0, nullptr, m_textureFlip);
+	}
 }
 
 void Entity::resolveHorizontalCollision(Uint64 deltaTime, Level* level) {

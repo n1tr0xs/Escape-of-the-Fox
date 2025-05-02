@@ -38,8 +38,8 @@ protected:
 	SDL_Texture* m_texture; // Animation texture sheet
 	Velocity m_velocity; // Entity velocity
 
-	std::unordered_map<std::string, std::unique_ptr<Animation>> m_animations; // Entity animations
-	Animation* m_currentAnimation = nullptr; // Current entity animation
+	std::unordered_map<std::string, std::shared_ptr<Animation>> m_animations; // Entity animations
+	std::weak_ptr<Animation> m_currentAnimation; // Current entity animation
 	FrameInfo m_frameInfo{ 0, 0, 100 }; // Entity frame info
 
 	SDL_FlipMode m_textureFlip = SDL_FLIP_NONE;
