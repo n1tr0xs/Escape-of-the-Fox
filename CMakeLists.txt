@@ -31,6 +31,7 @@ src/Scene.h
 src/LevelScene.h src/LevelScene.cpp
 src/MenuScene.h src/MenuScene.cpp
 src/GameCompleteScene.h src/GameCompleteScene.cpp
+src/GameObject.h src/GameObject.cpp
 )
 
 # Set paths to SDL3 SDL3_image SDL3_ttf

@@ -1,7 +1,7 @@
 #include "Entity.h"
 
 Entity::Entity(float x, float y, float width, float height, SDL_Texture* texture) :
-	m_rect{ x, y, width, height }, m_texture(texture) {}
+	GameObject(x, y, width, height), m_texture{ texture } {}
 
 void Entity::updateAnimationFrame(Uint64 deltaTime) {
 	if (!m_currentAnimation)

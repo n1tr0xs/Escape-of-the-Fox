@@ -1,5 +1,6 @@
 #pragma once
 
+#include "GameObject.h"
 #include "Animation.h"
 #include "Level.h"
 #include <memory>
@@ -18,30 +19,18 @@ struct FrameInfo {
 	float duration = 0;
 };
 
-class Entity {
+class Entity: public GameObject {
 public:
 	Entity(float x, float y, float width, float height, SDL_Texture* texture);
-
-	Entity(Entity& other) = delete;
-	Entity(Entity&& other) = delete;
 
 	virtual void render(SDL_Renderer* renderer); // Renders Entity
 	virtual void handleEvent(const SDL_Event& event) = 0; // Handles events (input)
 	virtual void update(Uint64 deltaTime, Level* level) = 0; // Updates Entity state
-
-	// Getters
-	SDL_FRect getRect() const { return m_rect; };
-	float getX() const { return m_rect.x; };
-	float getY() const { return m_rect.y; };
-	float getWidth() const { return m_rect.w; };
-	float getHeight() const { return m_rect.h; };
-
 protected:
 	virtual void updateAnimationFrame(Uint64 deltaTime); // Updates animation frame
 	virtual void addAnimation(const std::string& name, const int row, const int numFrames, const float frameWidth, const float frameHeight); // Adds an animation
 
 	SDL_Texture* m_texture; // Animation texture sheet
-	SDL_FRect m_rect; // Entity rect
 	Velocity m_velocity; // Entity velocity
 
 	std::unordered_map<std::string, std::unique_ptr<Animation>> m_animations; // Entity animations
