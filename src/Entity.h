@@ -22,6 +22,9 @@ class Entity {
 public:
 	Entity(float x, float y, float width, float height, SDL_Texture* texture);
 
+	Entity(Entity& other) = delete;
+	Entity(Entity&& other) = delete;
+
 	virtual void render(SDL_Renderer* renderer); // Renders Entity
 	virtual void handleEvent(const SDL_Event& event) = 0; // Handles events (input)
 	virtual void update(Uint64 deltaTime, Level* level) = 0; // Updates Entity state
