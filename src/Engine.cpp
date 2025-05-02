@@ -117,6 +117,10 @@ void Engine::update(Uint64 deltaTime) {
 				m_currentLevel = 0;
 				m_currentScene = createMenuScene();
 				break;
+			case SceneResult::QuitToMenu:
+				m_currentLevel = 0;
+				m_currentScene = createMenuScene();
+				break;
 		}
 	}
 }

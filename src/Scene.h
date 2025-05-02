@@ -9,6 +9,8 @@ enum class SceneResult {
 	Quit,
 	Victory,
 	GameOver,
+	QuitToMenu,
+	Continue,
 };
 
 class Scene {
@@ -21,6 +23,8 @@ public:
 	virtual void render(SDL_Renderer* renderer) = 0;
 	// Getters
 	virtual SceneResult getResult() const { return m_sceneResult; };
+
+	virtual void resetResult() { m_sceneResult = SceneResult::None; };
 protected:
 	SceneResult m_sceneResult = SceneResult::None;
 };

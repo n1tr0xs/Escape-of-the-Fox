@@ -22,38 +22,79 @@ LevelScene::LevelScene(ResourceManager* resourceManager, int levelNum) :
 	float playerWidth = static_cast<float>(TILE_SIZE * 4);
 	float playerHeight = static_cast<float>(TILE_SIZE * 2);
 	m_player = std::make_unique<Player>(0.0f, 0.0f, playerWidth, playerHeight, playerTexture);
+	// Creating PauseScene
+	m_pauseScene = createPauseScene();
 
 }
 
 void LevelScene::handleEvent(const SDL_Event& event) {
-	m_level->handleEvent(event);
-	m_player->handleEvent(event);
+	if (event.type == SDL_EVENT_KEY_DOWN) {
+		switch (event.key.key) {
+			case SDLK_ESCAPE:
+				m_isPaused = !m_isPaused;
+				break;
+		}
+	}
+	if (m_isPaused) {
+		m_pauseScene->handleEvent(event);
+	}
+	else {
+		m_level->handleEvent(event);
+		m_player->handleEvent(event);
+	}
 }
 
 void LevelScene::update(Uint64 deltaTime) {
-	float mapWidth = m_level->getMapWidthInPixels();
-	float mapHeight = m_level->getMapHeightInPixels();
-
-	m_level->update(deltaTime);
-	m_player->update(deltaTime, m_level.get());
-	// Updating camera position
-	SDL_FRect cameraTarget = m_player->getRect();
-	m_camera->follow(cameraTarget, mapWidth, mapHeight);
-	// Is player dead ?
-	float playerBottom = m_player->getRect().y + m_player->getRect().h;
-	if (playerBottom > mapHeight) {
-		m_playerDead = true;
-		m_sceneResult = SceneResult::GameOver;
+	if (m_isPaused) {
+		m_pauseScene->update(deltaTime);
+		SceneResult pauseResult = m_pauseScene->getResult();
+		switch (pauseResult) {
+			case SceneResult::Continue:
+				m_isPaused = false;
+				m_pauseScene->resetResult();
+				break;
+			case SceneResult::QuitToMenu:
+				m_sceneResult = SceneResult::QuitToMenu;
+				break;
+		}
 	}
-	// Is level completed ?
-	float rightPlayerEdge = m_player->getRect().x + m_player->getRect().w;
-	if (rightPlayerEdge >= mapWidth) {
-		m_levelCompleted = true;
-		m_sceneResult = SceneResult::Victory;
+	else {
+		float mapWidth = m_level->getMapWidthInPixels();
+		float mapHeight = m_level->getMapHeightInPixels();
+
+		m_level->update(deltaTime);
+		m_player->update(deltaTime, m_level.get());
+		// Updating camera position
+		SDL_FRect cameraTarget = m_player->getRect();
+		m_camera->follow(cameraTarget, mapWidth, mapHeight);
+		// Is player dead ?
+		float playerBottom = m_player->getRect().y + m_player->getRect().h;
+		if (playerBottom > mapHeight) {
+			m_playerDead = true;
+			m_sceneResult = SceneResult::GameOver;
+		}
+		// Is level completed ?
+		float rightPlayerEdge = m_player->getRect().x + m_player->getRect().w;
+		if (rightPlayerEdge >= mapWidth) {
+			m_levelCompleted = true;
+			m_sceneResult = SceneResult::Victory;
+		}
 	}
 }
 
 void LevelScene::render(SDL_Renderer* renderer) {
-	m_level->render(renderer, m_camera->getRect());
-	m_player->render(renderer, m_camera->getRect());
+	if (m_isPaused) {
+		m_pauseScene->render(renderer);
+	}
+	else {
+		m_level->render(renderer, m_camera->getRect());
+		m_player->render(renderer, m_camera->getRect());
+	}
+}
+
+std::unique_ptr<MenuScene> LevelScene::createPauseScene() {
+	auto pauseScene = std::make_unique<MenuScene>(m_resourceManager);
+	pauseScene->addButton("Continue", SceneResult::Continue);
+	pauseScene->addButton("Quit to Menu", SceneResult::QuitToMenu);
+	return pauseScene;
 }
