@@ -25,6 +25,8 @@ private:
 	// Logs error and quit the program
 	void SDL_Fail(const std::string& message);
 
+	std::unique_ptr<Scene> createMenuScene();
+
 	SDL_Window* m_window = nullptr; // Game window
 	SDL_Renderer* m_renderer = nullptr; // Game renderer
 	SDL_Texture* m_renderTexture = nullptr; // "virtual screen"

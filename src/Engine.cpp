@@ -27,10 +27,8 @@ Engine::Engine(const std::string& title) {
 	m_renderTexture = SDL_CreateTexture(m_renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, RENDERER_WIDTH_IN_PIXELS, RENDERER_HEIGHT_IN_PIXELS);
 
 	// Creating MenuScene
-	auto menuScene = std::make_unique<MenuScene>(m_resourceManager.get());
-	menuScene->addButton("Start game", SceneResult::StartGame);
-	menuScene->addButton("Quit", SceneResult::Quit);
-	m_currentScene = std::move(menuScene);
+	
+	m_currentScene = createMenuScene();
 
 	m_running = true;
 }
@@ -62,6 +60,13 @@ Engine::~Engine() {
 void Engine::SDL_Fail(const std::string& message) {
 	SDL_LogError(SDL_LOG_CATEGORY_ERROR, "%s %s", message.c_str(), SDL_GetError());
 	delete this;
+}
+
+std::unique_ptr<Scene> Engine::createMenuScene() {
+	auto menuScene = std::make_unique<MenuScene>(m_resourceManager.get());
+	menuScene->addButton("Start game", SceneResult::StartGame);
+	menuScene->addButton("Quit", SceneResult::Quit);
+	return menuScene;
 }
 
 void Engine::run() {
@@ -110,8 +115,7 @@ void Engine::update(Uint64 deltaTime) {
 				break;
 			case SceneResult::GameOver:
 				m_currentLevel = 0;
-				m_currentScene = std::make_unique<MenuScene>(m_resourceManager.get());
-			default:
+				m_currentScene = createMenuScene();
 				break;
 		}
 	}
