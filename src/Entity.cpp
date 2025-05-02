@@ -44,7 +44,7 @@ void Entity::render(SDL_Renderer* renderer, SDL_FRect cameraRect) {
 	};
 	if (auto anim = m_currentAnimation.lock()) {
 		const SDL_FRect src = anim->getFRect(m_frameInfo.index);
-		SDL_RenderTextureRotated(renderer, m_texture, &src, &m_rect, 0.0, nullptr, m_textureFlip);
+		SDL_RenderTextureRotated(renderer, m_texture, &src, &rect, 0.0, nullptr, m_textureFlip);
 	}
 }
 
