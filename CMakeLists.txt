@@ -29,6 +29,7 @@ src/Level.h src/Level.cpp
 src/Camera.h src/Camera.cpp
 src/Scene.h
 src/LevelScene.h src/LevelScene.cpp
+src/MenuButton.h src/MenuButton.cpp
 src/MenuScene.h src/MenuScene.cpp
 src/GameCompleteScene.h src/GameCompleteScene.cpp
 src/GameObject.h src/GameObject.cpp
