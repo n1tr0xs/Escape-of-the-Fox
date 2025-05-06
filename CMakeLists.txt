@@ -18,21 +18,21 @@ endif()
 
 # Define source files
 add_executable(Escape-of-the-Fox
-src/main.cpp
-src/constants.h
-src/Engine.h src/Engine.cpp
-src/ResourceManager.h src/ResourceManager.cpp
-src/Entity.h src/Entity.cpp
-src/Animation.h src/Animation.cpp
-src/Player.h src/Player.cpp
-src/Level.h src/Level.cpp
-src/Camera.h src/Camera.cpp
-src/Scene.h
-src/LevelScene.h src/LevelScene.cpp
-src/MenuButton.h src/MenuButton.cpp
-src/MenuScene.h src/MenuScene.cpp
-src/GameCompleteScene.h src/GameCompleteScene.cpp
-src/GameObject.h src/GameObject.cpp
+"src/main.cpp"
+"src/constants.hpp"
+"src/Engine.hpp" src/Engine.cpp
+"src/ResourceManager.hpp" "src/ResourceManager.cpp"
+"src/Entity.hpp" "src/Entity.cpp"
+"src/Animation.hpp" "src/Animation.cpp"
+"src/Player.hpp" "src/Player.cpp"
+"src/Level.hpp" "src/Level.cpp"
+"src/Camera.hpp" "src/Camera.cpp"
+"src/Scene.hpp"
+"src/LevelScene.hpp" "src/LevelScene.cpp"
+"src/MenuButton.hpp" "src/MenuButton.cpp"
+"src/MenuScene.hpp" "src/MenuScene.cpp"
+"src/GameCompleteScene.hpp" "src/GameCompleteScene.cpp"
+"src/GameObject.hpp" "src/GameObject.cpp"
 )
 
 # Set paths to SDL3 SDL3_image SDL3_ttf

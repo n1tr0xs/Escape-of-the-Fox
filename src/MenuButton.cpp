@@ -1,4 +1,4 @@
-#include "MenuButton.h"
+#include "MenuButton.hpp"
 
 MenuButton::MenuButton(TTF_Font* font, const std::string& text, SceneResult result, SDL_Color color, SDL_Color selectedColor) :
 	m_font(font), m_text(text), m_result(result), m_color(color), m_selectedColor(selectedColor) {

@@ -1,8 +1,9 @@
 #pragma once
 
-#include "ResourceManager.h"
-#include "Scene.h"
 #include <memory>
+
+#include "ResourceManager.hpp"
+#include "Scene.hpp"
 
 
 class TextLabel {

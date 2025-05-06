@@ -1,4 +1,4 @@
-	#include "GameObject.h"
+	#include "GameObject.hpp"
 
 	GameObject::GameObject(float x, float y, float width, float height) :
 		m_rect{ x, y, width, height } {}

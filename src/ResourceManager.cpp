@@ -1,8 +1,8 @@
-#include "ResourceManager.h"
-
-#include "constants.h"
 #include <format>
 #include <string>
+
+#include "ResourceManager.hpp"
+#include "constants.hpp"
 
 ResourceManager::ResourceManager(SDL_Renderer* renderer) :
 	m_renderer(renderer){}

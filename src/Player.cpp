@@ -1,4 +1,4 @@
-#include "Player.h"
+#include "Player.hpp"
 
 Player::Player(float x, float y, float width, float height, SDL_Texture* texture) :
 	Entity(x, y, width, height, texture) {

@@ -1,12 +1,13 @@
 #pragma once
 
-#include "constants.h"
-#include "ResourceManager.h"
-#include "Scene.h"
 #include <memory>
 #include <SDL3/SDL.h>
 #include <string>
 #include <vector>
+
+#include "constants.hpp"
+#include "ResourceManager.hpp"
+#include "Scene.hpp"
 
 class Engine {
 public:

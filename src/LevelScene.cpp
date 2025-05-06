@@ -1,6 +1,7 @@
-#include "LevelScene.h"
 #include <format>
 #include <string>
+
+#include "LevelScene.hpp"
 
 LevelScene::LevelScene(ResourceManager* resourceManager, int levelNum) :
 	m_resourceManager(resourceManager) {

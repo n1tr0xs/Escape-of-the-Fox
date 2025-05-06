@@ -1,11 +1,12 @@
 #pragma once
 
-#include "Level.h"
-#include "Player.h"
-#include "ResourceManager.h"
-#include "Scene.h"
-#include "MenuScene.h"
 #include <vector>
+
+#include "Level.hpp"
+#include "Player.hpp"
+#include "ResourceManager.hpp"
+#include "Scene.hpp"
+#include "MenuScene.hpp"
 
 class LevelScene : public Scene {
 public:

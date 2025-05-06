@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Animation.h"
-#include "GameObject.h"
-#include "Level.h"
-
 #include <memory>
 #include <SDL3/SDL.h>
 #include <string>
 #include <unordered_map>
+
+#include "Animation.hpp"
+#include "GameObject.hpp"
+#include "Level.hpp"
 
 struct Velocity {
 	float x = 0;

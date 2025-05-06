@@ -1,7 +1,8 @@
 #pragma once
 
-#include "ResourceManager.h"
 #include <SDL3/SDL.h>
+
+#include "ResourceManager.hpp"
 
 enum class SceneResult {
 	None,

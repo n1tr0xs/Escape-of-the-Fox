@@ -6,8 +6,8 @@
 #include <unordered_map>
 #include <vector>
 
-#include "Scene.h"
-#include "MenuButton.h"
+#include "Scene.hpp"
+#include "MenuButton.hpp"
 
 class MenuScene : public Scene {
 public:

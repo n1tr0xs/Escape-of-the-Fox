@@ -1,7 +1,7 @@
 #pragma once
 
 #include <SDL3/SDL.h>
-#include "GameObject.h"
+#include "GameObject.hpp"
 
 class Camera: public GameObject {
 public:

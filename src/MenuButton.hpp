@@ -4,7 +4,7 @@
 #include <unordered_map>
 #include <vector>
 
-#include "Scene.h"
+#include "Scene.hpp"
 
 class MenuButton {
 public:

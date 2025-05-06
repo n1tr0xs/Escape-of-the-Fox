@@ -1,7 +1,8 @@
-#include "constants.h"
-#include "GameCompleteScene.h"
 #include <format>
 #include <string>
+
+#include "constants.hpp"
+#include "GameCompleteScene.hpp"
 
 GameCompleteScene::GameCompleteScene(ResourceManager* resourceManager) :
 	m_resourceManager(resourceManager) {
