@@ -50,6 +50,7 @@ Engine::~Engine() {
 
 	m_resourceManager.reset();
 
+	Mix_Quit();
 	TTF_Quit();
 	SDL_Quit();
 }

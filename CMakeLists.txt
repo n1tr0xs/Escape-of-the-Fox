@@ -95,6 +95,7 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
     "$<TARGET_FILE:SDL3::SDL3>"
     "$<TARGET_FILE:SDL3_image::SDL3_image>"
     "$<TARGET_FILE:SDL3_ttf::SDL3_ttf>"
+    "$<TARGET_FILE:SDL3_mixer::SDL3_mixer>"
     "$<TARGET_FILE_DIR:${PROJECT_NAME}>"
 )
 
