@@ -31,9 +31,6 @@ FetchContent_Declare(
 
 # SDL3_image
 set(SDLIMAGE_AVIF OFF)	# disable formats we don't use to make the build faster and smaller.
-set(SDLIMAGE_BMP OFF)
-set(SDLIMAGE_JPEG OFF)
-set(SDLIMAGE_WEBP OFF)
 FetchContent_Declare(
   SDL3_image
   GIT_REPOSITORY https://github.com/libsdl-org/SDL_image.git
@@ -47,7 +44,14 @@ FetchContent_Declare(
   GIT_TAG release-3.2.2
 )
 
-FetchContent_MakeAvailable(SDL3 SDL3_image SDL3_ttf)
+# SDL3_mixer
+FetchContent_Declare(
+  SDL3_mixer
+  GIT_REPOSITORY https://github.com/libsdl-org/SDL_mixer
+  GIT_TAG main
+)
+
+FetchContent_MakeAvailable(SDL3 SDL3_image SDL3_ttf SDL3_mixer)
 
 # Define source files
 add_executable("${PROJECT_NAME}"
@@ -70,6 +74,7 @@ add_executable("${PROJECT_NAME}"
 
 # Link libraries
 target_link_libraries("${PROJECT_NAME}" PRIVATE 
+  SDL3_mixer::SDL3_mixer
   SDL3_image::SDL3_image
   SDL3_ttf::SDL3_ttf
   SDL3::SDL3

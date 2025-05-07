@@ -1,7 +1,8 @@
 #pragma once
 
-#include <memory>
 #include <SDL3/SDL.h>
+#include <SDL3_mixer/SDL_mixer.h>
+#include <memory>
 #include <string>
 #include <vector>
 
