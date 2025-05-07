@@ -13,7 +13,7 @@ class MenuScene : public Scene {
 public:
 	MenuScene(ResourceManager* resourceManager);
 	void handleEvent(const SDL_Event& event) override;
-	void update(Uint64 deltaTime) override;
+	void update(const Uint64 deltaTime) override;
 	void render(SDL_Renderer* renderer) override;
 
 	void addButton(const std::string& text, SceneResult result, SDL_Color textColor = { 255, 255, 255, 255 }, SDL_Color textSelectedColor = { 255, 255, 0 , 255 });

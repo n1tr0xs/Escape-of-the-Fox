@@ -92,7 +92,7 @@ void Engine::processEvents() {
 	}
 }
 
-void Engine::update(Uint64 deltaTime) {
+void Engine::update(const Uint64 deltaTime) {
 	if (m_currentScene) {
 		m_currentScene->update(deltaTime);
 		SceneResult sceneResult = m_currentScene->getResult();

@@ -20,7 +20,7 @@ public:
 	virtual ~Scene() = default;
 
 	virtual void handleEvent(const SDL_Event& event) = 0;
-	virtual void update(Uint64 deltaTime) = 0;
+	virtual void update(const Uint64 deltaTime) = 0;
 	virtual void render(SDL_Renderer* renderer) = 0;
 	// Getters
 	virtual SceneResult getResult() const { return m_sceneResult; };

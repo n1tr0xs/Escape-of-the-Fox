@@ -99,7 +99,7 @@ void Level::render(SDL_Renderer* renderer, SDL_FRect cameraRect) {
 
 void Level::handleEvent(const SDL_Event& event) {}
 
-void Level::update(Uint64 deltaTime) {}
+void Level::update(const Uint64 deltaTime) {}
 
 bool Level::loadFromFile(const std::string& filePath) {
 	m_tileMap.clear();

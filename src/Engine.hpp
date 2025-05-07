@@ -20,7 +20,7 @@ private:
 	// Process events and user input
 	void processEvents();
 	// Updates game logic
-	void update(Uint64 deltaTime);
+	void update(const Uint64 deltaTime);
 	// Renders the game
 	void render();
 	// Logs error and quit the program

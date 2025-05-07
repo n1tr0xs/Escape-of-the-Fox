@@ -27,7 +27,7 @@ public:
 	virtual void render(SDL_Renderer* renderer); // Renders Entity
 	virtual void render(SDL_Renderer* renderer, SDL_FRect cameraRect); // Renders Entity regarding to cameraRect
 	virtual void handleEvent(const SDL_Event& event) = 0; // Handles events (input)
-	virtual void update(Uint64 deltaTime, Level* level) = 0; // Updates Entity state
+	virtual void update(const Uint64 deltaTime, Level* level) = 0; // Updates Entity state
 	
 	virtual void addAnimation(const std::string& name, const int row, const int numFrames, const float frameWidth, const float frameHeight); // Adds an animation
 	virtual bool setAnimation(const std::string& name); // Sets current animation

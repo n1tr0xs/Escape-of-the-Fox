@@ -45,7 +45,7 @@ void LevelScene::handleEvent(const SDL_Event& event) {
 	}
 }
 
-void LevelScene::update(Uint64 deltaTime) {
+void LevelScene::update(const Uint64 deltaTime) {
 	if (m_isPaused) {
 		m_pauseScene->update(deltaTime);
 		SceneResult pauseResult = m_pauseScene->getResult();

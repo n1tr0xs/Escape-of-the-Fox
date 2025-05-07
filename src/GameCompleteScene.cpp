@@ -23,7 +23,7 @@ void GameCompleteScene::handleEvent(const SDL_Event& event) {
 	}
 }
 
-void GameCompleteScene::update(Uint64 deltaTime) {}
+void GameCompleteScene::update(const Uint64 deltaTime) {}
 
 void GameCompleteScene::render(SDL_Renderer* renderer) {
 	TTF_Font* font = m_resourceManager->loadFont("arial.ttf");

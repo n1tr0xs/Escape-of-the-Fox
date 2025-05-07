@@ -40,7 +40,7 @@ void Player::handleEvent(const SDL_Event& event) {
 	}
 }
 
-void Player::update(Uint64 deltaTime, Level* level) {
+void Player::update(const Uint64 deltaTime, Level* level) {
 	float speedX = 0.5f;
 	float jumpStrength = .15f * TILE_SIZE;
 	float gravity = 0.02f;

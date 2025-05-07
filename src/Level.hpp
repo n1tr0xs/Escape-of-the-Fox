@@ -18,7 +18,7 @@ public:
 
 	void render(SDL_Renderer* renderer, SDL_FRect cameraRect);
 	void handleEvent(const SDL_Event& event);
-	void update(Uint64 deltaTime);
+	void update(const Uint64 deltaTime);
 	bool loadFromFile(const std::string& filePath);
 
 	bool isSolidAtPixel(float x, float y);
