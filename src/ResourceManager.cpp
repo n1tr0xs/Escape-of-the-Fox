@@ -5,20 +5,21 @@
 #include "constants.hpp"
 
 ResourceManager::ResourceManager(SDL_Renderer* renderer) :
-	m_renderer(renderer){}
+	m_renderer(renderer) {}
 
 ResourceManager::~ResourceManager() {
-	SDL_Log("Destructing ResourceManager.");
-	SDL_Log("\tDestructing m_textures.");
 	for (auto& pair : m_textures) {
-		SDL_DestroyTexture(pair.second);
+		if (pair.second) {
+			SDL_DestroyTexture(pair.second);
+		}
 	}
-	
-	SDL_Log("\tDestructing m_fonts.");
+
 	for (auto& pair : m_fonts) {
-		TTF_CloseFont(pair.second);
+		if (pair.second) {
+			TTF_CloseFont(pair.second);
+		}
 	}
-	
+
 }
 
 SDL_Texture* ResourceManager::loadTexture(const std::string& fileName) {

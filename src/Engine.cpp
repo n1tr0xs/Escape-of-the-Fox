@@ -34,19 +34,15 @@ Engine::Engine(const std::string& title) {
 }
 
 Engine::~Engine() {
-	SDL_Log("Destructing Engine.");
 	if (m_renderTexture) {
-		SDL_Log("\tDestructing m_renderTexture.");
 		SDL_DestroyTexture(m_renderTexture);
 		m_renderTexture = nullptr;
 	}
 	if (m_renderer) {
-		SDL_Log("\tDestructing m_renderer.");
 		SDL_DestroyRenderer(m_renderer);
 		m_renderer = nullptr;
 	}
 	if (m_window) {
-		SDL_Log("\tDestructing m_window.");
 		SDL_DestroyWindow(m_window);
 		m_window = nullptr;
 	}
