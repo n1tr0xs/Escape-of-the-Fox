@@ -2,6 +2,7 @@
 #include "GameCompleteScene.hpp"
 #include "LevelScene.hpp"
 #include "MenuScene.hpp"
+#include "Utils.hpp"
 
 Engine::Engine(const std::string& title) {
 	if (!SDL_Init(SDL_INIT_VIDEO))
@@ -51,11 +52,6 @@ Engine::~Engine() {
 
 	TTF_Quit();
 	SDL_Quit();
-}
-
-void Engine::SDL_Fail(const std::string& message) {
-	SDL_LogError(SDL_LOG_CATEGORY_ERROR, "%s %s", message.c_str(), SDL_GetError());
-	delete this;
 }
 
 std::unique_ptr<Scene> Engine::createMenuScene() {

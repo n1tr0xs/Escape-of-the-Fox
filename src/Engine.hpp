@@ -24,8 +24,6 @@ private:
 	void update(const Uint64 deltaTime);
 	// Renders the game
 	void render();
-	// Logs error and quit the program
-	void SDL_Fail(const std::string& message);
 
 	std::unique_ptr<Scene> createMenuScene();
 
