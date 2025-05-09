@@ -9,7 +9,7 @@
 #include "GameObject.hpp"
 #include "Level.hpp"
 
-struct Velocity {
+struct Vector2d {
 	float x = 0;
 	float y = 0;
 };
@@ -43,7 +43,7 @@ protected:
 	virtual void updateAnimationFrame(Uint64 deltaTime); // Updates animation frame
 
 	SDL_Texture* m_texture; // Animation texture sheet
-	Velocity m_velocity; // Entity velocity
+	Vector2d m_velocity; // Entity velocity
 
 	std::unordered_map<std::string, std::shared_ptr<Animation>> m_animations; // Entity animations
 	std::weak_ptr<Animation> m_currentAnimation; // Current entity animation
