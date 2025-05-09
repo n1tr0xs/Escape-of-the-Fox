@@ -27,14 +27,15 @@ private:
 
 	std::unique_ptr<Scene> createMenuScene();
 
-	SDL_Window* m_window = nullptr; // Game window
-	SDL_Renderer* m_renderer = nullptr; // Game renderer
-	SDL_Texture* m_renderTexture = nullptr; // "virtual screen"
-	SDL_AudioDeviceID m_audioDeviceID{ 0 }; // AudioDevice
+	SDL_Window* m_window{ nullptr }; // Game window
+	SDL_Renderer* m_renderer{ nullptr }; // Game renderer
+	SDL_Texture* m_renderTexture{ nullptr }; // "virtual screen"
+	
 	std::unique_ptr<ResourceManager> m_resourceManager; // Resource manager
 	std::unique_ptr<Scene> m_currentScene;
+	SDL_AudioDeviceID m_audioDeviceID{ 0 }; // AudioDevice
 
 	bool m_running{ false };
 	int m_currentLevel{ 0 };
-	const int m_maxLevel{ 1 };	
+	const int m_maxLevel{ 1 };
 };
