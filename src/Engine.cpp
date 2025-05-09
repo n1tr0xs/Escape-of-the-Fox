@@ -5,11 +5,17 @@
 #include "Utils.hpp"
 
 Engine::Engine(const std::string& title) {
-	if (!SDL_Init(SDL_INIT_VIDEO))
+	if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO))
 		SDL_Fail("Failed to initialize SDL:");
 
 	if (!TTF_Init())
 		SDL_Fail("Couldn't init TTF.");
+
+	m_audioDeviceID = SDL_OpenAudioDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, NULL);
+	if (!m_audioDeviceID)
+		SDL_Fail("Couldn't init Audio device.");
+	if (!Mix_OpenAudio(m_audioDeviceID, NULL))
+		SDL_Fail("Couldn't open audio device.");
 
 	SDL_WindowFlags flags = 0;
 	//SDL_WindowFlags flags = SDL_WINDOW_FULLSCREEN | SDL_WINDOW_BORDERLESS;
@@ -48,7 +54,10 @@ Engine::~Engine() {
 	}
 
 	m_resourceManager.reset();
-
+	
+	Mix_FadeOutMusic(1000);
+	Mix_CloseAudio();
+	SDL_CloseAudioDevice(m_audioDeviceID);
 	Mix_Quit();
 	TTF_Quit();
 	SDL_Quit();
@@ -58,6 +67,7 @@ std::unique_ptr<Scene> Engine::createMenuScene() {
 	auto menuScene = std::make_unique<MenuScene>(m_resourceManager.get());
 	menuScene->addButton("Start game", SceneResult::StartGame);
 	menuScene->addButton("Quit", SceneResult::Quit);
+	menuScene->addMusic("menu.mp3");
 	return menuScene;
 }
 

@@ -48,6 +48,22 @@ TTF_Font* ResourceManager::loadFont(const std::string& fileName) {
 	return font;
 }
 
+Mix_Music* ResourceManager::loadSound(const std::string& fileName) {
+	std::string filePath = std::format(ASSET_PATH, fileName);
+	// Check if font already loaded
+	auto it = m_sounds.find(filePath);
+	if (it != m_sounds.end()) {
+		return it->second;
+	}
+
+	Mix_Music* sound = Mix_LoadMUS(filePath.c_str());
+	if (!sound) {
+		SDL_Log("Failed to load sound: %s", SDL_GetError());
+	}
+	m_sounds[filePath] = sound;
+	return sound;
+}
+
 SDL_Texture* ResourceManager::loadTextureInternal(const std::string& filePath) {
 	auto it = m_textures.find(filePath);
 	// Check if texture already loaded

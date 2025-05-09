@@ -3,6 +3,7 @@
 #include <SDL3/SDL.h>
 #include <SDL3_image/SDL_image.h>
 #include <SDL3_ttf/SDL_ttf.h>
+#include <SDL3_mixer/SDL_mixer.h>
 #include <string>
 #include <unordered_map>
 
@@ -17,10 +18,13 @@ public:
 	SDL_Texture* loadTexture(const std::string& fileName, int levelNum);
 	// Loads font
 	TTF_Font* loadFont(const std::string& filePath);
+	// Loads sound
+	Mix_Music* loadSound(const std::string& filePath);
 private:
 	SDL_Texture* loadTextureInternal(const std::string& filePath);
 
 	SDL_Renderer* m_renderer;
 	std::unordered_map<std::string, SDL_Texture*> m_textures;
 	std::unordered_map<std::string, TTF_Font*> m_fonts;
+	std::unordered_map<std::string, Mix_Music*> m_sounds;
 };

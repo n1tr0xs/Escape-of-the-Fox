@@ -30,10 +30,11 @@ private:
 	SDL_Window* m_window = nullptr; // Game window
 	SDL_Renderer* m_renderer = nullptr; // Game renderer
 	SDL_Texture* m_renderTexture = nullptr; // "virtual screen"
+	SDL_AudioDeviceID m_audioDeviceID{ 0 }; // AudioDevice
 	std::unique_ptr<ResourceManager> m_resourceManager; // Resource manager
 	std::unique_ptr<Scene> m_currentScene;
 
 	bool m_running{ false };
 	int m_currentLevel{ 0 };
-	const int m_maxLevel{ 1 };
+	const int m_maxLevel{ 1 };	
 };

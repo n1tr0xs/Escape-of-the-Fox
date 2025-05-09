@@ -7,6 +7,7 @@
 void SDL_Fail(const std::string& message) {
 	SDL_LogError(SDL_LOG_CATEGORY_ERROR, "%s %s", message.c_str(), SDL_GetError());
 	
+	Mix_CloseAudio();
 	Mix_Quit();
 	TTF_Quit();
 	SDL_Quit();

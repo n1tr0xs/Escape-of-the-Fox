@@ -6,6 +6,10 @@ MenuScene::MenuScene(ResourceManager* resourceManager) :
 	m_font = m_resourceManager->loadFont("arial.ttf");
 }
 
+MenuScene::~MenuScene() {
+	Mix_FadeOutMusic(1000);
+}
+
 void MenuScene::handleEvent(const SDL_Event& event) {
 	int buttonsCount = static_cast<int>(m_buttons.size());
 	if (event.type == SDL_EVENT_KEY_DOWN) {
@@ -30,6 +34,8 @@ void MenuScene::handleEvent(const SDL_Event& event) {
 }
 
 void MenuScene::update(const Uint64 deltaTime) {
+	if (m_backgroundMusic && !Mix_PlayingMusic())
+		Mix_PlayMusic(m_backgroundMusic, 1);
 	if (m_enterPressed) {
 		m_sceneResult = m_buttons[m_selectedItem]->getResult();
 		m_enterPressed = false;
@@ -58,4 +64,8 @@ void MenuScene::render(SDL_Renderer* renderer) {
 void MenuScene::addButton(const std::string& text, SceneResult result, SDL_Color textColor, SDL_Color textSelectedColor) {
 	m_buttons.push_back(std::make_unique<MenuButton>(m_font, text, result, textColor, textSelectedColor));
 	m_buttons[m_selectedItem]->select();
+}
+
+void MenuScene::addMusic(const std::string& fileName) {
+	m_backgroundMusic = m_resourceManager->loadSound(fileName);
 }
