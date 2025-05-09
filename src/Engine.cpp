@@ -28,7 +28,6 @@ Engine::Engine(const std::string& title) {
 	m_renderTexture = SDL_CreateTexture(m_renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, RENDERER_WIDTH_IN_PIXELS, RENDERER_HEIGHT_IN_PIXELS);
 
 	// Creating MenuScene
-
 	m_currentScene = createMenuScene();
 
 	m_running = true;
