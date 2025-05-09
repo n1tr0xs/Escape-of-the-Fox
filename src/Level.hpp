@@ -9,7 +9,6 @@
 #include "constants.hpp"
 #include "ResourceManager.hpp"
 
-
 using Tile = int;
 
 class Level {

@@ -6,7 +6,6 @@
 #include <vector>
 
 #include "Level.hpp"
-#include "Player.hpp"
 
 Level::Level(int levelNum, SDL_Texture* texture, SDL_Texture* backgroundStaticTexture, SDL_Texture* backgroundBackTexture, SDL_Texture* backgroundFrontTexture) :
 	m_texture{ texture }, m_backgroundStaticTexture{ backgroundStaticTexture }, m_backgroundBackTexture{ backgroundBackTexture }, m_backgroundFrontTexture{ backgroundFrontTexture } {
