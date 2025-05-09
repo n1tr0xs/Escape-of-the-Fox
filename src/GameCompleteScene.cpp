@@ -5,7 +5,9 @@ GameCompleteScene::GameCompleteScene(ResourceManager* resourceManager) :
 	m_resourceManager{ resourceManager } {
 	m_resourceManager->loadFont("arial.ttf");
 
-	m_textLabels.push_back(std::make_unique<TextLabel>("Developer"));
+	m_textLabels.push_back(std::make_unique<TextLabel>("Developer: n1tr0xs"));
+	m_textLabels.push_back(std::make_unique<TextLabel>("Graphic artist: chertowka"));
+	m_textLabels.push_back(std::make_unique<TextLabel>("Sound artist: H4RD0ZZ"));
 }
 
 void GameCompleteScene::handleEvent(const SDL_Event& event) {
