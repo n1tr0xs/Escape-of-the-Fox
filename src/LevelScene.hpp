@@ -17,6 +17,7 @@ public:
 private:
 
 	void resolveHorizontalCollision(Entity* entity, Uint64 deltaTime);
+	void resolveVerticalCollision(Entity* entity, Uint64 deltaTime);
 
 	std::unique_ptr<MenuScene> createPauseScene();
 

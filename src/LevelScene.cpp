@@ -66,6 +66,7 @@ void LevelScene::update(const Uint64 deltaTime) {
 		m_level->update(deltaTime);
 		m_player->update(deltaTime, m_level.get());
 		resolveHorizontalCollision(m_player.get(), deltaTime);
+		resolveVerticalCollision(m_player.get(), deltaTime);
 		// Updating camera position
 		SDL_FRect cameraTarget = m_player->getRect();
 		m_camera->follow(cameraTarget, mapWidth, mapHeight);
@@ -117,6 +118,36 @@ void LevelScene::resolveHorizontalCollision(Entity* entity, Uint64 deltaTime) {
 
 	entity->setX(newX);
 	entity->setVelocityX(0.0f);
+}
+
+void LevelScene::resolveVerticalCollision(Entity* entity, Uint64 deltaTime) {
+	float newY = entity->getY() + entity->getVelocityY() * deltaTime;
+
+	float headY = newY;
+	float feetY = headY + entity->getHeight();
+
+	float leftX = entity->getX();
+	float rightX = leftX + entity->getWidth();
+
+	// Check ground
+	if (m_level->isSolidHorizontally(feetY, leftX, rightX)) {
+		float tileY = std::floor(feetY / TILE_SIZE);
+		newY = tileY * TILE_SIZE - entity->getHeight();
+		entity->setOnGround(true);
+		entity->setVelocityY(0.0f);
+	}
+	else {
+		entity->setOnGround(false);
+	}
+
+	// Check head
+	if (m_level->isSolidHorizontally(headY, leftX, rightX)) {
+		float tileY = std::floor(headY / TILE_SIZE);
+		newY = (tileY + 1) * TILE_SIZE;
+		entity->setVelocityY(0.0f);
+	}
+
+	entity->setY(newY);
 }
 
 std::unique_ptr<MenuScene> LevelScene::createPauseScene() {

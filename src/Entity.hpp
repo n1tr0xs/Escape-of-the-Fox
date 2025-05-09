@@ -37,8 +37,8 @@ public:
 
 	virtual void setVelocityX(const float vel) { m_velocity.x = vel; }
 	virtual void setVelocityY(const float vel) { m_velocity.y = vel; }
+	virtual void setOnGround(const bool flag) { m_isOnGround = flag; }
 protected:
-	void resolveVerticalCollision(Uint64 deltaTime, Level* level);
 
 	virtual void updateAnimationFrame(Uint64 deltaTime); // Updates animation frame
 

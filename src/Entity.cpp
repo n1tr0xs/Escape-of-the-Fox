@@ -47,33 +47,3 @@ void Entity::render(SDL_Renderer* renderer, SDL_FRect cameraRect) {
 		SDL_RenderTextureRotated(renderer, m_texture, &src, &rect, 0.0, nullptr, m_textureFlip);
 	}
 }
-
-void Entity::resolveVerticalCollision(Uint64 deltaTime, Level* level) {
-	float newY = m_rect.y + m_velocity.y * deltaTime;
-
-	float headY = newY;
-	float feetY = headY + m_rect.h;
-
-	float leftX = m_rect.x;
-	float rightX = leftX + m_rect.w;
-
-	// Check ground
-	if (level->isSolidHorizontally(feetY, leftX, rightX)) {
-		float tileY = std::floor(feetY / TILE_SIZE);
-		newY = tileY * TILE_SIZE - m_rect.h;
-		m_isOnGround = true;
-		m_velocity.y = 0.0f;
-	}
-	else {
-		m_isOnGround = false;
-	}
-
-	// Check head
-	if (level->isSolidHorizontally(headY, leftX, rightX)) {
-		float tileY = std::floor(headY / TILE_SIZE);
-		newY = (tileY + 1) * TILE_SIZE;
-		m_velocity.y = 0.0f;
-	}
-
-	m_rect.y = newY;
-}
