@@ -64,7 +64,7 @@ void LevelScene::update(const Uint64 deltaTime) {
 		float mapHeight = m_level->getMapHeightInPixels();
 
 		m_level->update(deltaTime);
-		m_player->update(deltaTime, m_level.get());
+		m_player->update(deltaTime);
 		resolveCollision(m_player.get(), deltaTime);
 		// Updating camera position
 		SDL_FRect cameraTarget = m_player->getRect();
