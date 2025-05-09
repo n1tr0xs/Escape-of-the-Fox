@@ -54,5 +54,5 @@ protected:
 	bool m_movingLeft = false;
 	bool m_movingRight = false;
 	bool m_jumpPressed = false;
-	bool m_isOnGround = false;
+	bool m_isOnGround = true;
 };
