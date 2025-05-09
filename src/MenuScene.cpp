@@ -48,7 +48,7 @@ void MenuScene::render(SDL_Renderer* renderer) {
 	}
 	float rendererCenterX = RENDERER_WIDTH_IN_PIXELS / 2.0;
 	float rendererCenterY = RENDERER_HEIGHT_IN_PIXELS / 2.0;
-	SDL_FRect dest = { 0, rendererCenterY - total_height / 2.0, -1, -1 };
+	SDL_FRect dest = { 0.0f, rendererCenterY - total_height / 2.0f, 0.0f, 0.0f };
 	for (const auto& button : m_buttons) {
 		dest.x = rendererCenterX - button->getWidth() / 2;
 		dest.w = button->getWidth();
