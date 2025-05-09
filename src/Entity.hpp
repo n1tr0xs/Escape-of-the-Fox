@@ -31,8 +31,13 @@ public:
 	
 	virtual void addAnimation(const std::string& name, const int row, const int numFrames, const float frameWidth, const float frameHeight); // Adds an animation
 	virtual bool setAnimation(const std::string& name); // Sets current animation
+
+	virtual float getVelocityX() const { return m_velocity.x; }
+	virtual float getVelocityY() const { return m_velocity.y; }
+
+	virtual void setVelocityX(const float vel) { m_velocity.x = vel; }
+	virtual void setVelocityY(const float vel) { m_velocity.y = vel; }
 protected:
-	void resolveHorizontalCollision(Uint64 deltaTime, Level* level);
 	void resolveVerticalCollision(Uint64 deltaTime, Level* level);
 
 	virtual void updateAnimationFrame(Uint64 deltaTime); // Updates animation frame

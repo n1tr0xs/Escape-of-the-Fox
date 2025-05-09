@@ -15,6 +15,9 @@ public:
 	void update(const Uint64 deltaTime) override;
 	void render(SDL_Renderer* renderer) override;
 private:
+
+	void resolveHorizontalCollision(Entity* entity, Uint64 deltaTime);
+
 	std::unique_ptr<MenuScene> createPauseScene();
 
 	ResourceManager* m_resourceManager;

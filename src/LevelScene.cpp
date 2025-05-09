@@ -65,6 +65,7 @@ void LevelScene::update(const Uint64 deltaTime) {
 
 		m_level->update(deltaTime);
 		m_player->update(deltaTime, m_level.get());
+		resolveHorizontalCollision(m_player.get(), deltaTime);
 		// Updating camera position
 		SDL_FRect cameraTarget = m_player->getRect();
 		m_camera->follow(cameraTarget, mapWidth, mapHeight);
@@ -91,6 +92,31 @@ void LevelScene::render(SDL_Renderer* renderer) {
 		m_level->render(renderer, m_camera->getRect());
 		m_player->render(renderer, m_camera->getRect());
 	}
+}
+
+void LevelScene::resolveHorizontalCollision(Entity* entity, Uint64 deltaTime) {
+	float newX = entity->getX() + entity->getVelocityX() * deltaTime;
+
+	float topY = entity->getY();
+	float bottomY = topY + entity->getHeight();
+
+	float leftEdge = newX;
+	float rightEdge = newX + entity->getWidth();
+
+	// Check left
+	if (m_level->isSolidVertically(leftEdge, topY, bottomY)) {
+		float tileX = std::floor(leftEdge / TILE_SIZE);
+		newX = (tileX + 1) * TILE_SIZE;
+	}
+
+	// Check right
+	if (m_level->isSolidVertically(rightEdge, topY, bottomY)) {
+		float tileX = std::floor(rightEdge / TILE_SIZE);
+		newX = tileX * TILE_SIZE - entity->getWidth();
+	}
+
+	entity->setX(newX);
+	entity->setVelocityX(0.0f);
 }
 
 std::unique_ptr<MenuScene> LevelScene::createPauseScene() {

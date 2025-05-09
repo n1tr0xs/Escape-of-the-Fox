@@ -62,7 +62,6 @@ void Player::update(const Uint64 deltaTime, Level* level) {
 		m_velocity.y += gravity * deltaTime;
 	}
 
-	resolveHorizontalCollision(deltaTime, level);
 	resolveVerticalCollision(deltaTime, level);
 
 	updateAnimationFrame(deltaTime);

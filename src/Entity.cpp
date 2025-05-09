@@ -48,31 +48,6 @@ void Entity::render(SDL_Renderer* renderer, SDL_FRect cameraRect) {
 	}
 }
 
-void Entity::resolveHorizontalCollision(Uint64 deltaTime, Level* level) {
-	float newX = m_rect.x + m_velocity.x * deltaTime;
-
-	float topY = m_rect.y;
-	float bottomY = topY + m_rect.h;
-
-	float leftEdge = newX;
-	float rightEdge = newX + m_rect.w;
-
-	// Check left
-	if (level->isSolidVertically(leftEdge, topY, bottomY)) {
-		float tileX = std::floor(leftEdge / TILE_SIZE);
-		newX = (tileX + 1) * TILE_SIZE;
-	}
-
-	// Check right
-	if (level->isSolidVertically(rightEdge, topY, bottomY)) {
-		float tileX = std::floor(rightEdge / TILE_SIZE);
-		newX = tileX * TILE_SIZE - m_rect.w;
-	}
-
-	m_velocity.x = 0.0f;
-	m_rect.x = newX;
-}
-
 void Entity::resolveVerticalCollision(Uint64 deltaTime, Level* level) {
 	float newY = m_rect.y + m_velocity.y * deltaTime;
 
