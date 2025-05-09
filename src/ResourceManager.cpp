@@ -1,11 +1,11 @@
 #include <format>
 #include <string>
 
-#include "ResourceManager.hpp"
 #include "constants.hpp"
+#include "ResourceManager.hpp"
 
 ResourceManager::ResourceManager(SDL_Renderer* renderer) :
-	m_renderer(renderer) {}
+	m_renderer{ renderer } {}
 
 ResourceManager::~ResourceManager() {
 	for (auto& pair : m_textures) {
@@ -24,38 +24,12 @@ ResourceManager::~ResourceManager() {
 
 SDL_Texture* ResourceManager::loadTexture(const std::string& fileName) {
 	std::string filePath = std::format(ASSET_PATH, fileName);
-	// Check if texture already loaded
-	auto it = m_textures.find(filePath);
-	if (it != m_textures.end()) {
-		return it->second;
-	}
-
-	SDL_Texture* texture = IMG_LoadTexture(m_renderer, filePath.c_str());
-	if (!texture) {
-		SDL_Log("Failed to load texture: %s", SDL_GetError());
-		return nullptr;
-	}
-
-	m_textures[filePath] = texture;
-	return texture;
+	return loadTextureInternal(filePath);
 }
 
 SDL_Texture* ResourceManager::loadTexture(const std::string& fileName, int levelNum) {
 	std::string filePath = std::format(LEVEL_ASSET_PATH, levelNum, fileName);
-	// Check if texture already loaded
-	auto it = m_textures.find(filePath);
-	if (it != m_textures.end()) {
-		return it->second;
-	}
-
-	SDL_Texture* texture = IMG_LoadTexture(m_renderer, filePath.c_str());
-	if (!texture) {
-		SDL_Log("Failed to load texture: %s", SDL_GetError());
-		return nullptr;
-	}
-
-	m_textures[filePath] = texture;
-	return texture;
+	return loadTextureInternal(filePath);
 }
 
 TTF_Font* ResourceManager::loadFont(const std::string& fileName) {
@@ -74,3 +48,19 @@ TTF_Font* ResourceManager::loadFont(const std::string& fileName) {
 	return font;
 }
 
+SDL_Texture* ResourceManager::loadTextureInternal(const std::string& filePath) {
+	auto it = m_textures.find(filePath);
+	// Check if texture already loaded
+	if (it != m_textures.end()) {
+		return it->second;
+	}
+
+	SDL_Texture* texture = IMG_LoadTexture(m_renderer, filePath.c_str());
+	if (!texture) {
+		SDL_Log("Failed to load texture: %s", SDL_GetError());
+		return nullptr;
+	}
+
+	m_textures[filePath] = texture;
+	return texture;
+}

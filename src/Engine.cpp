@@ -7,20 +7,20 @@
 Engine::Engine(const std::string& title) {
 	if (!SDL_Init(SDL_INIT_VIDEO))
 		SDL_Fail("Failed to initialize SDL:");
-	
+
 	if (!TTF_Init())
 		SDL_Fail("Couldn't init TTF.");
-	
+
 	SDL_WindowFlags flags = 0;
 	//SDL_WindowFlags flags = SDL_WINDOW_FULLSCREEN | SDL_WINDOW_BORDERLESS;
 	m_window = SDL_CreateWindow(title.c_str(), RENDERER_WIDTH_IN_PIXELS, RENDERER_HEIGHT_IN_PIXELS, flags);
 	if (!m_window)
 		SDL_Fail("Couldn't create window.");
-	
+
 	m_renderer = SDL_CreateRenderer(m_window, NULL);
-	if(!m_renderer)
+	if (!m_renderer)
 		SDL_Fail("Couldn't create renderer.");
-	
+
 	// Creating ResourceManager
 	m_resourceManager = std::make_unique<ResourceManager>(m_renderer);
 
@@ -28,7 +28,7 @@ Engine::Engine(const std::string& title) {
 	m_renderTexture = SDL_CreateTexture(m_renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, RENDERER_WIDTH_IN_PIXELS, RENDERER_HEIGHT_IN_PIXELS);
 
 	// Creating MenuScene
-	
+
 	m_currentScene = createMenuScene();
 
 	m_running = true;
@@ -100,7 +100,7 @@ void Engine::update(const Uint64 deltaTime) {
 				m_running = false;
 				break;
 			case SceneResult::Victory:
-				++m_currentLevel; 
+				++m_currentLevel;
 				if (m_currentLevel <= m_maxLevel) // next level
 					m_currentScene = std::make_unique<LevelScene>(m_resourceManager.get(), m_currentLevel);
 				else // game won

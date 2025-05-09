@@ -1,7 +1,7 @@
 #include "Camera.hpp"
 
 Camera::Camera(float width, float height) :
-	GameObject(width, height) {}
+	GameObject{ width, height } {}
 
 void Camera::follow(const SDL_FRect& target) {
 	m_rect.x = target.x + target.w / 2 - m_rect.w / 2;

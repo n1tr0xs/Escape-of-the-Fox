@@ -15,9 +15,9 @@ struct Vector2d {
 };
 
 struct FrameInfo {
-	int index {0};
-	float timer {0};
-	float duration {0};
+	int index{ 0 };
+	float timer{ 0 };
+	float duration{ 0 };
 };
 
 class Entity : public GameObject {

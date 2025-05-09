@@ -2,10 +2,10 @@
 
 #include <vector>
 
+#include "Scene.hpp"
 #include "Level.hpp"
 #include "Player.hpp"
 #include "ResourceManager.hpp"
-#include "Scene.hpp"
 #include "MenuScene.hpp"
 
 class LevelScene : public Scene {
@@ -14,11 +14,14 @@ public:
 	void handleEvent(const SDL_Event& event) override;
 	void update(const Uint64 deltaTime) override;
 	void render(SDL_Renderer* renderer) override;
-private:
-	void resolveCollision(Entity* entity, Uint64 deltaTime);
-	void resolveHorizontalCollision(Entity* entity, Uint64 deltaTime);
-	void resolveVerticalCollision(Entity* entity, Uint64 deltaTime);
 
+	// Calls other collision resolvers for entity
+	void resolveCollision(Entity* entity, Uint64 deltaTime);
+	// Resolves horizontal collision for entity
+	void resolveHorizontalCollision(Entity* entity, Uint64 deltaTime);
+	// Resolves vertical collision for entity
+	void resolveVerticalCollision(Entity* entity, Uint64 deltaTime);
+private:
 	std::unique_ptr<MenuScene> createPauseScene();
 
 	ResourceManager* m_resourceManager;
@@ -28,7 +31,7 @@ private:
 	std::unique_ptr<MenuScene> m_pauseScene;
 	std::unique_ptr<Camera> m_camera;
 
-	bool m_isPaused = false;
-	bool m_levelCompleted = false;
-	bool m_playerDead = false;
+	bool m_isPaused{ false };
+	bool m_levelCompleted{ false };
+	bool m_playerDead{ false };
 };

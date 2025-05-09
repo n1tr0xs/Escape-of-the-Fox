@@ -33,7 +33,7 @@ private:
 	std::unique_ptr<ResourceManager> m_resourceManager; // Resource manager
 	std::unique_ptr<Scene> m_currentScene;
 
-	bool m_running{ false }; // Is game running ?
+	bool m_running{ false };
 	int m_currentLevel{ 0 };
 	const int m_maxLevel{ 1 };
 };

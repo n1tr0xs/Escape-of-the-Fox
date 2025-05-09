@@ -25,6 +25,6 @@ public:
 	void setWidth(float width) { m_rect.w = width; }
 	void setHeight(float height) { m_rect.h = height; }
 protected:
-	SDL_FRect m_rect; // Object rect
+	SDL_FRect m_rect;
 };
 

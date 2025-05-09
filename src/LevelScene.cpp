@@ -1,19 +1,14 @@
-#include <format>
-#include <string>
-
 #include "LevelScene.hpp"
 
 LevelScene::LevelScene(ResourceManager* resourceManager, int levelNum) :
-	m_resourceManager(resourceManager) {
+	m_resourceManager{ resourceManager } {
 
 	// Creating Level	
 	SDL_Texture* levelTileSheetTexture = m_resourceManager->loadTexture("back.png", levelNum);
 	SDL_Texture* backgroundStaticTexture = m_resourceManager->loadTexture("backgroundStatic.png", levelNum);
 	SDL_Texture* backgroundBackTexture = m_resourceManager->loadTexture("backgroundBack.png", levelNum);
 	SDL_Texture* backgroundFrontTexture = m_resourceManager->loadTexture("backgroundFront.png", levelNum);
-	std::string tileMapPath = std::format(LEVEL_ASSET_PATH, levelNum, "tilemap.txt");
-	m_level = std::make_unique<Level>(levelTileSheetTexture, backgroundStaticTexture, backgroundBackTexture, backgroundFrontTexture);
-	m_level->loadFromFile(tileMapPath);
+	m_level = std::make_unique<Level>(levelNum, levelTileSheetTexture, backgroundStaticTexture, backgroundBackTexture, backgroundFrontTexture);
 	// Creating Camera
 	float cameraWidth = static_cast<float>(RENDERER_WIDTH_IN_PIXELS);
 	float cameraHeight = static_cast<float>(RENDERER_HEIGHT_IN_PIXELS);
@@ -25,7 +20,6 @@ LevelScene::LevelScene(ResourceManager* resourceManager, int levelNum) :
 	m_player = std::make_unique<Player>(0.0f, 0.0f, playerWidth, playerHeight, playerTexture);
 	// Creating PauseScene
 	m_pauseScene = createPauseScene();
-
 }
 
 void LevelScene::handleEvent(const SDL_Event& event) {
@@ -40,7 +34,6 @@ void LevelScene::handleEvent(const SDL_Event& event) {
 		m_pauseScene->handleEvent(event);
 	}
 	else {
-		m_level->handleEvent(event);
 		m_player->handleEvent(event);
 	}
 }
@@ -63,7 +56,6 @@ void LevelScene::update(const Uint64 deltaTime) {
 		float mapWidth = m_level->getMapWidthInPixels();
 		float mapHeight = m_level->getMapHeightInPixels();
 
-		m_level->update(deltaTime);
 		m_player->update(deltaTime);
 		resolveCollision(m_player.get(), deltaTime);
 		// Updating camera position

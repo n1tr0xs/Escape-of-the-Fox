@@ -1,11 +1,8 @@
-#include <format>
-#include <string>
-
 #include "constants.hpp"
 #include "MenuScene.hpp"
 
 MenuScene::MenuScene(ResourceManager* resourceManager) :
-	m_resourceManager(resourceManager) {
+	m_resourceManager{ resourceManager } {
 	m_font = m_resourceManager->loadFont("arial.ttf");
 }
 

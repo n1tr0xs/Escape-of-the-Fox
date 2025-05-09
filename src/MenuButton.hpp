@@ -11,9 +11,12 @@ public:
 	MenuButton(TTF_Font* font, const std::string& text, SceneResult result, SDL_Color color, SDL_Color selectedColor);
 	~MenuButton();
 
+	// Renders button at gives position
 	void render(SDL_Renderer* renderer, const SDL_FRect* dest);
 
+	// Selects button
 	void select();
+	// Unselects button
 	void unSelect();
 
 	// Getters
@@ -31,15 +34,15 @@ private:
 	void updateSurface();
 
 	std::string m_text;
-	TTF_Font* m_font = nullptr;
+	TTF_Font* m_font;
 	SceneResult m_result;
 
 	SDL_Color m_color;
 	SDL_Color m_selectedColor;
 
-	bool m_isSelected = false;
+	bool m_isSelected{ false };
 
-	SDL_Surface* m_surface = nullptr;
-	float m_width = 0.0f;
-	float m_height = 0.0f;
+	SDL_Surface* m_surface{ nullptr };
+	float m_width{ 0.0f };
+	float m_height{ 0.0f };
 };

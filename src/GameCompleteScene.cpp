@@ -1,14 +1,11 @@
-#include <format>
-#include <string>
-
-#include "constants.hpp"
 #include "GameCompleteScene.hpp"
+#include "constants.hpp"
 
 GameCompleteScene::GameCompleteScene(ResourceManager* resourceManager) :
-	m_resourceManager(resourceManager) {
+	m_resourceManager{ resourceManager } {
 	m_resourceManager->loadFont("arial.ttf");
 
-	m_textLabels.emplace_back(std::make_unique<TextLabel>("Developer"));
+	m_textLabels.push_back(std::make_unique<TextLabel>("Developer"));
 }
 
 void GameCompleteScene::handleEvent(const SDL_Event& event) {
@@ -35,7 +32,7 @@ void GameCompleteScene::render(SDL_Renderer* renderer) {
 }
 
 TextLabel::TextLabel(const std::string& text) :
-	m_text(text) {}
+	m_text{ text } {}
 
 void TextLabel::render(SDL_Renderer* renderer, TTF_Font* font, SDL_FRect rect, SDL_Color textColor) {
 	SDL_Surface* surface = TTF_RenderText_Solid(font, m_text.c_str(), m_text.length(), textColor);

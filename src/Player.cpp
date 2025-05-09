@@ -1,7 +1,7 @@
 #include "Player.hpp"
 
 Player::Player(float x, float y, float width, float height, SDL_Texture* texture) :
-	Entity(x, y, width, height, texture) {
+	Entity{ x, y, width, height, texture } {
 	float fw = 256;
 	float fh = 128;
 	addAnimation("idle", 0, 4, fw, fh);

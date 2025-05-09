@@ -1,5 +1,6 @@
 #include <fstream>
 #include <iostream>
+#include <format>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -7,43 +8,16 @@
 #include "Level.hpp"
 #include "Player.hpp"
 
-Level::Level(SDL_Texture* texture, SDL_Texture* backgroundStaticTexture, SDL_Texture* backgroundBackTexture, SDL_Texture* backgroundFrontTexture) :
-	m_texture(texture), m_backgroundStaticTexture(backgroundStaticTexture), m_backgroundBackTexture(backgroundBackTexture), m_backgroundFrontTexture(backgroundFrontTexture) {}
-
-void Level::addRow(Tile block) {
-	m_tileMap.push_back(std::vector<Tile>(RENDERER_WIDTH_IN_TILES * 5, block));
+Level::Level(int levelNum, SDL_Texture* texture, SDL_Texture* backgroundStaticTexture, SDL_Texture* backgroundBackTexture, SDL_Texture* backgroundFrontTexture) :
+	m_texture{ texture }, m_backgroundStaticTexture{ backgroundStaticTexture }, m_backgroundBackTexture{ backgroundBackTexture }, m_backgroundFrontTexture{ backgroundFrontTexture } {
+	
+	std::string filePath = std::format(LEVEL_ASSET_PATH, levelNum, "tilemap.txt");
+	loadFromFile(filePath);
 }
 
-void Level::addRows(int rows, Tile block) {
-	for (int i = 0; i < rows; ++i) {
-		addRow(block);
-	}
-}
-
-void Level::renderGrid(SDL_Renderer* renderer) {
-	SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0);
-	for (float x = 0; x < RENDERER_WIDTH_IN_PIXELS; x += TILE_SIZE) {
-		for (float y = 0; y < RENDERER_HEIGHT_IN_PIXELS; y += TILE_SIZE) {
-			SDL_FRect rect = { x, y, TILE_SIZE, TILE_SIZE };
-			SDL_RenderRect(renderer, &rect);
-		}
-	}
-}
-
-void Level::renderTextures(SDL_Renderer* renderer, SDL_FRect cameraRect) {
-	SDL_FRect src = { 0.0f, 0.0f, TILE_SIZE, TILE_SIZE };
-	SDL_FRect dest = { 0.0f, 0.0f, TILE_SIZE, TILE_SIZE };
-	for (size_t row = 0; row < m_tileMap.size(); ++row) {
-		dest.y = row * TILE_SIZE - cameraRect.y;
-		for (size_t col = 0; col < m_tileMap[row].size(); ++col) {
-			dest.x = col * TILE_SIZE - cameraRect.x;
-			Tile tile = m_tileMap[row][col];
-			if (tile == 0)
-				continue;
-			src.x = static_cast<float>(tile * TILE_SIZE);
-			SDL_RenderTexture(renderer, m_texture, &src, &dest);
-		}
-	}
+void Level::render(SDL_Renderer* renderer, SDL_FRect cameraRect) {
+	renderBackground(renderer, cameraRect);
+	renderTiles(renderer, cameraRect);
 }
 
 void Level::renderBackground(SDL_Renderer* renderer, SDL_FRect cameraRect) {
@@ -79,27 +53,21 @@ void Level::renderBackground(SDL_Renderer* renderer, SDL_FRect cameraRect) {
 	SDL_RenderTextureTiled(renderer, m_backgroundFrontTexture, NULL, scale, &destFront);
 }
 
-void Level::fillWith(int startX, int startY, int endX, int endY, Tile block) {
-	if (startY < 0 || startX < 0)
-		return;
-	if (endY >= m_tileMap.size() || endX >= m_tileMap[0].size())
-		return;
-	for (int x = startX; x <= endX; ++x) {
-		for (int y = startY; y <= endY; ++y) {
-			m_tileMap[y][x] = block;
+void Level::renderTiles(SDL_Renderer* renderer, SDL_FRect cameraRect) {
+	SDL_FRect src = { 0.0f, 0.0f, TILE_SIZE, TILE_SIZE };
+	SDL_FRect dest = { 0.0f, 0.0f, TILE_SIZE, TILE_SIZE };
+	for (size_t row = 0; row < m_tileMap.size(); ++row) {
+		dest.y = row * TILE_SIZE - cameraRect.y;
+		for (size_t col = 0; col < m_tileMap[row].size(); ++col) {
+			dest.x = col * TILE_SIZE - cameraRect.x;
+			Tile tile = m_tileMap[row][col];
+			if (tile == 0)
+				continue;
+			src.x = static_cast<float>(tile * TILE_SIZE);
+			SDL_RenderTexture(renderer, m_texture, &src, &dest);
 		}
 	}
 }
-
-void Level::render(SDL_Renderer* renderer, SDL_FRect cameraRect) {
-	renderGrid(renderer);
-	renderBackground(renderer, cameraRect);
-	renderTextures(renderer, cameraRect);
-}
-
-void Level::handleEvent(const SDL_Event& event) {}
-
-void Level::update(const Uint64 deltaTime) {}
 
 bool Level::loadFromFile(const std::string& filePath) {
 	m_tileMap.clear();

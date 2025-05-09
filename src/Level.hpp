@@ -14,31 +14,32 @@ using Tile = int;
 
 class Level {
 public:
-	Level(SDL_Texture* texture, SDL_Texture* backgroundStaticTexture, SDL_Texture* backgroundBackTexture, SDL_Texture* backgroundFrontTexture);
+	Level(int levelNum, SDL_Texture* texture, SDL_Texture* backgroundStaticTexture, SDL_Texture* backgroundBackTexture, SDL_Texture* backgroundFrontTexture);
 
+	// Renders Level regarding to cameraRect
 	void render(SDL_Renderer* renderer, SDL_FRect cameraRect);
-	void handleEvent(const SDL_Event& event);
-	void update(const Uint64 deltaTime);
-	bool loadFromFile(const std::string& filePath);
 
+	// Checks pixel solidity
 	bool isSolidAtPixel(float x, float y);
+	// Checks vertical wall solidity
 	bool isSolidVertically(float x, float topY, float bottomY);
+	// Checks horizontal platform solidity
 	bool isSolidHorizontally(float y, float leftX, float rightX);
 
+	// Getters
 	float getMapHeightInPixels();
 	float getMapWidthInPixels();
 private:
+	// Loads level from file
+	bool loadFromFile(const std::string& filePath);
+	// Renders tilemap
+	void renderTiles(SDL_Renderer* renderer, SDL_FRect cameraRect);
+	// Renders background
+	void renderBackground(SDL_Renderer* renderer, SDL_FRect cameraRect);
+
 	SDL_Texture* m_texture;
 	SDL_Texture* m_backgroundStaticTexture;
 	SDL_Texture* m_backgroundBackTexture;
 	SDL_Texture* m_backgroundFrontTexture;
 	std::vector<std::vector<Tile>> m_tileMap;
-
-	void addRow(Tile block);
-	void addRows(int rows, Tile block);
-	void renderGrid(SDL_Renderer* renderer);
-	void renderTextures(SDL_Renderer* renderer, SDL_FRect cameraRect);
-	void renderBackground(SDL_Renderer* renderer, SDL_FRect cameraRect);
-
-	void fillWith(int startX, int startY, int endX, int endY, Tile block);
 };
