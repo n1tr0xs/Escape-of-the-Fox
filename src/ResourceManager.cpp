@@ -20,6 +20,12 @@ ResourceManager::~ResourceManager() {
 		}
 	}
 
+	for (auto& pair : m_sounds) {
+		if (pair.second) {
+			Mix_FreeMusic(pair.second);
+		}
+	}
+
 }
 
 SDL_Texture* ResourceManager::loadTexture(const std::string& fileName) {
