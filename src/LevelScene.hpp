@@ -15,7 +15,7 @@ public:
 	void update(const Uint64 deltaTime) override;
 	void render(SDL_Renderer* renderer) override;
 private:
-
+	void resolveCollision(Entity* entity, Uint64 deltaTime);
 	void resolveHorizontalCollision(Entity* entity, Uint64 deltaTime);
 	void resolveVerticalCollision(Entity* entity, Uint64 deltaTime);
 
