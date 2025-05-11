@@ -4,21 +4,7 @@
 
 #include "ResourceManager.hpp"
 #include "Scene.hpp"
-
-
-class TextLabel {
-public:
-	TextLabel(const std::string& text);
-
-	// Renders TextLabel
-	void render(SDL_Renderer* renderer, TTF_Font* font, SDL_FRect rect, SDL_Color textColor);
-	// Getters
-	std::string getText() const { return m_text; }
-	// Setter
-	void setText(const std::string& text) { m_text = text; }
-private:
-	std::string m_text;
-};
+#include "TextLabel.hpp"
 
 class GameCompleteScene : public Scene {
 public:

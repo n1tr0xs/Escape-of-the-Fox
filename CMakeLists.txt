@@ -71,6 +71,7 @@ add_executable("${PROJECT_NAME}"
   "src/GameCompleteScene.hpp" "src/GameCompleteScene.cpp"
   "src/GameObject.hpp" "src/GameObject.cpp"
   "src/Utils.hpp" "src/Utils.cpp"
+  "src/TextLabel.hpp" "src/TextLabel.cpp"
 )
 
 # Link libraries
