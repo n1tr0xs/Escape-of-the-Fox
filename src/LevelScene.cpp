@@ -139,7 +139,7 @@ std::unique_ptr<Player> LevelScene::createPlayer() {
 	float playerHeight = static_cast<float>(TILE_SIZE * 2);
 	std::unique_ptr<Player> player = std::make_unique<Player>(0.0f, 0.0f, playerWidth, playerHeight, playerTexture);
 
-	float fw = 256;
+	float fw = 512;
 	float fh = fw / 2;
 	player->addAnimation("idle", 0, 1, fw, fh);
 	//player->addAnimation("running", 1, 4, fw, fh);
