@@ -1,12 +1,40 @@
 #include "TextLabel.hpp"
 
-TextLabel::TextLabel(const std::string& text) :
-	m_text{ text } {}
+TextLabel::TextLabel(TTF_Font* font, const std::string& text, SDL_Color color) :
+	m_font{ font }, m_text{ text }, m_color{ color } {
+	updateSurface();
+}
 
-void TextLabel::render(SDL_Renderer* renderer, TTF_Font* font, SDL_FRect rect, SDL_Color textColor) {
-	SDL_Surface* surface = TTF_RenderText_Solid(font, m_text.c_str(), m_text.length(), textColor);
-	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
-	SDL_RenderTexture(renderer, texture, NULL, &rect);
+TextLabel::~TextLabel() {
+	if (m_surface) SDL_DestroySurface(m_surface);
+}
+
+
+void TextLabel::updateSurface() {
+	if (m_surface) SDL_DestroySurface(m_surface);
+
+	m_surface = TTF_RenderText_Solid(m_font, m_text.c_str(), m_text.length(), m_color);
+	m_width = static_cast<float>(m_surface->w);
+	m_height = static_cast<float>(m_surface->h);
+}
+
+void TextLabel::render(SDL_Renderer* renderer, const SDL_FRect* dest) {
+	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, m_surface);
+	SDL_RenderTexture(renderer, texture, NULL, dest);
 	SDL_DestroyTexture(texture);
-	SDL_DestroySurface(surface);
+}
+
+void TextLabel::setText(const std::string& text) {
+	m_text = text;
+	updateSurface();
+}
+
+void TextLabel::setFont(TTF_Font* font) {
+	m_font = font;
+	updateSurface();
+}
+
+void TextLabel::setColor(SDL_Color color) {
+	m_color = color;
+	updateSurface();
 }
