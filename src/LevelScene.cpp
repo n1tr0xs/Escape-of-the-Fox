@@ -3,16 +3,9 @@
 LevelScene::LevelScene(ResourceManager* resourceManager, int levelNum) :
 	m_resourceManager{ resourceManager } {
 
-	// Creating Level	
-	SDL_Texture* levelTileSheetTexture = m_resourceManager->loadTexture("back.png", levelNum);
-	SDL_Texture* backgroundStaticTexture = m_resourceManager->loadTexture("backgroundStatic.png", levelNum);
-	SDL_Texture* backgroundBackTexture = m_resourceManager->loadTexture("backgroundBack.png", levelNum);
-	SDL_Texture* backgroundFrontTexture = m_resourceManager->loadTexture("backgroundFront.png", levelNum);
-	m_level = std::make_unique<Level>(levelNum, levelTileSheetTexture, backgroundStaticTexture, backgroundBackTexture, backgroundFrontTexture);
-	// Creating Camera
+	m_level = createLevel(levelNum);
 	m_camera = createCamera();
 	m_player = createPlayer();
-	// Creating PauseScene
 	m_pauseScene = createPauseScene();
 }
 
@@ -162,6 +155,15 @@ std::unique_ptr<MenuScene> LevelScene::createPauseScene() {
 	pauseScene->addButton("Continue", SceneResult::Continue);
 	pauseScene->addButton("Quit to Menu", SceneResult::QuitToMenu);
 	return pauseScene;
+}
+
+std::unique_ptr<Level> LevelScene::createLevel(int levelNum) {
+	SDL_Texture* levelTileSheetTexture = m_resourceManager->loadTexture("back.png", levelNum);
+	SDL_Texture* backgroundStaticTexture = m_resourceManager->loadTexture("backgroundStatic.png", levelNum);
+	SDL_Texture* backgroundBackTexture = m_resourceManager->loadTexture("backgroundBack.png", levelNum);
+	SDL_Texture* backgroundFrontTexture = m_resourceManager->loadTexture("backgroundFront.png", levelNum);
+	std::unique_ptr<Level> level = std::make_unique<Level>(levelNum, levelTileSheetTexture, backgroundStaticTexture, backgroundBackTexture, backgroundFrontTexture);
+	return level;
 }
 
 std::unique_ptr<Camera> LevelScene::createCamera() {

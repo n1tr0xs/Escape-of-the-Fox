@@ -22,19 +22,21 @@ public:
 	// Resolves vertical collision for entity
 	void resolveVerticalCollision(Entity* entity, Uint64 deltaTime);
 private:
+	// Creates level
+	std::unique_ptr<Level> createLevel(int levelNum);
+	// Creates camera
+	std::unique_ptr<Camera> createCamera();
 	// Creates player
 	std::unique_ptr<Player> createPlayer();
 	// Creates pause scene
 	std::unique_ptr<MenuScene> createPauseScene();
-	// Create camera
-	std::unique_ptr<Camera> createCamera();
 
 	ResourceManager* m_resourceManager;
 
 	std::unique_ptr<Level> m_level;
+	std::unique_ptr<Camera> m_camera;
 	std::unique_ptr<Player> m_player;
 	std::unique_ptr<MenuScene> m_pauseScene;
-	std::unique_ptr<Camera> m_camera;
 
 	bool m_isPaused{ false };
 	bool m_levelCompleted{ false };
