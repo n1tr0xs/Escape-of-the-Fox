@@ -22,6 +22,8 @@ public:
 	// Resolves vertical collision for entity
 	void resolveVerticalCollision(Entity* entity, Uint64 deltaTime);
 private:
+	// Creates player
+	std::unique_ptr<Player> createPlayer();
 	std::unique_ptr<MenuScene> createPauseScene();
 
 	ResourceManager* m_resourceManager;

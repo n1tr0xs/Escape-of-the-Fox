@@ -1,15 +1,7 @@
 #include "Player.hpp"
 
 Player::Player(float x, float y, float width, float height, SDL_Texture* texture) :
-	Entity{ x, y, width, height, texture } {
-	float fw = 512;
-	float fh = fw / 2;
-	addAnimation("idle", 0, 1, fw, fh);
-	//addAnimation("running", 1, 4, fw, fh);
-	//addAnimation("jumping", 2, 4, fw, fh);
-	//addAnimation("crouching", 3, 4, fw, fh);
-	setAnimation("idle");
-}
+	Entity{ x, y, width, height, texture } {}
 
 void Player::handleEvent(const SDL_Event& event) {
 	if (event.type == SDL_EVENT_KEY_DOWN) {

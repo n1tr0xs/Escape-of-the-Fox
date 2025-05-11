@@ -13,11 +13,7 @@ LevelScene::LevelScene(ResourceManager* resourceManager, int levelNum) :
 	float cameraWidth = static_cast<float>(RENDERER_WIDTH_IN_PIXELS);
 	float cameraHeight = static_cast<float>(RENDERER_HEIGHT_IN_PIXELS);
 	m_camera = std::make_unique<Camera>(cameraWidth, cameraHeight);
-	// Creating Player
-	SDL_Texture* playerTexture = m_resourceManager->loadTexture("player.png");
-	float playerWidth = static_cast<float>(TILE_SIZE * 4);
-	float playerHeight = static_cast<float>(TILE_SIZE * 2);
-	m_player = std::make_unique<Player>(0.0f, 0.0f, playerWidth, playerHeight, playerTexture);
+	m_player = createPlayer();
 	// Creating PauseScene
 	m_pauseScene = createPauseScene();
 }
@@ -144,6 +140,23 @@ void LevelScene::resolveVerticalCollision(Entity* entity, Uint64 deltaTime) {
 	}
 
 	entity->setY(newY);
+}
+
+std::unique_ptr<Player> LevelScene::createPlayer() {
+	SDL_Texture* playerTexture = m_resourceManager->loadTexture("player.png");
+	float playerWidth = static_cast<float>(TILE_SIZE * 4);
+	float playerHeight = static_cast<float>(TILE_SIZE * 2);
+	std::unique_ptr<Player> player = std::make_unique<Player>(0.0f, 0.0f, playerWidth, playerHeight, playerTexture);
+
+	float fw = 256;
+	float fh = fw / 2;
+	player->addAnimation("idle", 0, 1, fw, fh);
+	//player->addAnimation("running", 1, 4, fw, fh);
+	//player->addAnimation("jumping", 2, 4, fw, fh);
+	//player->addAnimation("crouching", 3, 4, fw, fh);
+	player->setAnimation("idle");
+
+	return player;
 }
 
 std::unique_ptr<MenuScene> LevelScene::createPauseScene() {
