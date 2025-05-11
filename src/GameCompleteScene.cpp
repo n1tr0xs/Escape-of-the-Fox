@@ -40,8 +40,6 @@ void GameCompleteScene::render(SDL_Renderer* renderer) {
 		dest.w = textLabel->getWidth();
 		dest.h = textLabel->getHeight();
 		textLabel->render(renderer, &dest);
-		SDL_Log("Text label rendered at: %f %f", dest.x, dest.y);
-		SDL_Log("Size: %f %f.", dest.w, dest.h);
 		dest.y += textLabel->getHeight() + verticalSpacing;
 	}
 }

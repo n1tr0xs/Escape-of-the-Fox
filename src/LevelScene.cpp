@@ -20,8 +20,6 @@ LevelScene::LevelScene(ResourceManager* resourceManager, int levelNum) :
 	m_player = std::make_unique<Player>(0.0f, 0.0f, playerWidth, playerHeight, playerTexture);
 	// Creating PauseScene
 	m_pauseScene = createPauseScene();
-
-	m_sceneResult = SceneResult::Victory;
 }
 
 void LevelScene::handleEvent(const SDL_Event& event) {
