@@ -7,22 +7,23 @@
 class TextLabel {
 public:
 	TextLabel(TTF_Font* font, const std::string& text, SDL_Color color);
-	~TextLabel();
+	virtual ~TextLabel();
 
 	// Renders TextLabel
-	void render(SDL_Renderer* renderer, const SDL_FRect* dest);
+	virtual void render(SDL_Renderer* renderer, const SDL_FRect* dest);
 	
 	// Getters
-	float getWidth() const { return m_width; }
-	float getHeight() const { return m_height; }
+	virtual float getWidth() const { return m_width; }
+	virtual float getHeight() const { return m_height; }
 	std::string getText() const { return m_text; }
-	// Setter
+
 	// Setters
-	void setText(const std::string& text);
-	void setFont(TTF_Font* font);
-	void setColor(SDL_Color color);
-private:
-	void updateSurface();
+	virtual void setText(const std::string& text);
+	virtual void setFont(TTF_Font* font);
+	virtual void setColor(SDL_Color color);
+protected:
+	// Updates surface and m_width, m_height
+	virtual void updateSurface();
 
 	std::string m_text;
 	TTF_Font* m_font;
