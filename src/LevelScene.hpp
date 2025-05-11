@@ -24,7 +24,10 @@ public:
 private:
 	// Creates player
 	std::unique_ptr<Player> createPlayer();
+	// Creates pause scene
 	std::unique_ptr<MenuScene> createPauseScene();
+	// Create camera
+	std::unique_ptr<Camera> createCamera();
 
 	ResourceManager* m_resourceManager;
 

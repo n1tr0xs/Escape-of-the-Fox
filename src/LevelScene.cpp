@@ -10,9 +10,7 @@ LevelScene::LevelScene(ResourceManager* resourceManager, int levelNum) :
 	SDL_Texture* backgroundFrontTexture = m_resourceManager->loadTexture("backgroundFront.png", levelNum);
 	m_level = std::make_unique<Level>(levelNum, levelTileSheetTexture, backgroundStaticTexture, backgroundBackTexture, backgroundFrontTexture);
 	// Creating Camera
-	float cameraWidth = static_cast<float>(RENDERER_WIDTH_IN_PIXELS);
-	float cameraHeight = static_cast<float>(RENDERER_HEIGHT_IN_PIXELS);
-	m_camera = std::make_unique<Camera>(cameraWidth, cameraHeight);
+	m_camera = createCamera();
 	m_player = createPlayer();
 	// Creating PauseScene
 	m_pauseScene = createPauseScene();
@@ -164,4 +162,11 @@ std::unique_ptr<MenuScene> LevelScene::createPauseScene() {
 	pauseScene->addButton("Continue", SceneResult::Continue);
 	pauseScene->addButton("Quit to Menu", SceneResult::QuitToMenu);
 	return pauseScene;
+}
+
+std::unique_ptr<Camera> LevelScene::createCamera() {
+	float cameraWidth = static_cast<float>(RENDERER_WIDTH_IN_PIXELS);
+	float cameraHeight = static_cast<float>(RENDERER_HEIGHT_IN_PIXELS);
+	std::unique_ptr<Camera> camera = std::make_unique<Camera>(cameraWidth, cameraHeight);
+	return camera;
 }
