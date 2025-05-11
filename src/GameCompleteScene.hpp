@@ -16,4 +16,5 @@ public:
 private:
 	ResourceManager* m_resourceManager;
 	std::vector<std::unique_ptr<TextLabel>> m_textLabels;
+	std::unique_ptr<TextLabel> m_hintLabel;
 };

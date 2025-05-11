@@ -3,12 +3,14 @@
 
 GameCompleteScene::GameCompleteScene(ResourceManager* resourceManager) :
 	m_resourceManager{ resourceManager } {
-	
+
 	TTF_Font* font = m_resourceManager->loadFont("arial.ttf");
 	SDL_Color textColor = { 255, 255, 255, 255 };
 	m_textLabels.push_back(std::make_unique<TextLabel>(font, "Developer: n1tr0xs", textColor));
 	m_textLabels.push_back(std::make_unique<TextLabel>(font, "Graphic artist: chertowka", textColor));
 	m_textLabels.push_back(std::make_unique<TextLabel>(font, "Sound artist: H4RD0ZZ", textColor));
+
+	m_hintLabel = std::make_unique<TextLabel>(font, "Press any key to exit.", textColor);
 }
 
 void GameCompleteScene::handleEvent(const SDL_Event& event) {
@@ -26,7 +28,7 @@ void GameCompleteScene::handleEvent(const SDL_Event& event) {
 void GameCompleteScene::update(const Uint64 deltaTime) {}
 
 void GameCompleteScene::render(SDL_Renderer* renderer) {
-	float verticalSpacing = 0;
+	float verticalSpacing = 10;
 
 	float total_height = -verticalSpacing;
 	for (const auto& textLabel : m_textLabels) {
@@ -42,4 +44,12 @@ void GameCompleteScene::render(SDL_Renderer* renderer) {
 		textLabel->render(renderer, &dest);
 		dest.y += textLabel->getHeight() + verticalSpacing;
 	}
+
+	dest = {
+		rendererCenterX - m_hintLabel->getWidth() / 2,
+		RENDERER_HEIGHT_IN_PIXELS - m_hintLabel->getHeight() - verticalSpacing,
+		m_hintLabel->getWidth(),
+		m_hintLabel->getHeight()
+	};
+	m_hintLabel->render(renderer, &dest);
 }
