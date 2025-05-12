@@ -22,7 +22,7 @@ ResourceManager::~ResourceManager() {
 
 	for (auto& pair : m_sounds) {
 		if (pair.second) {
-			Mix_FreeMusic(pair.second);
+			Mix_FreeChunk(pair.second);
 		}
 	}
 
@@ -54,7 +54,7 @@ TTF_Font* ResourceManager::loadFont(const std::string& fileName) {
 	return font;
 }
 
-Mix_Music* ResourceManager::loadSound(const std::string& fileName) {
+Mix_Chunk* ResourceManager::loadSound(const std::string& fileName) {
 	std::string filePath = std::format(ASSET_PATH, fileName);
 	// Check if font already loaded
 	auto it = m_sounds.find(filePath);
@@ -62,7 +62,7 @@ Mix_Music* ResourceManager::loadSound(const std::string& fileName) {
 		return it->second;
 	}
 
-	Mix_Music* sound = Mix_LoadMUS(filePath.c_str());
+	Mix_Chunk* sound = Mix_LoadWAV(filePath.c_str());
 	if (!sound) {
 		SDL_Log("Failed to load sound: %s", SDL_GetError());
 	}

@@ -19,12 +19,13 @@ public:
 	// Loads font
 	TTF_Font* loadFont(const std::string& filePath);
 	// Loads sound
-	Mix_Music* loadSound(const std::string& filePath);
+	Mix_Chunk* loadSound(const std::string& filePath);
+
 private:
 	SDL_Texture* loadTextureInternal(const std::string& filePath);
 
 	SDL_Renderer* m_renderer;
 	std::unordered_map<std::string, SDL_Texture*> m_textures;
 	std::unordered_map<std::string, TTF_Font*> m_fonts;
-	std::unordered_map<std::string, Mix_Music*> m_sounds;
+	std::unordered_map<std::string, Mix_Chunk*> m_sounds;
 };
