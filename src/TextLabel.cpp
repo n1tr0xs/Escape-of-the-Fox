@@ -6,12 +6,13 @@ TextLabel::TextLabel(TTF_Font* font, const std::string& text, SDL_Color color) :
 }
 
 TextLabel::~TextLabel() {
-	if (m_surface) SDL_DestroySurface(m_surface);
+	resetSurface();
+	resetTexture();
 }
 
-
 void TextLabel::updateSurface() {
-	if (m_surface) SDL_DestroySurface(m_surface);
+	resetSurface();
+	resetTexture();
 
 	m_surface = TTF_RenderText_Solid(m_font, m_text.c_str(), m_text.length(), m_color);
 	if (m_surface) {
@@ -21,12 +22,27 @@ void TextLabel::updateSurface() {
 	else {
 		m_width = m_height = 0.0f;
 	}
+
+}
+
+void TextLabel::resetSurface() {
+	if (m_surface) {
+		SDL_DestroySurface(m_surface);
+		m_surface = nullptr;
+	}
+}
+
+void TextLabel::resetTexture() {
+	if (m_texture) {
+		SDL_DestroyTexture(m_texture);
+		m_texture = nullptr;
+	}
 }
 
 void TextLabel::render(SDL_Renderer* renderer, const SDL_FRect* dest) {
-	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, m_surface);
-	SDL_RenderTexture(renderer, texture, NULL, dest);
-	SDL_DestroyTexture(texture);
+	if (!m_texture)
+		m_texture = SDL_CreateTextureFromSurface(renderer, m_surface);
+	SDL_RenderTexture(renderer, m_texture, NULL, dest);
 }
 
 void TextLabel::setText(const std::string& text) {

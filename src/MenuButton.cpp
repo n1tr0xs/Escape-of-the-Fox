@@ -6,7 +6,8 @@ MenuButton::MenuButton(TTF_Font* font, const std::string& text, SceneResult resu
 }
 
 void MenuButton::updateSurface() {
-	if (m_surface) SDL_DestroySurface(m_surface);
+	resetSurface();
+	resetTexture();
 
 	m_surface = TTF_RenderText_Solid(m_font, m_text.c_str(), m_text.length(), m_isSelected ? m_selectedColor : m_color);
 	if(m_surface){

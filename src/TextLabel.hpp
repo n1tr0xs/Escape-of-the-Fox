@@ -24,11 +24,16 @@ public:
 protected:
 	// Updates surface and m_width, m_height
 	virtual void updateSurface();
+	// Resets m_texture
+	void resetTexture();
+	// Resets m_surface
+	void resetSurface();
 
 	std::string m_text;
 	TTF_Font* m_font;
 	SDL_Color m_color;
 
+	SDL_Texture* m_texture{ nullptr };
 	SDL_Surface* m_surface{ nullptr };
 	float m_width{ 0.0f };
 	float m_height{ 0.0f };
