@@ -10,3 +10,9 @@ constexpr const char* ASSET_PATH = "assets/{}";
 constexpr const char* LEVEL_ASSET_PATH = "assets/level_{:02d}/{}";
 
 constexpr int BACKGROUND_MUSIC_CHANNEL = 0;
+
+#ifdef _DEBUG
+#define DEBUG_LOG(x) SDL_Log(x)
+#else
+#define DEBUG_LOG(x)
+#endif
