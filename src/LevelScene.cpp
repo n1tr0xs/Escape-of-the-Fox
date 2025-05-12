@@ -150,11 +150,8 @@ std::unique_ptr<Player> LevelScene::createPlayer() {
 	return player;
 }
 
-std::unique_ptr<MenuScene> LevelScene::createPauseScene() {
-	auto pauseScene = std::make_unique<MenuScene>(m_resourceManager);
-	pauseScene->addButton("Continue", SceneResult::Continue);
-	pauseScene->addButton("Quit to Menu", SceneResult::QuitToMenu);
-	return pauseScene;
+std::unique_ptr<PauseMenu> LevelScene::createPauseScene() {
+	return std::make_unique<PauseMenu>(m_resourceManager);
 }
 
 std::unique_ptr<Level> LevelScene::createLevel(int levelNum) {

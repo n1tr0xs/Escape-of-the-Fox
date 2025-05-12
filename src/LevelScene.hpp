@@ -7,6 +7,7 @@
 #include "Player.hpp"
 #include "ResourceManager.hpp"
 #include "MenuScene.hpp"
+#include "PauseMenu.hpp"
 
 class LevelScene : public Scene {
 public:
@@ -29,14 +30,14 @@ private:
 	// Creates player
 	std::unique_ptr<Player> createPlayer();
 	// Creates pause scene
-	std::unique_ptr<MenuScene> createPauseScene();
+	std::unique_ptr<PauseMenu> createPauseScene();
 
 	ResourceManager* m_resourceManager;
 
 	std::unique_ptr<Level> m_level;
 	std::unique_ptr<Camera> m_camera;
 	std::unique_ptr<Player> m_player;
-	std::unique_ptr<MenuScene> m_pauseScene;
+	std::unique_ptr<PauseMenu> m_pauseScene;
 
 	bool m_isPaused{ false };
 	bool m_levelCompleted{ false };

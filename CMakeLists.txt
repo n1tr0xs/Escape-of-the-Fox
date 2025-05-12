@@ -78,6 +78,7 @@ add_executable("${PROJECT_NAME}"
   "src/GameCompleteScene.cpp" "src/GameCompleteScene.hpp"
   "src/MenuScene.cpp" "src/MenuScene.hpp"
   "src/MainMenu.cpp" "src/MainMenu.hpp"
+  "src/PauseMenu.cpp" "src/PauseMenu.hpp"
 
   # UI
   "src/MenuButton.cpp" "src/MenuButton.hpp"
