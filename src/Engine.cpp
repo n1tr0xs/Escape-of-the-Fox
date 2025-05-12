@@ -2,6 +2,7 @@
 #include "GameCompleteScene.hpp"
 #include "LevelScene.hpp"
 #include "MenuScene.hpp"
+#include "MainMenu.hpp"
 #include "Utils.hpp"
 
 Engine::Engine(const std::string& title) {
@@ -64,11 +65,7 @@ Engine::~Engine() {
 }
 
 std::unique_ptr<Scene> Engine::createMenuScene() {
-	auto menuScene = std::make_unique<MenuScene>(m_resourceManager.get());
-	menuScene->addButton("Start game", SceneResult::StartGame);
-	menuScene->addButton("Quit", SceneResult::Quit);
-	menuScene->addMusic("menu.mp3");
-	return menuScene;
+	return std::make_unique<MainMenu>(m_resourceManager.get());
 }
 
 void Engine::run() {

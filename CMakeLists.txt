@@ -55,23 +55,33 @@ FetchContent_MakeAvailable(SDL3 SDL3_image SDL3_ttf SDL3_mixer)
 
 # Define source files
 add_executable("${PROJECT_NAME}"
+  # Entry
   "src/main.cpp"
+
+  # Engine and basic components
   "src/constants.hpp"
-  "src/Engine.hpp" "src/Engine.cpp"
-  "src/ResourceManager.hpp" "src/ResourceManager.cpp"
-  "src/Entity.hpp" "src/Entity.cpp"
-  "src/Animation.hpp" "src/Animation.cpp"
-  "src/Player.hpp" "src/Player.cpp"
-  "src/Level.hpp" "src/Level.cpp"
-  "src/Camera.hpp" "src/Camera.cpp"
+  "src/Utils.cpp" "src/Utils.hpp"
+  "src/Engine.cpp" "src/Engine.hpp"
+  "src/ResourceManager.cpp" "src/ResourceManager.hpp"
+  "src/Camera.cpp" "src/Camera.hpp"
+  "src/Animation.cpp" "src/Animation.hpp"
+
+  # Game objects
+  "src/Entity.cpp" "src/Entity.hpp"
+  "src/GameObject.cpp" "src/GameObject.hpp"
+  "src/Player.cpp" "src/Player.hpp"
+
+  # Scenes and level
+  "src/Level.cpp" "src/Level.hpp"
   "src/Scene.hpp"
-  "src/LevelScene.hpp" "src/LevelScene.cpp"
-  "src/MenuButton.hpp" "src/MenuButton.cpp"
-  "src/MenuScene.hpp" "src/MenuScene.cpp"
-  "src/GameCompleteScene.hpp" "src/GameCompleteScene.cpp"
-  "src/GameObject.hpp" "src/GameObject.cpp"
-  "src/Utils.hpp" "src/Utils.cpp"
-  "src/TextLabel.hpp" "src/TextLabel.cpp"
+  "src/LevelScene.cpp" "src/LevelScene.hpp"
+  "src/GameCompleteScene.cpp" "src/GameCompleteScene.hpp"
+  "src/MenuScene.cpp" "src/MenuScene.hpp"
+  "src/MainMenu.cpp" "src/MainMenu.hpp"
+
+  # UI
+  "src/MenuButton.cpp" "src/MenuButton.hpp"
+  "src/TextLabel.cpp" "src/TextLabel.hpp"
 )
 
 # Link libraries
