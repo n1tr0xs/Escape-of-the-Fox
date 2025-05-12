@@ -8,3 +8,5 @@ constexpr const int RENDERER_WIDTH_IN_PIXELS = RENDERER_WIDTH_IN_TILES * TILE_SI
 
 constexpr const char* ASSET_PATH = "assets/{}";
 constexpr const char* LEVEL_ASSET_PATH = "assets/level_{:02d}/{}";
+
+constexpr int BACKGROUND_MUSIC_CHANNEL = 0;
