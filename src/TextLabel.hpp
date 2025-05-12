@@ -28,6 +28,8 @@ protected:
 	void resetTexture();
 	// Resets m_surface
 	void resetSurface();
+	// Updates m_width, m_height
+	void updateSize();
 
 	std::string m_text;
 	TTF_Font* m_font;
