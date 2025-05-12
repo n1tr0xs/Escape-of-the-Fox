@@ -12,12 +12,6 @@ Engine::Engine(const std::string& title) {
 	if (!TTF_Init())
 		utils::SDL_Fail("Couldn't init TTF.");
 
-	m_audioDeviceID = SDL_OpenAudioDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, NULL);
-	if (!m_audioDeviceID)
-		utils::SDL_Fail("Couldn't init Audio device.");
-	if (!Mix_OpenAudio(m_audioDeviceID, NULL))
-		utils::SDL_Fail("Couldn't open audio device.");
-
 	SDL_WindowFlags flags = 0;
 	//SDL_WindowFlags flags = SDL_WINDOW_FULLSCREEN | SDL_WINDOW_BORDERLESS;
 	m_window = SDL_CreateWindow(title.c_str(), RENDERER_WIDTH_IN_PIXELS, RENDERER_HEIGHT_IN_PIXELS, flags);
@@ -28,11 +22,18 @@ Engine::Engine(const std::string& title) {
 	if (!m_renderer)
 		utils::SDL_Fail("Couldn't create renderer.");
 
+	// Creating "virtual screen"
+	m_renderTexture = SDL_CreateTexture(m_renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, RENDERER_WIDTH_IN_PIXELS, RENDERER_HEIGHT_IN_PIXELS);
+
 	// Creating ResourceManager
 	m_resourceManager = std::make_unique<ResourceManager>(m_renderer);
 
-	// Creating "virtual screen"
-	m_renderTexture = SDL_CreateTexture(m_renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, RENDERER_WIDTH_IN_PIXELS, RENDERER_HEIGHT_IN_PIXELS);
+	// Audio system initialization
+	m_audioDeviceID = SDL_OpenAudioDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, NULL);
+	if (!m_audioDeviceID)
+		utils::SDL_Fail("Couldn't init Audio device.");
+	if (!Mix_OpenAudio(m_audioDeviceID, NULL))
+		utils::SDL_Fail("Couldn't open audio device.");
 
 	// Creating MenuScene
 	m_currentScene = createMenuScene();
@@ -53,11 +54,10 @@ Engine::~Engine() {
 		SDL_DestroyWindow(m_window);
 		m_window = nullptr;
 	}
-
-	m_resourceManager.reset();
 	
-	Mix_FadeOutMusic(1000);
-	Mix_CloseAudio();
+	m_currentScene.reset();
+	m_resourceManager.reset();
+
 	SDL_CloseAudioDevice(m_audioDeviceID);
 	Mix_Quit();
 	TTF_Quit();
@@ -96,30 +96,30 @@ void Engine::update(const Uint64 deltaTime) {
 		m_currentScene->update(deltaTime);
 		SceneResult sceneResult = m_currentScene->getResult();
 		switch (sceneResult) {
-			case SceneResult::None:
-				break;
-			case SceneResult::StartGame:
-				m_currentLevel = 1; // first level
+		case SceneResult::None:
+			break;
+		case SceneResult::StartGame:
+			m_currentLevel = 1; // first level
+			m_currentScene = std::make_unique<LevelScene>(m_resourceManager.get(), m_currentLevel);
+			break;
+		case SceneResult::Quit:
+			m_running = false;
+			break;
+		case SceneResult::Victory:
+			++m_currentLevel;
+			if (m_currentLevel <= m_maxLevel) // next level
 				m_currentScene = std::make_unique<LevelScene>(m_resourceManager.get(), m_currentLevel);
-				break;
-			case SceneResult::Quit:
-				m_running = false;
-				break;
-			case SceneResult::Victory:
-				++m_currentLevel;
-				if (m_currentLevel <= m_maxLevel) // next level
-					m_currentScene = std::make_unique<LevelScene>(m_resourceManager.get(), m_currentLevel);
-				else // game won
-					m_currentScene = std::make_unique<GameCompleteScene>(m_resourceManager.get());
-				break;
-			case SceneResult::GameOver:
-				m_currentLevel = 0;
-				m_currentScene = createMenuScene();
-				break;
-			case SceneResult::QuitToMainMenu:
-				m_currentLevel = 0;
-				m_currentScene = createMenuScene();
-				break;
+			else // game won
+				m_currentScene = std::make_unique<GameCompleteScene>(m_resourceManager.get());
+			break;
+		case SceneResult::GameOver:
+			m_currentLevel = 0;
+			m_currentScene = createMenuScene();
+			break;
+		case SceneResult::QuitToMainMenu:
+			m_currentLevel = 0;
+			m_currentScene = createMenuScene();
+			break;
 		}
 	}
 }
