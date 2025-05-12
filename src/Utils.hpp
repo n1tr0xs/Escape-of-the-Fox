@@ -2,4 +2,6 @@
 
 #include <string>
 
-void SDL_Fail(const std::string& message);
+namespace utils {
+	void SDL_Fail(const std::string& message);
+}

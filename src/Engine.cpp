@@ -6,26 +6,26 @@
 
 Engine::Engine(const std::string& title) {
 	if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO))
-		SDL_Fail("Failed to initialize SDL:");
+		utils::SDL_Fail("Failed to initialize SDL:");
 
 	if (!TTF_Init())
-		SDL_Fail("Couldn't init TTF.");
+		utils::SDL_Fail("Couldn't init TTF.");
 
 	m_audioDeviceID = SDL_OpenAudioDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, NULL);
 	if (!m_audioDeviceID)
-		SDL_Fail("Couldn't init Audio device.");
+		utils::SDL_Fail("Couldn't init Audio device.");
 	if (!Mix_OpenAudio(m_audioDeviceID, NULL))
-		SDL_Fail("Couldn't open audio device.");
+		utils::SDL_Fail("Couldn't open audio device.");
 
 	SDL_WindowFlags flags = 0;
 	//SDL_WindowFlags flags = SDL_WINDOW_FULLSCREEN | SDL_WINDOW_BORDERLESS;
 	m_window = SDL_CreateWindow(title.c_str(), RENDERER_WIDTH_IN_PIXELS, RENDERER_HEIGHT_IN_PIXELS, flags);
 	if (!m_window)
-		SDL_Fail("Couldn't create window.");
+		utils::SDL_Fail("Couldn't create window.");
 
 	m_renderer = SDL_CreateRenderer(m_window, NULL);
 	if (!m_renderer)
-		SDL_Fail("Couldn't create renderer.");
+		utils::SDL_Fail("Couldn't create renderer.");
 
 	// Creating ResourceManager
 	m_resourceManager = std::make_unique<ResourceManager>(m_renderer);
