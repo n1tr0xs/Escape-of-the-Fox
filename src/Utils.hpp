@@ -3,5 +3,6 @@
 #include <string>
 
 namespace utils {
-	void SDL_Fail(const std::string& message);
+	[[noreturn]]
+	void SDL_Fail(const std::string& message, int statusCode = -1);
 }
