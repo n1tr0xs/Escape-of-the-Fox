@@ -19,7 +19,7 @@ void GameCompleteScene::handleEvent(const SDL_Event& event) {
 			case SDLK_ESCAPE:
 			case SDLK_SPACE:
 			case SDLK_RETURN:
-				m_sceneResult = SceneResult::Quit;
+				m_sceneResult = SceneResult::QuitToMenu;
 				break;
 		}
 	}
