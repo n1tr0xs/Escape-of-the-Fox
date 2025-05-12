@@ -5,5 +5,5 @@
 PauseMenu::PauseMenu(ResourceManager* resourceManager) :
 	MenuScene(resourceManager) {
 	addButton("Continue", SceneResult::Continue);
-	addButton("Quit to Menu", SceneResult::QuitToMenu);
+	addButton("Quit to Menu", SceneResult::QuitToMainMenu);
 }

@@ -34,8 +34,8 @@ void LevelScene::update(const Uint64 deltaTime) {
 				m_isPaused = false;
 				m_pauseScene->resetResult();
 				break;
-			case SceneResult::QuitToMenu:
-				m_sceneResult = SceneResult::QuitToMenu;
+			case SceneResult::QuitToMainMenu:
+				m_sceneResult = SceneResult::QuitToMainMenu;
 				break;
 		}
 	}

@@ -116,7 +116,7 @@ void Engine::update(const Uint64 deltaTime) {
 				m_currentLevel = 0;
 				m_currentScene = createMenuScene();
 				break;
-			case SceneResult::QuitToMenu:
+			case SceneResult::QuitToMainMenu:
 				m_currentLevel = 0;
 				m_currentScene = createMenuScene();
 				break;

@@ -10,7 +10,7 @@ enum class SceneResult {
 	Quit,
 	Victory,
 	GameOver,
-	QuitToMenu,
+	QuitToMainMenu,
 	Continue,
 };
 
