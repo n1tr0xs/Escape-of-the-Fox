@@ -14,8 +14,13 @@ void TextLabel::updateSurface() {
 	if (m_surface) SDL_DestroySurface(m_surface);
 
 	m_surface = TTF_RenderText_Solid(m_font, m_text.c_str(), m_text.length(), m_color);
-	m_width = static_cast<float>(m_surface->w);
-	m_height = static_cast<float>(m_surface->h);
+	if (m_surface) {
+		m_width = static_cast<float>(m_surface->w);
+		m_height = static_cast<float>(m_surface->h);
+	}
+	else {
+		m_width = m_height = 0.0f;
+	}
 }
 
 void TextLabel::render(SDL_Renderer* renderer, const SDL_FRect* dest) {
