@@ -18,15 +18,15 @@ Engine::Engine(const std::string& title) {
 	if (!m_window)
 		utils::SDL_Fail("Couldn't create window.");
 
-	m_renderer = SDL_CreateRenderer(m_window.get(), NULL);
+	m_renderer.reset(SDL_CreateRenderer(m_window.get(), NULL));
 	if (!m_renderer)
 		utils::SDL_Fail("Couldn't create renderer.");
 
 	// Creating "virtual screen"
-	m_renderTexture = SDL_CreateTexture(m_renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, RENDERER_WIDTH_IN_PIXELS, RENDERER_HEIGHT_IN_PIXELS);
+	m_renderTexture = SDL_CreateTexture(m_renderer.get(), SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, RENDERER_WIDTH_IN_PIXELS, RENDERER_HEIGHT_IN_PIXELS);
 
 	// Creating ResourceManager
-	m_resourceManager = std::make_unique<ResourceManager>(m_renderer);
+	m_resourceManager = std::make_unique<ResourceManager>(m_renderer.get());
 
 	// Audio system initialization
 	m_audioDeviceID = SDL_OpenAudioDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, NULL);
@@ -45,10 +45,6 @@ Engine::~Engine() {
 	if (m_renderTexture) {
 		SDL_DestroyTexture(m_renderTexture);
 		m_renderTexture = nullptr;
-	}
-	if (m_renderer) {
-		SDL_DestroyRenderer(m_renderer);
-		m_renderer = nullptr;
 	}
 	
 	m_currentScene.reset();
@@ -125,17 +121,17 @@ void Engine::update(const Uint64 deltaTime) {
 
 void Engine::render() {
 	// Rendering to "virtual screen"
-	SDL_SetRenderTarget(m_renderer, m_renderTexture);
-	SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
-	SDL_RenderClear(m_renderer);
+	SDL_SetRenderTarget(m_renderer.get(), m_renderTexture);
+	SDL_SetRenderDrawColor(m_renderer.get(), 0, 0, 0, 255);
+	SDL_RenderClear(m_renderer.get());
 
 	if (m_currentScene)
-		m_currentScene->render(m_renderer);
+		m_currentScene->render(m_renderer.get());
 
 	// Rendering "virtual screen" to real screen
-	SDL_SetRenderTarget(m_renderer, nullptr);
-	SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
-	SDL_RenderClear(m_renderer);
+	SDL_SetRenderTarget(m_renderer.get(), nullptr);
+	SDL_SetRenderDrawColor(m_renderer.get(), 0, 0, 0, 255);
+	SDL_RenderClear(m_renderer.get());
 
 	// Calculating the scale
 	int w, h;
@@ -152,7 +148,7 @@ void Engine::render() {
 	float offsetY = (h - destH) / 2;
 
 	SDL_FRect destRect = { offsetX, offsetY, destW, destH };
-	SDL_RenderTexture(m_renderer, m_renderTexture, nullptr, &destRect);
+	SDL_RenderTexture(m_renderer.get(), m_renderTexture, nullptr, &destRect);
 
-	SDL_RenderPresent(m_renderer);
+	SDL_RenderPresent(m_renderer.get());
 }

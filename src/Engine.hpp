@@ -11,6 +11,7 @@
 #include "Scene.hpp"
 
 using unique_SDL_Window = std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)>;
+using unique_SDL_Renderer = std::unique_ptr<SDL_Renderer, decltype(&SDL_DestroyRenderer)>;
 
 class Engine {
 public:
@@ -31,7 +32,8 @@ private:
 
 	// Game window
 	unique_SDL_Window m_window{ nullptr, [](SDL_Window* p) {if (p) SDL_DestroyWindow(p); p = nullptr;} };
-	SDL_Renderer* m_renderer{ nullptr }; // Game renderer
+	// Game renderer
+	unique_SDL_Renderer m_renderer{ nullptr, [](SDL_Renderer* p) {if (p) SDL_DestroyRenderer(p); p = nullptr;} };
 	SDL_Texture* m_renderTexture{ nullptr }; // "virtual screen"
 	
 	std::unique_ptr<ResourceManager> m_resourceManager; // Resource manager
