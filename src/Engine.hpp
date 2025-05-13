@@ -26,7 +26,8 @@ private:
 	void update(const Uint64 deltaTime);
 	// Renders the game
 	void render();
-
+	
+	// Creates Menu Scene
 	std::unique_ptr<Scene> createMenuScene();
 
 	// Game window
@@ -35,10 +36,12 @@ private:
 	unique_SDL_Renderer m_renderer{ nullptr, [](SDL_Renderer* p) {if (p) SDL_DestroyRenderer(p); p = nullptr;} };
 	// "virtual screen"
 	unique_SDL_Texture m_renderTexture{ nullptr, [](SDL_Texture* p) {if (p) SDL_DestroyTexture(p); p = nullptr;} };
-	
-	std::unique_ptr<ResourceManager> m_resourceManager; // Resource manager
+	// Resource manager
+	std::unique_ptr<ResourceManager> m_resourceManager; 
+	// Currently playing scene
 	std::unique_ptr<Scene> m_currentScene;
-	SDL_AudioDeviceID m_audioDeviceID{ 0 }; // AudioDevice
+	// AudioDevice
+	SDL_AudioDeviceID m_audioDeviceID{ 0 };
 
 	bool m_running{ false };
 	int m_currentLevel{ 0 };
