@@ -14,11 +14,11 @@ Engine::Engine(const std::string& title) {
 
 	SDL_WindowFlags flags = 0;
 	//SDL_WindowFlags flags = SDL_WINDOW_FULLSCREEN | SDL_WINDOW_BORDERLESS;
-	m_window = SDL_CreateWindow(title.c_str(), RENDERER_WIDTH_IN_PIXELS, RENDERER_HEIGHT_IN_PIXELS, flags);
+	m_window.reset(SDL_CreateWindow(title.c_str(), RENDERER_WIDTH_IN_PIXELS, RENDERER_HEIGHT_IN_PIXELS, flags));
 	if (!m_window)
 		utils::SDL_Fail("Couldn't create window.");
 
-	m_renderer = SDL_CreateRenderer(m_window, NULL);
+	m_renderer = SDL_CreateRenderer(m_window.get(), NULL);
 	if (!m_renderer)
 		utils::SDL_Fail("Couldn't create renderer.");
 
@@ -49,10 +49,6 @@ Engine::~Engine() {
 	if (m_renderer) {
 		SDL_DestroyRenderer(m_renderer);
 		m_renderer = nullptr;
-	}
-	if (m_window) {
-		SDL_DestroyWindow(m_window);
-		m_window = nullptr;
 	}
 	
 	m_currentScene.reset();
@@ -143,7 +139,7 @@ void Engine::render() {
 
 	// Calculating the scale
 	int w, h;
-	SDL_GetWindowSize(m_window, &w, &h);
+	SDL_GetWindowSize(m_window.get(), &w, &h);
 	float scaleX = (float)w / RENDERER_WIDTH_IN_PIXELS;
 	float scaleY = (float)h / RENDERER_HEIGHT_IN_PIXELS;
 	float scale = std::min(scaleX, scaleY);

@@ -10,6 +10,8 @@
 #include "ResourceManager.hpp"
 #include "Scene.hpp"
 
+using unique_SDL_Window = std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)>;
+
 class Engine {
 public:
 	Engine(const std::string& title);
@@ -27,7 +29,8 @@ private:
 
 	std::unique_ptr<Scene> createMenuScene();
 
-	SDL_Window* m_window{ nullptr }; // Game window
+	// Game window
+	unique_SDL_Window m_window{ nullptr, [](SDL_Window* p) {if (p) SDL_DestroyWindow(p); p = nullptr;} };
 	SDL_Renderer* m_renderer{ nullptr }; // Game renderer
 	SDL_Texture* m_renderTexture{ nullptr }; // "virtual screen"
 	
