@@ -7,14 +7,15 @@ LevelScene::LevelScene(ResourceManager* resourceManager, int levelNum) :
 	m_camera = createCamera();
 	m_player = createPlayer();
 	m_pauseScene = createPauseScene();
+	m_entities.push_back(createSimpleEnemy());
 }
 
 void LevelScene::handleEvent(const SDL_Event& event) {
 	if (event.type == SDL_EVENT_KEY_DOWN) {
 		switch (event.key.key) {
-			case SDLK_ESCAPE:
-				m_isPaused = !m_isPaused;
-				break;
+		case SDLK_ESCAPE:
+			m_isPaused = !m_isPaused;
+			break;
 		}
 	}
 	if (m_isPaused) {
@@ -22,6 +23,9 @@ void LevelScene::handleEvent(const SDL_Event& event) {
 	}
 	else {
 		m_player->handleEvent(event);
+		for (const auto& entity : m_entities) {
+			entity->handleEvent(event);
+		}
 	}
 }
 
@@ -30,13 +34,13 @@ void LevelScene::update(const Uint64 deltaTime) {
 		m_pauseScene->update(deltaTime);
 		SceneResult pauseResult = m_pauseScene->getResult();
 		switch (pauseResult) {
-			case SceneResult::Continue:
-				m_isPaused = false;
-				m_pauseScene->resetResult();
-				break;
-			case SceneResult::QuitToMainMenu:
-				m_sceneResult = SceneResult::QuitToMainMenu;
-				break;
+		case SceneResult::Continue:
+			m_isPaused = false;
+			m_pauseScene->resetResult();
+			break;
+		case SceneResult::QuitToMainMenu:
+			m_sceneResult = SceneResult::QuitToMainMenu;
+			break;
 		}
 	}
 	else {
@@ -45,6 +49,10 @@ void LevelScene::update(const Uint64 deltaTime) {
 
 		m_player->update(deltaTime);
 		resolveCollision(m_player.get(), deltaTime);
+		for (const auto& entity : m_entities) {
+			entity->update(deltaTime);
+			resolveCollision(entity.get(), deltaTime);
+		}		
 		// Updating camera position
 		SDL_FRect cameraTarget = m_player->getRect();
 		m_camera->follow(cameraTarget, mapWidth, mapHeight);
@@ -70,6 +78,9 @@ void LevelScene::render(SDL_Renderer* renderer) {
 	else {
 		m_level->render(renderer, m_camera->getRect());
 		m_player->render(renderer, m_camera->getRect());
+		for (const auto& entity : m_entities) {
+			entity->render(renderer, m_camera->getRect());
+		}
 	}
 }
 
@@ -90,7 +101,6 @@ void LevelScene::resolveHorizontalCollision(Entity* entity, Uint64 deltaTime) {
 	if (velocityX > 0) step = 1.0f;
 	if (velocityX < 0) step = -1.0f;
 
-
 	while ((step > 0 && currentX < newX) || (step < 0 && currentX > newX)) {
 		currentX += step;
 
@@ -105,7 +115,7 @@ void LevelScene::resolveHorizontalCollision(Entity* entity, Uint64 deltaTime) {
 				break;
 			}
 		}
-		else if (step < 0){
+		else if (step < 0) {
 			// Moving left
 			if (m_level->isSolidVertically(leftEdge, topY, bottomY)) {
 				currentX = (std::floor(leftEdge / TILE_SIZE) + 1) * TILE_SIZE;
@@ -183,6 +193,11 @@ std::unique_ptr<Player> LevelScene::createPlayer() {
 	player->setAnimation("idle");
 
 	return player;
+}
+
+std::unique_ptr<Entity> LevelScene::createSimpleEnemy() {
+	std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(0, 0, 3 * TILE_SIZE, 1 * TILE_SIZE, nullptr);
+	return enemy;
 }
 
 std::unique_ptr<PauseMenu> LevelScene::createPauseScene() {

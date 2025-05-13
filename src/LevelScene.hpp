@@ -4,7 +4,9 @@
 
 #include "Scene.hpp"
 #include "Level.hpp"
+#include "Entity.hpp"
 #include "Player.hpp"
+#include "Enemy.hpp"
 #include "ResourceManager.hpp"
 #include "MenuScene.hpp"
 #include "PauseMenu.hpp"
@@ -29,14 +31,17 @@ private:
 	std::unique_ptr<Camera> createCamera();
 	// Creates player
 	std::unique_ptr<Player> createPlayer();
+	// Creates simple enemy
+	std::unique_ptr<Entity> createSimpleEnemy();
 	// Creates pause scene
 	std::unique_ptr<PauseMenu> createPauseScene();
-
+	
 	ResourceManager* m_resourceManager;
 
 	std::unique_ptr<Level> m_level;
 	std::unique_ptr<Camera> m_camera;
 	std::unique_ptr<Player> m_player;
+	std::vector<std::unique_ptr<Entity>> m_entities;
 	std::unique_ptr<PauseMenu> m_pauseScene;
 
 	bool m_isPaused{ false };

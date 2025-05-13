@@ -70,6 +70,7 @@ add_executable("${PROJECT_NAME}"
   "src/Entity.cpp" "src/Entity.hpp"
   "src/GameObject.cpp" "src/GameObject.hpp"
   "src/Player.cpp" "src/Player.hpp"
+  "src/Enemy.cpp" "src/Enemy.hpp"
 
   # Scenes and level
   "src/Level.cpp" "src/Level.hpp"
