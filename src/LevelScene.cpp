@@ -79,59 +79,94 @@ void LevelScene::resolveCollision(Entity* entity, Uint64 deltaTime) {
 }
 
 void LevelScene::resolveHorizontalCollision(Entity* entity, Uint64 deltaTime) {
-	float newX = entity->getX() + entity->getVelocityX() * deltaTime;
+	float currentX = entity->getX();
+	float velocityX = entity->getVelocityX();
+	float newX = currentX + velocityX * deltaTime;
 
 	float topY = entity->getY();
 	float bottomY = topY + entity->getHeight();
 
-	float leftEdge = newX;
-	float rightEdge = newX + entity->getWidth();
+	float step = 0;
+	if (velocityX > 0) step = 1.0f;
+	if (velocityX < 0) step = -1.0f;
 
-	// Check left
-	if (m_level->isSolidVertically(leftEdge, topY, bottomY)) {
-		float tileX = std::floor(leftEdge / TILE_SIZE);
-		newX = (tileX + 1) * TILE_SIZE;
+
+	while ((step > 0 && currentX < newX) || (step < 0 && currentX > newX)) {
+		currentX += step;
+
+		float leftEdge = currentX;
+		float rightEdge = currentX + entity->getWidth();
+
+		if (step > 0) {
+			// Moving right
+			if (m_level->isSolidVertically(rightEdge, topY, bottomY)) {
+				currentX = std::floor(rightEdge / TILE_SIZE) * TILE_SIZE - entity->getWidth();
+				entity->setVelocityX(0.0f);
+				break;
+			}
+		}
+		else if (step < 0){
+			// Moving left
+			if (m_level->isSolidVertically(leftEdge, topY, bottomY)) {
+				currentX = (std::floor(leftEdge / TILE_SIZE) + 1) * TILE_SIZE;
+				entity->setVelocityX(0.0f);
+				break;
+			}
+		}
 	}
 
-	// Check right
-	if (m_level->isSolidVertically(rightEdge, topY, bottomY)) {
-		float tileX = std::floor(rightEdge / TILE_SIZE);
-		newX = tileX * TILE_SIZE - entity->getWidth();
-	}
-
-	entity->setX(newX);
-	entity->setVelocityX(0.0f);
+	entity->setX(currentX);
 }
 
-void LevelScene::resolveVerticalCollision(Entity* entity, Uint64 deltaTime) {
-	float newY = entity->getY() + entity->getVelocityY() * deltaTime;
 
-	float headY = newY;
-	float feetY = headY + entity->getHeight();
+void LevelScene::resolveVerticalCollision(Entity* entity, Uint64 deltaTime) {
+	float velocityY = entity->getVelocityY();
+	float currentY = entity->getY();
+	float newY = currentY + velocityY * deltaTime;
 
 	float leftX = entity->getX();
 	float rightX = leftX + entity->getWidth();
 
-	// Check ground
-	if (m_level->isSolidHorizontally(feetY, leftX, rightX)) {
-		float tileY = std::floor(feetY / TILE_SIZE);
-		newY = tileY * TILE_SIZE - entity->getHeight();
-		entity->setOnGround(true);
-		entity->setVelocityY(0.0f);
+	float step = 0;
+	if (velocityY > 0) step = 1.0f;
+	if (velocityY < 0) step = -1.0f;
+
+	bool collisionDetected = false;
+
+	while ((step > 0 && currentY < newY) || (step < 0 && currentY > newY)) {
+		currentY += step;
+
+		float headY = currentY;
+		float feetY = headY + entity->getHeight();
+
+		if (step > 0) {
+			// Falling (check ground)
+			if (m_level->isSolidHorizontally(feetY, leftX, rightX)) {
+				currentY = std::floor(feetY / TILE_SIZE) * TILE_SIZE - entity->getHeight();
+				entity->setOnGround(true);
+				entity->setVelocityY(0.0f);
+				collisionDetected = true;
+				break;
+			}
+		}
+		else {
+			// Jumping (check bumping)
+			if (m_level->isSolidHorizontally(headY, leftX, rightX)) {
+				currentY = (std::floor(headY / TILE_SIZE) + 1) * TILE_SIZE;
+				entity->setVelocityY(0.0f);
+				collisionDetected = true;
+				break;
+			}
+		}
 	}
-	else {
+
+	if (!collisionDetected) {
 		entity->setOnGround(false);
 	}
 
-	// Check head
-	if (m_level->isSolidHorizontally(headY, leftX, rightX)) {
-		float tileY = std::floor(headY / TILE_SIZE);
-		newY = (tileY + 1) * TILE_SIZE;
-		entity->setVelocityY(0.0f);
-	}
-
-	entity->setY(newY);
+	entity->setY(currentY);
 }
+
 
 std::unique_ptr<Player> LevelScene::createPlayer() {
 	SDL_Texture* playerTexture = m_resourceManager->loadTexture("player.png");
