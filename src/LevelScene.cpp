@@ -202,7 +202,7 @@ std::unique_ptr<Player> LevelScene::createPlayer() {
 }
 
 std::unique_ptr<Entity> LevelScene::createSimpleEnemy() {
-	std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(200, 500, 3 * TILE_SIZE, 1 * TILE_SIZE, nullptr);
+	std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(200.0f, 500.0f, 3.0f * TILE_SIZE, 1.0f * TILE_SIZE, nullptr);
 	return enemy;
 }
 
