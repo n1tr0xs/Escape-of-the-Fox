@@ -85,8 +85,8 @@ void LevelScene::render(SDL_Renderer* renderer) {
 }
 
 void LevelScene::resolveCollision(Entity* entity, Uint64 deltaTime) {
-	resolveHorizontalCollision(m_player.get(), deltaTime);
-	resolveVerticalCollision(m_player.get(), deltaTime);
+	resolveHorizontalCollision(entity, deltaTime);
+	resolveVerticalCollision(entity, deltaTime);
 }
 
 void LevelScene::resolveHorizontalCollision(Entity* entity, Uint64 deltaTime) {
@@ -126,6 +126,7 @@ void LevelScene::resolveHorizontalCollision(Entity* entity, Uint64 deltaTime) {
 	}
 
 	entity->setX(currentX);
+	entity->setVelocityX(0.0f);
 }
 
 
