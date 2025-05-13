@@ -23,7 +23,7 @@ Engine::Engine(const std::string& title) {
 		utils::SDL_Fail("Couldn't create renderer.");
 
 	// Creating "virtual screen"
-	m_renderTexture = SDL_CreateTexture(m_renderer.get(), SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, RENDERER_WIDTH_IN_PIXELS, RENDERER_HEIGHT_IN_PIXELS);
+	m_renderTexture.reset(SDL_CreateTexture(m_renderer.get(), SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, RENDERER_WIDTH_IN_PIXELS, RENDERER_HEIGHT_IN_PIXELS));
 
 	// Creating ResourceManager
 	m_resourceManager = std::make_unique<ResourceManager>(m_renderer.get());
@@ -42,10 +42,6 @@ Engine::Engine(const std::string& title) {
 }
 
 Engine::~Engine() {
-	if (m_renderTexture) {
-		SDL_DestroyTexture(m_renderTexture);
-		m_renderTexture = nullptr;
-	}
 	
 	m_currentScene.reset();
 	m_resourceManager.reset();
@@ -121,7 +117,7 @@ void Engine::update(const Uint64 deltaTime) {
 
 void Engine::render() {
 	// Rendering to "virtual screen"
-	SDL_SetRenderTarget(m_renderer.get(), m_renderTexture);
+	SDL_SetRenderTarget(m_renderer.get(), m_renderTexture.get());
 	SDL_SetRenderDrawColor(m_renderer.get(), 0, 0, 0, 255);
 	SDL_RenderClear(m_renderer.get());
 
@@ -148,7 +144,7 @@ void Engine::render() {
 	float offsetY = (h - destH) / 2;
 
 	SDL_FRect destRect = { offsetX, offsetY, destW, destH };
-	SDL_RenderTexture(m_renderer.get(), m_renderTexture, nullptr, &destRect);
+	SDL_RenderTexture(m_renderer.get(), m_renderTexture.get(), nullptr, &destRect);
 
 	SDL_RenderPresent(m_renderer.get());
 }
