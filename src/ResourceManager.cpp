@@ -7,15 +7,7 @@
 ResourceManager::ResourceManager(SDL_Renderer* renderer) :
 	m_renderer{ renderer } {}
 
-ResourceManager::~ResourceManager() {
-
-	for (auto& pair : m_sounds) {
-		if (pair.second) {
-			Mix_FreeChunk(pair.second);
-		}
-	}
-
-}
+ResourceManager::~ResourceManager() {}
 
 shared_SDL_Texture ResourceManager::loadTexture(const std::string& fileName) {
 	std::string filePath = std::format(ASSET_PATH, fileName);
@@ -46,7 +38,7 @@ shared_TTF_Font ResourceManager::loadFont(const std::string& fileName) {
 	return font;
 }
 
-Mix_Chunk* ResourceManager::loadSound(const std::string& fileName) {
+shared_Mix_Chunk ResourceManager::loadSound(const std::string& fileName) {
 	std::string filePath = std::format(ASSET_PATH, fileName);
 	// Check if font already loaded
 	auto it = m_sounds.find(filePath);
@@ -54,7 +46,10 @@ Mix_Chunk* ResourceManager::loadSound(const std::string& fileName) {
 		return it->second;
 	}
 
-	Mix_Chunk* sound = Mix_LoadWAV(filePath.c_str());
+	shared_Mix_Chunk sound(
+		Mix_LoadWAV(filePath.c_str()),
+		[](Mix_Chunk* p) {if (p) Mix_FreeChunk(p); p = nullptr;}
+	);
 	if (!sound) {
 		SDL_Log("Failed to load sound: %s", SDL_GetError());
 	}

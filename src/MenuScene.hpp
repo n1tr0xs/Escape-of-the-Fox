@@ -25,7 +25,7 @@ public:
 private:
 	ResourceManager* m_resourceManager{ nullptr };
 	shared_TTF_Font m_font{ nullptr };
-	Mix_Chunk* m_backgroundMusic{ nullptr };
+	shared_Mix_Chunk m_backgroundMusic{ nullptr };
 
 	int m_selectedItem{ 0 };
 	bool m_enterPressed{ false };

@@ -35,7 +35,7 @@ void MenuScene::handleEvent(const SDL_Event& event) {
 
 void MenuScene::update(const Uint64 deltaTime) {
 	if (m_backgroundMusic && !Mix_Playing(BACKGROUND_MUSIC_CHANNEL))
-		Mix_PlayChannel(BACKGROUND_MUSIC_CHANNEL, m_backgroundMusic, -1);
+		Mix_PlayChannel(BACKGROUND_MUSIC_CHANNEL, m_backgroundMusic.get(), -1);
 	if (m_enterPressed) {
 		m_sceneResult = m_buttons[m_selectedItem]->getResult();
 
