@@ -25,10 +25,6 @@ public:
 protected:
 	// Updates surface and m_width, m_height
 	virtual void updateSurface();
-	// Resets m_texture
-	void resetTexture();
-	// Resets m_surface
-	void resetSurface();
 	// Updates m_width, m_height
 	void updateSize();
 

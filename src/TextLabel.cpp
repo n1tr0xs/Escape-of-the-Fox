@@ -6,15 +6,9 @@ TextLabel::TextLabel(shared_TTF_Font font, const std::string& text, SDL_Color co
 }
 
 void TextLabel::updateSurface() {
-	resetTexture();
-	resetSurface();
-
+	m_texture.reset();	
 	m_surface.reset(TTF_RenderText_Solid(m_font.get(), m_text.c_str(), m_text.length(), m_color));
 	updateSize();
-}
-
-void TextLabel::resetSurface() {
-	m_surface.reset();
 }
 
 void TextLabel::updateSize() {
@@ -25,10 +19,6 @@ void TextLabel::updateSize() {
 	else {
 		m_width = m_height = 0.0f;
 	}
-}
-
-void TextLabel::resetTexture() {
-	m_texture.reset();
 }
 
 void TextLabel::render(SDL_Renderer* renderer, const SDL_FRect* dest) {

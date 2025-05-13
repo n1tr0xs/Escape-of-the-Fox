@@ -6,9 +6,7 @@ MenuButton::MenuButton(shared_TTF_Font font, const std::string& text, SceneResul
 }
 
 void MenuButton::updateSurface() {
-	resetSurface();
-	resetTexture();
-
+	m_texture.reset();
 	m_surface.reset(TTF_RenderText_Solid(m_font.get(), m_text.c_str(), m_text.length(), m_isSelected ? m_selectedColor : m_color));
 	updateSize();
 }
