@@ -1,6 +1,6 @@
 #include "TextLabel.hpp"
 
-TextLabel::TextLabel(TTF_Font* font, const std::string& text, SDL_Color color) :
+TextLabel::TextLabel(shared_TTF_Font font, const std::string& text, SDL_Color color) :
 	m_font{ font }, m_text{ text }, m_color{ color } {
 	updateSurface();
 }
@@ -14,7 +14,7 @@ void TextLabel::updateSurface() {
 	resetSurface();
 	resetTexture();
 
-	m_surface = TTF_RenderText_Solid(m_font, m_text.c_str(), m_text.length(), m_color);
+	m_surface = TTF_RenderText_Solid(m_font.get(), m_text.c_str(), m_text.length(), m_color);
 	updateSize();
 }
 
@@ -53,7 +53,7 @@ void TextLabel::setText(const std::string& text) {
 	updateSurface();
 }
 
-void TextLabel::setFont(TTF_Font* font) {
+void TextLabel::setFont(shared_TTF_Font font) {
 	m_font = font;
 	updateSurface();
 }

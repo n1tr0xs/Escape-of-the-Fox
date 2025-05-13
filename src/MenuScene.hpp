@@ -24,7 +24,7 @@ public:
 	void addMusic(const std::string& fileName);
 private:
 	ResourceManager* m_resourceManager{ nullptr };
-	TTF_Font* m_font{ nullptr };
+	shared_TTF_Font m_font{ nullptr };
 	Mix_Chunk* m_backgroundMusic{ nullptr };
 
 	int m_selectedItem{ 0 };

@@ -9,7 +9,7 @@
 
 class MenuButton : public TextLabel {
 public:
-	MenuButton(TTF_Font* font, const std::string& text, SceneResult result, SDL_Color color, SDL_Color selectedColor);
+	MenuButton(shared_TTF_Font font, const std::string& text, SceneResult result, SDL_Color color, SDL_Color selectedColor);
 
 	// Selects button
 	void select();

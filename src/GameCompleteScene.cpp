@@ -4,7 +4,7 @@
 GameCompleteScene::GameCompleteScene(ResourceManager* resourceManager) :
 	m_resourceManager{ resourceManager } {
 
-	TTF_Font* font = m_resourceManager->loadFont("arial.ttf");
+	shared_TTF_Font font = m_resourceManager->loadFont("arial.ttf");
 	SDL_Color textColor = { 255, 255, 255, 255 };
 	m_textLabels.push_back(std::make_unique<TextLabel>(font, "Developer: n1tr0xs", textColor));
 	m_textLabels.push_back(std::make_unique<TextLabel>(font, "Graphic artist: chertowka", textColor));

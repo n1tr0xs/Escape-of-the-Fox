@@ -9,12 +9,6 @@ ResourceManager::ResourceManager(SDL_Renderer* renderer) :
 
 ResourceManager::~ResourceManager() {
 
-	for (auto& pair : m_fonts) {
-		if (pair.second) {
-			TTF_CloseFont(pair.second);
-		}
-	}
-
 	for (auto& pair : m_sounds) {
 		if (pair.second) {
 			Mix_FreeChunk(pair.second);
@@ -33,7 +27,7 @@ shared_SDL_Texture ResourceManager::loadTexture(const std::string& fileName, int
 	return loadTextureInternal(filePath);
 }
 
-TTF_Font* ResourceManager::loadFont(const std::string& fileName) {
+shared_TTF_Font ResourceManager::loadFont(const std::string& fileName) {
 	std::string filePath = std::format(ASSET_PATH, fileName);
 	// Check if font already loaded
 	auto it = m_fonts.find(filePath);
@@ -41,7 +35,10 @@ TTF_Font* ResourceManager::loadFont(const std::string& fileName) {
 		return it->second;
 	}
 
-	TTF_Font* font = TTF_OpenFont(filePath.c_str(), 36);
+	shared_TTF_Font font(
+		TTF_OpenFont(filePath.c_str(), 36),
+		[](TTF_Font* p) {if (p) TTF_CloseFont(p); p = nullptr;}
+	);
 	if (!font) {
 		SDL_Log("Failed to load font: %s", SDL_GetError());
 	}

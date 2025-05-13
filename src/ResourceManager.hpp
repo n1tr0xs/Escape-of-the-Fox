@@ -19,7 +19,7 @@ public:
 	// Loads texture for given level
 	shared_SDL_Texture loadTexture(const std::string& fileName, int levelNum);
 	// Loads font
-	TTF_Font* loadFont(const std::string& filePath);
+	shared_TTF_Font loadFont(const std::string& filePath);
 	// Loads sound
 	Mix_Chunk* loadSound(const std::string& filePath);
 
@@ -28,6 +28,6 @@ private:
 
 	SDL_Renderer* m_renderer;
 	std::unordered_map<std::string, shared_SDL_Texture> m_textures;
-	std::unordered_map<std::string, TTF_Font*> m_fonts;
+	std::unordered_map<std::string, shared_TTF_Font> m_fonts;
 	std::unordered_map<std::string, Mix_Chunk*> m_sounds;
 };

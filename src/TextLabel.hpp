@@ -4,9 +4,11 @@
 #include <SDL3_ttf/SDL_ttf.h>
 #include <string>
 
+#include "smart_SDL.hpp"
+
 class TextLabel {
 public:
-	TextLabel(TTF_Font* font, const std::string& text, SDL_Color color);
+	TextLabel(shared_TTF_Font font, const std::string& text, SDL_Color color);
 	virtual ~TextLabel();
 
 	// Renders TextLabel
@@ -19,7 +21,7 @@ public:
 
 	// Setters
 	virtual void setText(const std::string& text);
-	virtual void setFont(TTF_Font* font);
+	virtual void setFont(shared_TTF_Font font);
 	virtual void setColor(SDL_Color color);
 protected:
 	// Updates surface and m_width, m_height
@@ -32,7 +34,7 @@ protected:
 	void updateSize();
 
 	std::string m_text;
-	TTF_Font* m_font;
+	shared_TTF_Font m_font;
 	SDL_Color m_color;
 
 	SDL_Texture* m_texture{ nullptr };
