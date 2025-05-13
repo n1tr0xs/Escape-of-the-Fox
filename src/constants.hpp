@@ -12,7 +12,15 @@ constexpr const char* LEVEL_ASSET_PATH = "assets/level_{:02d}/{}";
 constexpr int BACKGROUND_MUSIC_CHANNEL = 0;
 
 #ifdef _DEBUG
-#define DEBUG_LOG(x) SDL_Log(x)
+
+#include <iostream>
+
+#define DEBUG_LOG(x) std::cout << x << '\n';
+#define LOG_VAR(x) std::cout << #x << " = " << x << '\n';
+
 #else
+
 #define DEBUG_LOG(x)
+#define LOG_VAR(x)
+
 #endif
