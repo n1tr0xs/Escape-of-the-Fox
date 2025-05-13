@@ -8,12 +8,11 @@
 
 class TextLabel {
 public:
-	TextLabel(shared_TTF_Font font, const std::string& text, SDL_Color color);
-	virtual ~TextLabel();
+	TextLabel(shared_TTF_Font font, const std::string& text, SDL_Color color);	
 
 	// Renders TextLabel
 	virtual void render(SDL_Renderer* renderer, const SDL_FRect* dest);
-	
+
 	// Getters
 	virtual float getWidth() const { return m_width; }
 	virtual float getHeight() const { return m_height; }
@@ -37,8 +36,8 @@ protected:
 	shared_TTF_Font m_font;
 	SDL_Color m_color;
 
-	SDL_Texture* m_texture{ nullptr };
-	SDL_Surface* m_surface{ nullptr };
+	unique_SDL_Texture m_texture{ nullptr, [](SDL_Texture* p) {if (p) SDL_DestroyTexture(p); p = nullptr;} };
+	unique_SDL_Surface m_surface{ nullptr, [](SDL_Surface* p) {if (p) SDL_DestroySurface(p); p = nullptr;} };
 	float m_width{ 0.0f };
 	float m_height{ 0.0f };
 };

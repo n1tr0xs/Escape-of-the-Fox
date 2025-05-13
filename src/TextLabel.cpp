@@ -5,24 +5,16 @@ TextLabel::TextLabel(shared_TTF_Font font, const std::string& text, SDL_Color co
 	updateSurface();
 }
 
-TextLabel::~TextLabel() {
-	resetSurface();
-	resetTexture();
-}
-
 void TextLabel::updateSurface() {
-	resetSurface();
 	resetTexture();
+	resetSurface();
 
-	m_surface = TTF_RenderText_Solid(m_font.get(), m_text.c_str(), m_text.length(), m_color);
+	m_surface.reset(TTF_RenderText_Solid(m_font.get(), m_text.c_str(), m_text.length(), m_color));
 	updateSize();
 }
 
 void TextLabel::resetSurface() {
-	if (m_surface) {
-		SDL_DestroySurface(m_surface);
-		m_surface = nullptr;
-	}
+	m_surface.reset();
 }
 
 void TextLabel::updateSize() {
@@ -36,16 +28,13 @@ void TextLabel::updateSize() {
 }
 
 void TextLabel::resetTexture() {
-	if (m_texture) {
-		SDL_DestroyTexture(m_texture);
-		m_texture = nullptr;
-	}
+	m_texture.reset();
 }
 
 void TextLabel::render(SDL_Renderer* renderer, const SDL_FRect* dest) {
 	if (!m_texture)
-		m_texture = SDL_CreateTextureFromSurface(renderer, m_surface);
-	SDL_RenderTexture(renderer, m_texture, NULL, dest);
+		m_texture.reset(SDL_CreateTextureFromSurface(renderer, m_surface.get()));
+	SDL_RenderTexture(renderer, m_texture.get(), NULL, dest);
 }
 
 void TextLabel::setText(const std::string& text) {

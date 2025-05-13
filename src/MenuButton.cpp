@@ -9,7 +9,7 @@ void MenuButton::updateSurface() {
 	resetSurface();
 	resetTexture();
 
-	m_surface = TTF_RenderText_Solid(m_font.get(), m_text.c_str(), m_text.length(), m_isSelected ? m_selectedColor : m_color);
+	m_surface.reset(TTF_RenderText_Solid(m_font.get(), m_text.c_str(), m_text.length(), m_isSelected ? m_selectedColor : m_color));
 	updateSize();
 }
 
