@@ -12,7 +12,6 @@
 class ResourceManager {
 public:
 	ResourceManager(SDL_Renderer* renderer);
-	~ResourceManager();
 	
 	// Loads texture
 	shared_SDL_Texture loadTexture(const std::string& fileName);

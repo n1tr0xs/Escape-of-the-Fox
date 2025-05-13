@@ -7,8 +7,6 @@
 ResourceManager::ResourceManager(SDL_Renderer* renderer) :
 	m_renderer{ renderer } {}
 
-ResourceManager::~ResourceManager() {}
-
 shared_SDL_Texture ResourceManager::loadTexture(const std::string& fileName) {
 	std::string filePath = std::format(ASSET_PATH, fileName);
 	return loadTextureInternal(filePath);
