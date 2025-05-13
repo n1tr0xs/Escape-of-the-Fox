@@ -38,4 +38,7 @@ private:
 	bool m_running{ false };
 	int m_currentLevel{ 0 };
 	const int m_maxLevel{ 1 };
+
+	int m_maxFPS{ 60 };
+	int m_minFrameTicks = 1000 / m_maxFPS;
 };

@@ -71,13 +71,16 @@ std::unique_ptr<Scene> Engine::createMenuScene() {
 void Engine::run() {
 	Uint64 lastTime = SDL_GetTicks();
 	while (m_running) {
-		Uint64 currentTime = SDL_GetTicks();
-		Uint64 deltaTime = currentTime - lastTime;
-		lastTime = currentTime;
+		const Uint64 startTicks = SDL_GetTicks();
+		const Uint64 deltaTime = startTicks - lastTime;
+		lastTime = startTicks;
 
 		processEvents();
 		update(deltaTime);
 		render();
+		
+		const Uint64 frameTicks = SDL_GetTicks() - startTicks;
+		if (frameTicks < m_minFrameTicks) SDL_Delay(m_minFrameTicks - frameTicks);
 	}
 }
 
