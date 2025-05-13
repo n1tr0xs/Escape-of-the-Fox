@@ -1,7 +1,7 @@
 #include "Entity.hpp"
 
 Entity::Entity(float x, float y, float width, float height, SDL_Texture* texture) :
-	GameObject{x, y, width, height}, m_texture{ texture } {}
+	GameObject{ x, y, width, height }, m_texture{ texture } {}
 
 void Entity::updateAnimationFrame(Uint64 deltaTime) {
 	m_frameInfo.timer += deltaTime;
@@ -16,6 +16,10 @@ void Entity::updateAnimationFrame(Uint64 deltaTime) {
 
 void Entity::addAnimation(const std::string& name, const int row, const int numFrames, const float frameWidth, const float frameHeight) {
 	m_animations[name] = std::make_shared<Animation>(row, numFrames, frameWidth, frameHeight);
+	// Set first added animation as current
+	if (!m_currentAnimation.lock()) {
+		m_currentAnimation = m_animations[name];
+	}
 }
 
 bool Entity::setAnimation(const std::string& name) {

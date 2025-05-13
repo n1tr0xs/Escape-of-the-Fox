@@ -197,7 +197,6 @@ std::unique_ptr<Player> LevelScene::createPlayer() {
 	//player->addAnimation("running", 1, 4, fw, fh);
 	//player->addAnimation("jumping", 2, 4, fw, fh);
 	//player->addAnimation("crouching", 3, 4, fw, fh);
-	player->setAnimation("idle");
 
 	return player;
 }
