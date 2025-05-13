@@ -1,6 +1,6 @@
 #include "Entity.hpp"
 
-Entity::Entity(float x, float y, float width, float height, SDL_Texture* texture) :
+Entity::Entity(float x, float y, float width, float height, shared_SDL_Texture texture) :
 	GameObject{ x, y, width, height }, m_texture{ texture } {}
 
 void Entity::updateAnimationFrame(Uint64 deltaTime) {
@@ -35,7 +35,7 @@ void Entity::render(SDL_Renderer* renderer) {
 	if (!m_texture) return;
 	if (auto anim = m_currentAnimation.lock()) {
 		const SDL_FRect src = anim->getFRect(m_frameInfo.index);
-		SDL_RenderTextureRotated(renderer, m_texture, &src, &m_rect, 0.0, nullptr, m_textureFlip);
+		SDL_RenderTextureRotated(renderer, m_texture.get(), &src, &m_rect, 0.0, nullptr, m_textureFlip);
 	}
 }
 
@@ -48,6 +48,6 @@ void Entity::render(SDL_Renderer* renderer, SDL_FRect cameraRect) {
 	};
 	if (auto anim = m_currentAnimation.lock()) {
 		const SDL_FRect src = anim->getFRect(m_frameInfo.index);
-		SDL_RenderTextureRotated(renderer, m_texture, &src, &rect, 0.0, nullptr, m_textureFlip);
+		SDL_RenderTextureRotated(renderer, m_texture.get(), &src, &rect, 0.0, nullptr, m_textureFlip);
 	}
 }

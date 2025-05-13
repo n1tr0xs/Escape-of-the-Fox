@@ -186,7 +186,7 @@ void LevelScene::resolveEnemyPlayerCollision(Entity* player, Entity* entity) {
 }
 
 std::unique_ptr<Player> LevelScene::createPlayer() {
-	SDL_Texture* playerTexture = m_resourceManager->loadTexture("player.png");
+	shared_SDL_Texture playerTexture = m_resourceManager->loadTexture("player.png");
 	float playerWidth = static_cast<float>(TILE_SIZE * 4);
 	float playerHeight = static_cast<float>(TILE_SIZE * 2);
 	std::unique_ptr<Player> player = std::make_unique<Player>(0.0f, 0.0f, playerWidth, playerHeight, playerTexture);
@@ -211,10 +211,10 @@ std::unique_ptr<PauseMenu> LevelScene::createPauseScene() {
 }
 
 std::unique_ptr<Level> LevelScene::createLevel(int levelNum) {
-	SDL_Texture* levelTileSheetTexture = m_resourceManager->loadTexture("back.png", levelNum);
-	SDL_Texture* backgroundStaticTexture = m_resourceManager->loadTexture("backgroundStatic.png", levelNum);
-	SDL_Texture* backgroundBackTexture = m_resourceManager->loadTexture("backgroundBack.png", levelNum);
-	SDL_Texture* backgroundFrontTexture = m_resourceManager->loadTexture("backgroundFront.png", levelNum);
+	shared_SDL_Texture levelTileSheetTexture = m_resourceManager->loadTexture("back.png", levelNum);
+	shared_SDL_Texture backgroundStaticTexture = m_resourceManager->loadTexture("backgroundStatic.png", levelNum);
+	shared_SDL_Texture backgroundBackTexture = m_resourceManager->loadTexture("backgroundBack.png", levelNum);
+	shared_SDL_Texture backgroundFrontTexture = m_resourceManager->loadTexture("backgroundFront.png", levelNum);
 	std::unique_ptr<Level> level = std::make_unique<Level>(levelNum, levelTileSheetTexture, backgroundStaticTexture, backgroundBackTexture, backgroundFrontTexture);
 	return level;
 }

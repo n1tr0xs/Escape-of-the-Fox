@@ -22,7 +22,7 @@ struct FrameInfo {
 
 class Entity : public GameObject {
 public:
-	Entity(float x, float y, float width, float height, SDL_Texture* texture);
+	Entity(float x, float y, float width, float height, shared_SDL_Texture texture);
 
 	// Renders Entity
 	virtual void render(SDL_Renderer* renderer);
@@ -52,7 +52,7 @@ protected:
 	virtual void updateAnimationFrame(Uint64 deltaTime);
 
 	// Animation texture sheet
-	SDL_Texture* m_texture;
+	shared_SDL_Texture m_texture;
 	// Entity velocity
 	Vector2d m_velocity;
 

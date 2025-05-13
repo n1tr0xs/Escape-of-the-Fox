@@ -1,6 +1,6 @@
 #include "Enemy.hpp"
 
-Enemy::Enemy(float x, float y, float width, float height, SDL_Texture* texture) :
+Enemy::Enemy(float x, float y, float width, float height, shared_SDL_Texture texture) :
 	Entity{ x, y, width, height, texture } {}
 
 void Enemy::update(const Uint64 deltaTime) {}

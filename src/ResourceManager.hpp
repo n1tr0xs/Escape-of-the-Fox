@@ -7,25 +7,27 @@
 #include <string>
 #include <unordered_map>
 
+#include "smart_SDL.hpp"
+
 class ResourceManager {
 public:
 	ResourceManager(SDL_Renderer* renderer);
 	~ResourceManager();
 	
 	// Loads texture
-	SDL_Texture* loadTexture(const std::string& fileName);
+	shared_SDL_Texture loadTexture(const std::string& fileName);
 	// Loads texture for given level
-	SDL_Texture* loadTexture(const std::string& fileName, int levelNum);
+	shared_SDL_Texture loadTexture(const std::string& fileName, int levelNum);
 	// Loads font
 	TTF_Font* loadFont(const std::string& filePath);
 	// Loads sound
 	Mix_Chunk* loadSound(const std::string& filePath);
 
 private:
-	SDL_Texture* loadTextureInternal(const std::string& filePath);
+	shared_SDL_Texture loadTextureInternal(const std::string& filePath);
 
 	SDL_Renderer* m_renderer;
-	std::unordered_map<std::string, SDL_Texture*> m_textures;
+	std::unordered_map<std::string, shared_SDL_Texture> m_textures;
 	std::unordered_map<std::string, TTF_Font*> m_fonts;
 	std::unordered_map<std::string, Mix_Chunk*> m_sounds;
 };

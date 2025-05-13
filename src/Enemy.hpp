@@ -4,7 +4,7 @@
 
 class Enemy : public Entity {
 public:
-	Enemy(float x, float y, float width, float height, SDL_Texture* texture);
+	Enemy(float x, float y, float width, float height, shared_SDL_Texture texture);
 
 	void handleEvent(const SDL_Event& event) override {};
 	void update(const Uint64 deltaTime) override;

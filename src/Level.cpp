@@ -7,7 +7,7 @@
 
 #include "Level.hpp"
 
-Level::Level(int levelNum, SDL_Texture* texture, SDL_Texture* backgroundStaticTexture, SDL_Texture* backgroundBackTexture, SDL_Texture* backgroundFrontTexture) :
+Level::Level(int levelNum, shared_SDL_Texture texture, shared_SDL_Texture backgroundStaticTexture, shared_SDL_Texture backgroundBackTexture, shared_SDL_Texture backgroundFrontTexture) :
 	m_texture{ texture }, m_backgroundStaticTexture{ backgroundStaticTexture }, m_backgroundBackTexture{ backgroundBackTexture }, m_backgroundFrontTexture{ backgroundFrontTexture } {
 	
 	std::string filePath = std::format(LEVEL_ASSET_PATH, levelNum, "tilemap.txt");
@@ -31,7 +31,7 @@ void Level::renderBackground(SDL_Renderer* renderer, SDL_FRect cameraRect) {
 		RENDERER_WIDTH_IN_PIXELS,
 		RENDERER_HEIGHT_IN_PIXELS,
 	};
-	SDL_RenderTexture(renderer, m_backgroundStaticTexture, NULL, &destStatic);
+	SDL_RenderTexture(renderer, m_backgroundStaticTexture.get(), NULL, &destStatic);
 
 	float backSpeed = 4;
 	SDL_FRect destBack = {
@@ -40,7 +40,7 @@ void Level::renderBackground(SDL_Renderer* renderer, SDL_FRect cameraRect) {
 		mapWidth,
 		mapHeight,
 	};
-	SDL_RenderTextureTiled(renderer, m_backgroundBackTexture, NULL, scale, &destBack);
+	SDL_RenderTextureTiled(renderer, m_backgroundBackTexture.get(), NULL, scale, &destBack);
 
 	float frontSpeed = 2;
 	SDL_FRect destFront = {
@@ -49,7 +49,7 @@ void Level::renderBackground(SDL_Renderer* renderer, SDL_FRect cameraRect) {
 		mapWidth,
 		mapHeight,
 	};
-	SDL_RenderTextureTiled(renderer, m_backgroundFrontTexture, NULL, scale, &destFront);
+	SDL_RenderTextureTiled(renderer, m_backgroundFrontTexture.get(), NULL, scale, &destFront);
 }
 
 void Level::renderTiles(SDL_Renderer* renderer, SDL_FRect cameraRect) {
@@ -63,7 +63,7 @@ void Level::renderTiles(SDL_Renderer* renderer, SDL_FRect cameraRect) {
 			if (tile == 0)
 				continue;
 			src.x = static_cast<float>(tile * TILE_SIZE);
-			SDL_RenderTexture(renderer, m_texture, &src, &dest);
+			SDL_RenderTexture(renderer, m_texture.get(), &src, &dest);
 		}
 	}
 }

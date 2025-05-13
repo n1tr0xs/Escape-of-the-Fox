@@ -13,7 +13,7 @@ using Tile = int;
 
 class Level {
 public:
-	Level(int levelNum, SDL_Texture* texture, SDL_Texture* backgroundStaticTexture, SDL_Texture* backgroundBackTexture, SDL_Texture* backgroundFrontTexture);
+	Level(int levelNum, shared_SDL_Texture texture, shared_SDL_Texture backgroundStaticTexture, shared_SDL_Texture backgroundBackTexture, shared_SDL_Texture backgroundFrontTexture);
 
 	// Renders Level regarding to cameraRect
 	void render(SDL_Renderer* renderer, SDL_FRect cameraRect);
@@ -36,9 +36,9 @@ private:
 	// Renders background
 	void renderBackground(SDL_Renderer* renderer, SDL_FRect cameraRect);
 
-	SDL_Texture* m_texture;
-	SDL_Texture* m_backgroundStaticTexture;
-	SDL_Texture* m_backgroundBackTexture;
-	SDL_Texture* m_backgroundFrontTexture;
+	shared_SDL_Texture m_texture;
+	shared_SDL_Texture m_backgroundStaticTexture;
+	shared_SDL_Texture m_backgroundBackTexture;
+	shared_SDL_Texture m_backgroundFrontTexture;
 	std::vector<std::vector<Tile>> m_tileMap;
 };

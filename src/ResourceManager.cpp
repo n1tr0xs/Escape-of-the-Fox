@@ -8,11 +8,6 @@ ResourceManager::ResourceManager(SDL_Renderer* renderer) :
 	m_renderer{ renderer } {}
 
 ResourceManager::~ResourceManager() {
-	for (auto& pair : m_textures) {
-		if (pair.second) {
-			SDL_DestroyTexture(pair.second);
-		}
-	}
 
 	for (auto& pair : m_fonts) {
 		if (pair.second) {
@@ -28,12 +23,12 @@ ResourceManager::~ResourceManager() {
 
 }
 
-SDL_Texture* ResourceManager::loadTexture(const std::string& fileName) {
+shared_SDL_Texture ResourceManager::loadTexture(const std::string& fileName) {
 	std::string filePath = std::format(ASSET_PATH, fileName);
 	return loadTextureInternal(filePath);
 }
 
-SDL_Texture* ResourceManager::loadTexture(const std::string& fileName, int levelNum) {
+shared_SDL_Texture ResourceManager::loadTexture(const std::string& fileName, int levelNum) {
 	std::string filePath = std::format(LEVEL_ASSET_PATH, levelNum, fileName);
 	return loadTextureInternal(filePath);
 }
@@ -70,14 +65,17 @@ Mix_Chunk* ResourceManager::loadSound(const std::string& fileName) {
 	return sound;
 }
 
-SDL_Texture* ResourceManager::loadTextureInternal(const std::string& filePath) {
+shared_SDL_Texture ResourceManager::loadTextureInternal(const std::string& filePath) {
 	auto it = m_textures.find(filePath);
 	// Check if texture already loaded
 	if (it != m_textures.end()) {
 		return it->second;
 	}
 
-	SDL_Texture* texture = IMG_LoadTexture(m_renderer, filePath.c_str());
+	shared_SDL_Texture texture(
+		IMG_LoadTexture(m_renderer, filePath.c_str()),
+		[](SDL_Texture* p) {if (p) SDL_DestroyTexture(p); p = nullptr;}
+	);
 	if (!texture) {
 		SDL_Log("Failed to load texture: %s", SDL_GetError());
 		return nullptr;

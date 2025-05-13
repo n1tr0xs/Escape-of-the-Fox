@@ -1,6 +1,6 @@
 #include "Player.hpp"
 
-Player::Player(float x, float y, float width, float height, SDL_Texture* texture) :
+Player::Player(float x, float y, float width, float height, shared_SDL_Texture texture) :
 	Entity{ x, y, width, height, texture } {}
 
 void Player::handleEvent(const SDL_Event& event) {

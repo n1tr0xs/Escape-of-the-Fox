@@ -60,6 +60,7 @@ add_executable("${PROJECT_NAME}"
 
   # Engine and basic components
   "src/constants.hpp"
+  "src/smart_SDL.hpp"
   "src/Utils.cpp" "src/Utils.hpp"
   "src/Engine.cpp" "src/Engine.hpp"
   "src/ResourceManager.cpp" "src/ResourceManager.hpp"
