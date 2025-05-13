@@ -52,7 +52,8 @@ void LevelScene::update(const Uint64 deltaTime) {
 		for (const auto& entity : m_entities) {
 			entity->update(deltaTime);
 			resolveCollision(entity.get(), deltaTime);
-		}		
+			resolveEnemyPlayerCollision(m_player.get(), entity.get());
+		}
 		// Updating camera position
 		SDL_FRect cameraTarget = m_player->getRect();
 		m_camera->follow(cameraTarget, mapWidth, mapHeight);
@@ -178,6 +179,11 @@ void LevelScene::resolveVerticalCollision(Entity* entity, Uint64 deltaTime) {
 	entity->setY(currentY);
 }
 
+void LevelScene::resolveEnemyPlayerCollision(Entity* player, Entity* entity) {
+	if (utils::isCollide(player->getRect(), entity->getRect())) {
+		m_sceneResult = SceneResult::GameOver;
+	}
+}
 
 std::unique_ptr<Player> LevelScene::createPlayer() {
 	SDL_Texture* playerTexture = m_resourceManager->loadTexture("player.png");
@@ -197,7 +203,7 @@ std::unique_ptr<Player> LevelScene::createPlayer() {
 }
 
 std::unique_ptr<Entity> LevelScene::createSimpleEnemy() {
-	std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(0, 0, 3 * TILE_SIZE, 1 * TILE_SIZE, nullptr);
+	std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(200, 500, 3 * TILE_SIZE, 1 * TILE_SIZE, nullptr);
 	return enemy;
 }
 

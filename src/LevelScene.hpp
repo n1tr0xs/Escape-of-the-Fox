@@ -7,6 +7,7 @@
 #include "Entity.hpp"
 #include "Player.hpp"
 #include "Enemy.hpp"
+#include "Utils.hpp"
 #include "ResourceManager.hpp"
 #include "MenuScene.hpp"
 #include "PauseMenu.hpp"
@@ -24,6 +25,7 @@ public:
 	void resolveHorizontalCollision(Entity* entity, Uint64 deltaTime);
 	// Resolves vertical collision for entity
 	void resolveVerticalCollision(Entity* entity, Uint64 deltaTime);
+	void resolveEnemyPlayerCollision(Entity* player, Entity* entity);
 private:
 	// Creates level
 	std::unique_ptr<Level> createLevel(int levelNum);

@@ -18,4 +18,12 @@ namespace utils {
 		exit(statusCode);
 	}
 
+	bool isCollide(SDL_FRect rect1, SDL_FRect rect2) {
+		// AABB collision
+		return !(rect2.x + rect2.w < rect1.x ||
+			rect2.x > rect1.x + rect1.w ||
+			rect2.y + rect2.h < rect1.y ||
+			rect2.y > rect1.y + rect1.h);
+	}
+
 }
