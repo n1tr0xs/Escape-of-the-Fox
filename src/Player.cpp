@@ -7,10 +7,10 @@ void Player::handleEvent(const SDL_Event& event) {
 	if (event.type == SDL_EVENT_KEY_DOWN) {
 		switch (event.key.key) {
 			case SDLK_A:
-				m_movingLeft = true;
+				m_movingDirection = MovingDirection::Left;
 				break;
 			case SDLK_D:
-				m_movingRight = true;
+				m_movingDirection = MovingDirection::Right;
 				break;
 			case SDLK_SPACE:
 				m_jumpPressed = true;
@@ -20,10 +20,12 @@ void Player::handleEvent(const SDL_Event& event) {
 	if (event.type == SDL_EVENT_KEY_UP) {
 		switch (event.key.key) {
 			case SDLK_A:
-				m_movingLeft = false;
+				if (m_movingDirection == MovingDirection::Left)
+					m_movingDirection = MovingDirection::None;
 				break;
 			case SDLK_D:
-				m_movingRight = false;
+				if (m_movingDirection == MovingDirection::Right)
+					m_movingDirection = MovingDirection::None;
 				break;
 			case SDLK_SPACE:
 				m_jumpPressed = false;
@@ -42,12 +44,18 @@ void Player::update(const Uint64 deltaTime) {
 		m_isOnGround = false;
 	}
 
-	if (m_movingLeft) {
-		m_velocity.x = -speedX;
-	}
-
-	if (m_movingRight) {
-		m_velocity.x = speedX;
+	switch (m_movingDirection) {
+		case MovingDirection::None:
+			m_velocity.x = 0.0f;
+			break;
+		case MovingDirection::Right:
+			m_velocity.x = speedX;
+			break;
+		case MovingDirection::Left:
+			m_velocity.x = -speedX;
+			break;
+		default:
+			break;
 	}
 
 	if (!m_isOnGround) {

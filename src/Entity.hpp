@@ -20,6 +20,12 @@ struct FrameInfo {
 	float duration{ 0 };
 };
 
+enum class MovingDirection {
+	None,
+	Right,
+	Left,
+};
+
 class Entity : public GameObject {
 public:
 	Entity(float x, float y, float width, float height, shared_SDL_Texture texture);
@@ -65,8 +71,9 @@ protected:
 
 	SDL_FlipMode m_textureFlip{ SDL_FLIP_NONE };
 
-	bool m_movingLeft{ false };
-	bool m_movingRight{ false };
+	//bool m_movingLeft{ false };
+	//bool m_movingRight{ false };
+	MovingDirection m_movingDirection{ MovingDirection::None };
 	bool m_jumpPressed{ false };
 	bool m_isOnGround{ true };
 };
