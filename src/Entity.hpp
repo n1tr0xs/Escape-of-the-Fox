@@ -51,6 +51,7 @@ public:
 	virtual float getSpeedY() const { return m_speed.y; }
 	virtual float getGravityForce() const { return m_gravityForce; }
 	virtual float getJumpStrength() const { return m_jumpStrength; }
+	virtual MovingDirection getMovingDirection() const { return m_movingDirection; }
 
 	// Setters
 	virtual void setVelocityX(const float vel) { m_velocity.x = vel; }
@@ -60,6 +61,7 @@ public:
 	virtual void setOnGround(const bool flag) { m_isOnGround = flag; }
 	virtual void setGravityForce(const float gravity) { m_gravityForce = gravity; }
 	virtual void setJumpStrength(const float jumpStrength) { m_jumpStrength = jumpStrength; }
+	virtual void setMovingDirection(const MovingDirection direction) { m_movingDirection = direction; }
 protected:
 
 	// Updates animation frame
@@ -67,8 +69,21 @@ protected:
 
 	// Animation texture sheet
 	shared_SDL_Texture m_texture;
-	// Entity velocity
+	// Entity maximum speed
+	Vector2d m_speed = { 0.0f, 0.0f };
+	// Entity current velocity
 	Vector2d m_velocity;
+	// Gravity force for entity
+	float m_gravityForce = 0.02f;
+	// Entity moving direction
+	MovingDirection m_movingDirection{ MovingDirection::None };
+	// Entity jump strength
+	float m_jumpStrength = .15f * TILE_SIZE;
+
+	// Is jump key pressed ?
+	bool m_jumpPressed{ false };
+	// Is entity on ground ?
+	bool m_isOnGround{ true };
 
 	// Entity animations
 	std::unordered_map<std::string, std::shared_ptr<Animation>> m_animations;
@@ -76,14 +91,6 @@ protected:
 	std::weak_ptr<Animation> m_currentAnimation;
 	// Entity frame info
 	FrameInfo m_frameInfo{ 0, 0, 100 };
-
+	// Does texture need fliped on rendering ?
 	SDL_FlipMode m_textureFlip{ SDL_FLIP_NONE };
-
-	MovingDirection m_movingDirection{ MovingDirection::None };
-	
-	Vector2d m_speed = { 0.5f, 0.0f };
-	float m_jumpStrength = .15f * TILE_SIZE;
-	float m_gravityForce = 0.02f;
-	bool m_jumpPressed{ false };
-	bool m_isOnGround{ true };
 };

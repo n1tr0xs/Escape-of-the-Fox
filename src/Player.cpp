@@ -1,7 +1,10 @@
 #include "Player.hpp"
 
 Player::Player(float x, float y, float width, float height, shared_SDL_Texture texture) :
-	Entity{ x, y, width, height, texture } {}
+	Entity{ x, y, width, height, texture } {
+	
+	setSpeedX(0.5f);
+}
 
 void Player::handleEvent(const SDL_Event& event) {
 	if (event.type == SDL_EVENT_KEY_DOWN) {
