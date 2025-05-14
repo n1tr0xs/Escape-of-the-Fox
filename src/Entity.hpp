@@ -70,7 +70,7 @@ protected:
 	// Animation texture sheet
 	shared_SDL_Texture m_texture;
 	// Entity maximum speed
-	Vector2d m_speed = { 0.0f, 0.0f };
+	Vector2d m_speed;
 	// Entity current velocity
 	Vector2d m_velocity;
 	// Gravity force for entity
