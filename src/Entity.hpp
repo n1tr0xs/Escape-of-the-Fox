@@ -47,11 +47,19 @@ public:
 	// Getters
 	virtual float getVelocityX() const { return m_velocity.x; }
 	virtual float getVelocityY() const { return m_velocity.y; }
+	virtual float getSpeedX() const { return m_speed.x; }
+	virtual float getSpeedY() const { return m_speed.y; }
+	virtual float getGravityForce() const { return m_gravityForce; }
+	virtual float getJumpStrength() const { return m_jumpStrength; }
 
 	// Setters
 	virtual void setVelocityX(const float vel) { m_velocity.x = vel; }
 	virtual void setVelocityY(const float vel) { m_velocity.y = vel; }
+	virtual void setSpeedX(const float speed) { m_speed.x = speed; }
+	virtual void setSpeedY(const float speed) { m_speed.y = speed; }
 	virtual void setOnGround(const bool flag) { m_isOnGround = flag; }
+	virtual void setGravityForce(const float gravity) { m_gravityForce = gravity; }
+	virtual void setJumpStrength(const float jumpStrength) { m_jumpStrength = jumpStrength; }
 protected:
 
 	// Updates animation frame
@@ -71,9 +79,11 @@ protected:
 
 	SDL_FlipMode m_textureFlip{ SDL_FLIP_NONE };
 
-	//bool m_movingLeft{ false };
-	//bool m_movingRight{ false };
 	MovingDirection m_movingDirection{ MovingDirection::None };
+	
+	Vector2d m_speed = { 0.5f, 0.0f };
+	float m_jumpStrength = .15f * TILE_SIZE;
+	float m_gravityForce = 0.02f;
 	bool m_jumpPressed{ false };
 	bool m_isOnGround{ true };
 };

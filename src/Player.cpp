@@ -35,12 +35,8 @@ void Player::handleEvent(const SDL_Event& event) {
 }
 
 void Player::update(const Uint64 deltaTime) {
-	float speedX = 0.5f;
-	float jumpStrength = .15f * TILE_SIZE;
-	float gravity = 0.02f;
-
 	if (m_jumpPressed && m_isOnGround) {
-		m_velocity.y = -jumpStrength;
+		m_velocity.y = -m_jumpStrength;
 		m_isOnGround = false;
 	}
 
@@ -49,17 +45,17 @@ void Player::update(const Uint64 deltaTime) {
 			m_velocity.x = 0.0f;
 			break;
 		case MovingDirection::Right:
-			m_velocity.x = speedX;
+			m_velocity.x = m_speed.x;
 			break;
 		case MovingDirection::Left:
-			m_velocity.x = -speedX;
+			m_velocity.x = -m_speed.x;
 			break;
 		default:
 			break;
 	}
 
 	if (!m_isOnGround) {
-		m_velocity.y += gravity * deltaTime;
+		m_velocity.y += m_gravityForce * deltaTime;
 	}
 
 	updateAnimationFrame(deltaTime);
