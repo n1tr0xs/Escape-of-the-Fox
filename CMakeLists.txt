@@ -30,7 +30,26 @@ FetchContent_Declare(
 )
 
 # SDL3_image
-set(SDLIMAGE_AVIF OFF)	# disable formats we don't use to make the build faster and smaller.
+# Disabling what we don't use
+set(SDLIMAGE_AVIF OFF)
+set(SDLIMAGE_BMP OFF)
+set(SDLIMAGE_STB OFF)
+set(SDLIMAGE_GIF OFF)
+set(SDLIMAGE_JPG OFF)
+set(SDLIMAGE_JXL OFF)
+set(SDLIMAGE_LBM OFF)
+set(SDLIMAGE_PCX OFF)
+set(SDLIMAGE_PNM OFF)
+set(SDLIMAGE_QOI OFF)
+set(SDLIMAGE_SVG OFF)
+set(SDLIMAGE_TGA OFF)
+set(SDLIMAGE_TIF OFF)
+set(SDLIMAGE_WEBP OFF)
+set(SDLIMAGE_XCF OFF)
+set(SDLIMAGE_XPM OFF)
+set(SDLIMAGE_XV OFF)
+# Enable what we use
+set(SDLIMAGE_PNG ON)
 FetchContent_Declare(
   SDL3_image
   GIT_REPOSITORY https://github.com/libsdl-org/SDL_image.git
@@ -38,6 +57,11 @@ FetchContent_Declare(
 )
 
 # SDL3_ttf
+# Disabling what we don't use
+set(SDLTTF_HARFBUZZ OFF)
+set(SDLTTF_PLUTOSVG OFF)
+# Enabling what we use
+set(SDLTTF_FREETYPE ON)
 FetchContent_Declare(
   SDL3_ttf
   GIT_REPOSITORY https://github.com/libsdl-org/SDL_ttf.git
@@ -45,6 +69,18 @@ FetchContent_Declare(
 )
 
 # SDL3_mixer
+# Disabling what we don't use
+set(SDLMIXER_OPUS OFF)
+set(SDLMIXER_VORBIS OFF)
+set(SDLMIXER_FLAC_LIBFLAC OFF)
+set(SDLMIXER_GME OFF)
+set(SDLMIXER_MOD OFF)
+set(SDLMIXER_MOD_XMP OFF)
+set(SDLMIXER_MIDI OFF)
+set(SDLMIXER_WAVPACK OFF)
+set(SDLMIXER_SNDFILE OFF)
+# Enabling what we use
+set(SDLMIXER_MP3 ON)
 FetchContent_Declare(
   SDL3_mixer
   GIT_REPOSITORY https://github.com/libsdl-org/SDL_mixer
@@ -71,7 +107,10 @@ add_executable("${PROJECT_NAME}"
   "src/Entity.cpp" "src/Entity.hpp"
   "src/GameObject.cpp" "src/GameObject.hpp"
   "src/Player.cpp" "src/Player.hpp"
+
+  # Enemies
   "src/Enemy.cpp" "src/Enemy.hpp"
+  "src/BeeSwarm.cpp" "src/BeeSwarm.hpp"
 
   # Scenes and level
   "src/Level.cpp" "src/Level.hpp"
