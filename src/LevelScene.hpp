@@ -35,6 +35,8 @@ private:
 	std::unique_ptr<Player> createPlayer();
 	// Creates simple enemy
 	std::unique_ptr<Entity> createSimpleEnemy();
+	// Creates Bee Swarm
+	std::unique_ptr<Entity> createBeeSwarm();
 	// Creates pause scene
 	std::unique_ptr<PauseMenu> createPauseScene();
 	

@@ -1,5 +1,7 @@
 ﻿#include "LevelScene.hpp"
 
+#include "BeeSwarm.hpp"
+
 LevelScene::LevelScene(ResourceManager* resourceManager, int levelNum) :
 	m_resourceManager{ resourceManager } {
 
@@ -8,6 +10,7 @@ LevelScene::LevelScene(ResourceManager* resourceManager, int levelNum) :
 	m_player = createPlayer();
 	m_pauseScene = createPauseScene();
 	m_enemies.push_back(createSimpleEnemy());
+	m_enemies.push_back(createBeeSwarm());
 }
 
 void LevelScene::handleEvent(const SDL_Event& event) {
@@ -204,6 +207,11 @@ std::unique_ptr<Player> LevelScene::createPlayer() {
 std::unique_ptr<Entity> LevelScene::createSimpleEnemy() {
 	std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(200.0f, 500.0f, 3.0f * TILE_SIZE, 1.0f * TILE_SIZE, nullptr);
 	return enemy;
+}
+
+std::unique_ptr<Entity> LevelScene::createBeeSwarm() {
+	std::unique_ptr<BeeSwarm> beeSwarm = std::make_unique<BeeSwarm>(300.0f, 200.0f, 3.0f * TILE_SIZE, 1.0f * TILE_SIZE, nullptr);
+	return beeSwarm;
 }
 
 std::unique_ptr<PauseMenu> LevelScene::createPauseScene() {
