@@ -1,4 +1,4 @@
-#include "Player.hpp"
+﻿#include "Player.hpp"
 
 Player::Player(float x, float y, float width, float height, shared_SDL_Texture texture) :
 	Entity{ x, y, width, height, texture } {
@@ -10,10 +10,10 @@ void Player::handleEvent(const SDL_Event& event) {
 	if (event.type == SDL_EVENT_KEY_DOWN) {
 		switch (event.key.key) {
 			case SDLK_A:
-				m_movingDirection = MovingDirection::Left;
+				m_horizontalDirection = MovingDirection::Left;
 				break;
 			case SDLK_D:
-				m_movingDirection = MovingDirection::Right;
+				m_horizontalDirection = MovingDirection::Right;
 				break;
 			case SDLK_SPACE:
 				m_jumpPressed = true;
@@ -23,12 +23,12 @@ void Player::handleEvent(const SDL_Event& event) {
 	if (event.type == SDL_EVENT_KEY_UP) {
 		switch (event.key.key) {
 			case SDLK_A:
-				if (m_movingDirection == MovingDirection::Left)
-					m_movingDirection = MovingDirection::None;
+				if (m_horizontalDirection == MovingDirection::Left)
+					m_horizontalDirection = MovingDirection::None;
 				break;
 			case SDLK_D:
-				if (m_movingDirection == MovingDirection::Right)
-					m_movingDirection = MovingDirection::None;
+				if (m_horizontalDirection == MovingDirection::Right)
+					m_horizontalDirection = MovingDirection::None;
 				break;
 			case SDLK_SPACE:
 				m_jumpPressed = false;
@@ -43,7 +43,7 @@ void Player::update(const Uint64 deltaTime) {
 		m_isOnGround = false;
 	}
 
-	switch (m_movingDirection) {
+	switch (m_horizontalDirection) {
 		case MovingDirection::None:
 			m_velocity.x = 0.0f;
 			break;

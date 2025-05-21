@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <memory>
 #include <SDL3/SDL.h>
@@ -24,6 +24,8 @@ enum class MovingDirection {
 	None,
 	Right,
 	Left,
+	Top,
+	Bottom,
 };
 
 class Entity : public GameObject {
@@ -51,7 +53,8 @@ public:
 	virtual float getSpeedY() const { return m_speed.y; }
 	virtual float getGravityForce() const { return m_gravityForce; }
 	virtual float getJumpStrength() const { return m_jumpStrength; }
-	virtual MovingDirection getMovingDirection() const { return m_movingDirection; }
+	virtual MovingDirection getHorizontalMovingDirection() const { return m_horizontalDirection; }
+	virtual MovingDirection getVerticalMovingDirection() const { return m_verticalDirection; }
 
 	// Setters
 	virtual void setVelocityX(const float vel) { m_velocity.x = vel; }
@@ -61,7 +64,8 @@ public:
 	virtual void setOnGround(const bool flag) { m_isOnGround = flag; }
 	virtual void setGravityForce(const float gravity) { m_gravityForce = gravity; }
 	virtual void setJumpStrength(const float jumpStrength) { m_jumpStrength = jumpStrength; }
-	virtual void setMovingDirection(const MovingDirection direction) { m_movingDirection = direction; }
+	virtual void setHorizontalMovingDirection(const MovingDirection direction) { m_horizontalDirection = direction; }
+	virtual void setVerticalMovingDirection(const MovingDirection direction) { m_verticalDirection = direction; }
 protected:
 
 	// Updates animation frame
@@ -75,8 +79,10 @@ protected:
 	Vector2d m_velocity;
 	// Gravity force for entity
 	float m_gravityForce = 0.02f;
-	// Entity moving direction
-	MovingDirection m_movingDirection{ MovingDirection::None };
+	// Entity horizontal moving direction
+	MovingDirection m_horizontalDirection{ MovingDirection::None };
+	// Entity vertical moving direction
+	MovingDirection m_verticalDirection{ MovingDirection::None };
 	// Entity jump strength
 	float m_jumpStrength = .15f * TILE_SIZE;
 
