@@ -23,8 +23,8 @@ void LevelScene::handleEvent(const SDL_Event& event) {
 	}
 	else {
 		m_player->handleEvent(event);
-		for (const auto& entity : m_enemies) {
-			entity->handleEvent(event);
+		for (const auto& enemy : m_enemies) {
+			enemy->handleEvent(event);
 		}
 	}
 }
@@ -49,10 +49,10 @@ void LevelScene::update(const Uint64 deltaTime) {
 
 		m_player->update(deltaTime);
 		resolveCollision(m_player.get(), deltaTime);
-		for (const auto& entity : m_enemies) {
-			entity->update(deltaTime);
-			resolveCollision(entity.get(), deltaTime);
-			resolveEnemyPlayerCollision(m_player.get(), entity.get());
+		for (const auto& enemy : m_enemies) {
+			enemy->update(deltaTime);
+			resolveCollision(enemy.get(), deltaTime);
+			resolveEnemyPlayerCollision(m_player.get(), enemy.get());
 		}
 		// Updating camera position
 		SDL_FRect cameraTarget = m_player->getRect();
@@ -79,8 +79,8 @@ void LevelScene::render(SDL_Renderer* renderer) {
 	else {
 		m_level->render(renderer, m_camera->getRect());
 		m_player->render(renderer, m_camera->getRect());
-		for (const auto& entity : m_enemies) {
-			entity->render(renderer, m_camera->getRect());
+		for (const auto& enemy : m_enemies) {
+			enemy->render(renderer, m_camera->getRect());
 		}
 	}
 }
@@ -179,8 +179,8 @@ void LevelScene::resolveVerticalCollision(Entity* entity, Uint64 deltaTime) {
 	entity->setY(currentY);
 }
 
-void LevelScene::resolveEnemyPlayerCollision(Entity* player, Entity* entity) {
-	if (utils::isCollide(player->getRect(), entity->getRect())) {
+void LevelScene::resolveEnemyPlayerCollision(Entity* player, Entity* enemy) {
+	if (utils::isCollide(player->getRect(), enemy->getRect())) {
 		m_sceneResult = SceneResult::GameOver;
 	}
 }
