@@ -1,4 +1,4 @@
-#include "LevelScene.hpp"
+﻿#include "LevelScene.hpp"
 
 LevelScene::LevelScene(ResourceManager* resourceManager, int levelNum) :
 	m_resourceManager{ resourceManager } {
@@ -7,7 +7,7 @@ LevelScene::LevelScene(ResourceManager* resourceManager, int levelNum) :
 	m_camera = createCamera();
 	m_player = createPlayer();
 	m_pauseScene = createPauseScene();
-	m_entities.push_back(createSimpleEnemy());
+	m_enemies.push_back(createSimpleEnemy());
 }
 
 void LevelScene::handleEvent(const SDL_Event& event) {
@@ -23,7 +23,7 @@ void LevelScene::handleEvent(const SDL_Event& event) {
 	}
 	else {
 		m_player->handleEvent(event);
-		for (const auto& entity : m_entities) {
+		for (const auto& entity : m_enemies) {
 			entity->handleEvent(event);
 		}
 	}
@@ -49,7 +49,7 @@ void LevelScene::update(const Uint64 deltaTime) {
 
 		m_player->update(deltaTime);
 		resolveCollision(m_player.get(), deltaTime);
-		for (const auto& entity : m_entities) {
+		for (const auto& entity : m_enemies) {
 			entity->update(deltaTime);
 			resolveCollision(entity.get(), deltaTime);
 			resolveEnemyPlayerCollision(m_player.get(), entity.get());
@@ -79,7 +79,7 @@ void LevelScene::render(SDL_Renderer* renderer) {
 	else {
 		m_level->render(renderer, m_camera->getRect());
 		m_player->render(renderer, m_camera->getRect());
-		for (const auto& entity : m_entities) {
+		for (const auto& entity : m_enemies) {
 			entity->render(renderer, m_camera->getRect());
 		}
 	}

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <vector>
 
@@ -43,7 +43,7 @@ private:
 	std::unique_ptr<Level> m_level;
 	std::unique_ptr<Camera> m_camera;
 	std::unique_ptr<Player> m_player;
-	std::vector<std::unique_ptr<Entity>> m_entities;
+	std::vector<std::unique_ptr<Entity>> m_enemies;
 	std::unique_ptr<PauseMenu> m_pauseScene;
 
 	bool m_isPaused{ false };
