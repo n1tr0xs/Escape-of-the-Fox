@@ -13,9 +13,9 @@ LevelScene::LevelScene(ResourceManager* resourceManager, int levelNum) :
 void LevelScene::handleEvent(const SDL_Event& event) {
 	if (event.type == SDL_EVENT_KEY_DOWN) {
 		switch (event.key.key) {
-		case SDLK_ESCAPE:
-			m_isPaused = !m_isPaused;
-			break;
+			case SDLK_ESCAPE:
+				m_isPaused = !m_isPaused;
+				break;
 		}
 	}
 	if (m_isPaused) {
@@ -34,13 +34,13 @@ void LevelScene::update(const Uint64 deltaTime) {
 		m_pauseScene->update(deltaTime);
 		SceneResult pauseResult = m_pauseScene->getResult();
 		switch (pauseResult) {
-		case SceneResult::Continue:
-			m_isPaused = false;
-			m_pauseScene->resetResult();
-			break;
-		case SceneResult::QuitToMainMenu:
-			m_sceneResult = SceneResult::QuitToMainMenu;
-			break;
+			case SceneResult::Continue:
+				m_isPaused = false;
+				m_pauseScene->resetResult();
+				break;
+			case SceneResult::QuitToMainMenu:
+				m_sceneResult = SceneResult::QuitToMainMenu;
+				break;
 		}
 	}
 	else {
