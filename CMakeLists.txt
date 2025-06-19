@@ -90,7 +90,7 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(SDL3 SDL3_image SDL3_ttf SDL3_mixer)
 
 # Define source files
-add_executable("${PROJECT_NAME}"
+add_executable("${PROJECT_NAME}" ${GUI_TYPE}
   # Entry
   "src/main.cpp"
 
@@ -126,6 +126,13 @@ add_executable("${PROJECT_NAME}"
   "src/MenuButton.cpp" "src/MenuButton.hpp"
   "src/TextLabel.cpp" "src/TextLabel.hpp"
 )
+
+if(WIN32)
+  # Включить GUI только для Release и RelWithDebInfo, чтобы в Debug была консоль
+  set_target_properties(${PROJECT_NAME} PROPERTIES
+    WIN32_EXECUTABLE $<OR:$<CONFIG:Release>,$<CONFIG:RelWithDebInfo>>
+  )
+endif()
 
 # Link libraries
 target_link_libraries("${PROJECT_NAME}" PRIVATE 
