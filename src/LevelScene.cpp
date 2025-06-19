@@ -1,6 +1,7 @@
 ﻿#include "LevelScene.hpp"
 
 #include "BeeSwarm.hpp"
+#include "Cock.hpp"
 
 LevelScene::LevelScene(ResourceManager* resourceManager, int levelNum) :
 	m_resourceManager{ resourceManager } {
@@ -9,8 +10,9 @@ LevelScene::LevelScene(ResourceManager* resourceManager, int levelNum) :
 	m_camera = createCamera();
 	m_player = createPlayer();
 	m_pauseScene = createPauseScene();
-	m_enemies.push_back(createSimpleEnemy());
-	m_enemies.push_back(createBeeSwarm());
+	//m_enemies.push_back(createSimpleEnemy());
+	//m_enemies.push_back(createBeeSwarm());
+	m_enemies.push_back(createCock());
 }
 
 void LevelScene::handleEvent(const SDL_Event& event) {
@@ -184,7 +186,7 @@ void LevelScene::resolveVerticalCollision(Entity* entity, Uint64 deltaTime) {
 
 void LevelScene::resolveEnemyPlayerCollision(Entity* player, Entity* enemy) {
 	if (utils::isCollide(player->getRect(), enemy->getRect())) {
-		m_sceneResult = SceneResult::GameOver;
+		//m_sceneResult = SceneResult::GameOver;
 	}
 }
 
@@ -192,7 +194,7 @@ std::unique_ptr<Player> LevelScene::createPlayer() {
 	shared_SDL_Texture playerTexture = m_resourceManager->loadTexture("player.png");
 	float playerWidth = static_cast<float>(TILE_SIZE * 4);
 	float playerHeight = static_cast<float>(TILE_SIZE * 2);
-	std::unique_ptr<Player> player = std::make_unique<Player>(0.0f, 0.0f, playerWidth, playerHeight, playerTexture);
+	std::unique_ptr<Player> player = std::make_unique<Player>(1300.0f, 0.0f, playerWidth, playerHeight, playerTexture);
 
 	float fw = 512;
 	float fh = fw / 2;
@@ -212,6 +214,11 @@ std::unique_ptr<Entity> LevelScene::createSimpleEnemy() {
 std::unique_ptr<Entity> LevelScene::createBeeSwarm() {
 	std::unique_ptr<BeeSwarm> beeSwarm = std::make_unique<BeeSwarm>(300.0f, 200.0f, 3.0f * TILE_SIZE, 1.0f * TILE_SIZE, nullptr);
 	return beeSwarm;
+}
+
+std::unique_ptr<Entity> LevelScene::createCock() {
+	std::unique_ptr<Cock> cock = std::make_unique<Cock>(1800.0f, 200.0f, 3.0f * TILE_SIZE, 1.0f * TILE_SIZE, nullptr);
+	return cock;
 }
 
 std::unique_ptr<PauseMenu> LevelScene::createPauseScene() {

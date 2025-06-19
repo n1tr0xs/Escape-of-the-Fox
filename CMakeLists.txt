@@ -111,6 +111,7 @@ add_executable("${PROJECT_NAME}"
   # Enemies
   "src/Enemy.cpp" "src/Enemy.hpp"
   "src/BeeSwarm.cpp" "src/BeeSwarm.hpp"
+  "src/Cock.cpp" "src/Cock.hpp"
 
   # Scenes and level
   "src/Level.cpp" "src/Level.hpp"
