@@ -1,6 +1,7 @@
-#pragma once
+﻿#pragma once
 
 #include <memory>
+#include <vector>
 
 #include "ResourceManager.hpp"
 #include "Scene.hpp"
