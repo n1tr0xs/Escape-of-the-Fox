@@ -186,7 +186,7 @@ void LevelScene::resolveVerticalCollision(Entity* entity, Uint64 deltaTime) {
 
 void LevelScene::resolveEnemyPlayerCollision(Entity* player, Entity* enemy) {
 	if (utils::isCollide(player->getRect(), enemy->getRect())) {
-		//m_sceneResult = SceneResult::GameOver;
+		m_sceneResult = SceneResult::GameOver;
 	}
 }
 

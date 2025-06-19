@@ -8,4 +8,14 @@ public:
 private:
 	float m_leftEdgeX;
 	float m_rightEdgeX;
+
+	// Dash constants
+	const float DASH_COOLDOWN = { 2.0f * 1000 };
+	const float DASH_DURATION = { 250.0f };
+	const float DASH_SPEED = { TILE_SIZE/32.0f };
+
+	// Dash runtime vars
+	bool m_isDashing{ false };
+	float m_dashCooldown{ DASH_COOLDOWN };
+	float m_dashDuration{ 0.0f };
 };
