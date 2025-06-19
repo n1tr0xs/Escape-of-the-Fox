@@ -3,14 +3,14 @@
 BeeSwarm::BeeSwarm(float x, float y, float width, float height, shared_SDL_Texture texture) :
 	Enemy(x, y, width, height, texture) {
 
-	m_left_top = {
-		m_rect.x - TILE_SIZE * 3,
-		m_rect.y - TILE_SIZE * 2,
+	m_leftTop = {
+		getX() - TILE_SIZE * 3,
+		getY() - TILE_SIZE * 2,
 	};
 
-	m_right_bottom = {
-		m_rect.x + TILE_SIZE * 3,
-		m_rect.y + TILE_SIZE * 2,
+	m_rightBottom = {
+		getX() + TILE_SIZE * 3,
+		getY() + TILE_SIZE * 2,
 	};
 
 	m_horizontalDirection = MovingDirection::Left;
@@ -22,16 +22,16 @@ BeeSwarm::BeeSwarm(float x, float y, float width, float height, shared_SDL_Textu
 
 void BeeSwarm::update(const Uint64 deltaTime) {
 	if (m_horizontalDirection == MovingDirection::Left) {
-		if (m_rect.x > m_left_top.x) {
-			m_velocity.x = -m_speed.x;
+		if (getX() > m_leftTop.x) {
+			setVelocityX(-getSpeedX());
 		}
 		else {
 			m_horizontalDirection = MovingDirection::Right;
 		}
 	}
 	else if (m_horizontalDirection == MovingDirection::Right) {
-		if (m_rect.x < m_right_bottom.x) {
-			m_velocity.x = m_speed.x;
+		if (getX() < m_rightBottom.x) {
+			setVelocityX(getSpeedX());
 		}
 		else {
 			m_horizontalDirection = MovingDirection::Left;
@@ -39,16 +39,16 @@ void BeeSwarm::update(const Uint64 deltaTime) {
 	}
 
 	if (m_verticalDirection == MovingDirection::Top) {
-		if (m_rect.y > m_left_top.y) {
-			m_velocity.y = -m_speed.y;
+		if (getY() > m_leftTop.y) {
+			setVelocityY(-getSpeedY());
 		}
 		else {
 			m_verticalDirection = MovingDirection::Bottom;
 		}
 	}
 	else if (m_verticalDirection == MovingDirection::Bottom) {
-		if (m_rect.y < m_right_bottom.y) {
-			m_velocity.y = m_speed.y;
+		if (getY() < m_rightBottom.y) {
+			setVelocityY(getSpeedY());
 		}
 		else {
 			m_verticalDirection = MovingDirection::Top;

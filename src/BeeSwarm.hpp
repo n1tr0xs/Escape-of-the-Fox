@@ -7,7 +7,7 @@ public:
 	void update(const Uint64 deltaTime) override;
 private:
 	// Left top coordinate of movement rect
-	Vector2d m_left_top;
+	Vector2d m_leftTop;
 	// Right bottom coordinate of movement rect
-	Vector2d m_right_bottom;
+	Vector2d m_rightBottom;
 };

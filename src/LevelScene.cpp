@@ -160,7 +160,7 @@ void LevelScene::resolveVerticalCollision(Entity* entity, Uint64 deltaTime) {
 			// Falling (check ground)
 			if (m_level->isSolidHorizontally(feetY, leftX, rightX)) {
 				currentY = std::floor(feetY / TILE_SIZE) * TILE_SIZE - entity->getHeight();
-				entity->setOnGround(true);
+				entity->setIsOnGround(true);
 				entity->setVelocityY(0.0f);
 				collisionDetected = true;
 				break;
@@ -178,7 +178,7 @@ void LevelScene::resolveVerticalCollision(Entity* entity, Uint64 deltaTime) {
 	}
 
 	if (!collisionDetected) {
-		entity->setOnGround(false);
+		entity->setIsOnGround(false);
 	}
 
 	entity->setY(currentY);

@@ -2,7 +2,7 @@
 
 Player::Player(float x, float y, float width, float height, shared_SDL_Texture texture) :
 	Entity{ x, y, width, height, texture } {
-	
+
 	setSpeedX(0.5f);
 }
 
@@ -39,26 +39,24 @@ void Player::handleEvent(const SDL_Event& event) {
 
 void Player::update(const Uint64 deltaTime) {
 	if (m_jumpPressed && m_isOnGround) {
-		m_velocity.y = -m_jumpStrength;
-		m_isOnGround = false;
+		setVelocityY(-getJumpStrength());
+		setIsOnGround(false);
 	}
 
 	switch (m_horizontalDirection) {
 		case MovingDirection::None:
-			m_velocity.x = 0.0f;
+			setVelocityX(0.0f);
 			break;
 		case MovingDirection::Right:
-			m_velocity.x = m_speed.x;
+			setVelocityX(getSpeedX());
 			break;
 		case MovingDirection::Left:
-			m_velocity.x = -m_speed.x;
-			break;
-		default:
+			setVelocityX(-getSpeedX());
 			break;
 	}
 
-	if (!m_isOnGround) {
-		m_velocity.y += m_gravityForce * deltaTime;
+	if (!getIsOnGround()) {
+		setVelocityY(getVelocityY() + getGravityForce() * deltaTime);
 	}
 
 	updateAnimationFrame(deltaTime);

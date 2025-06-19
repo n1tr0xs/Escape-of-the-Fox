@@ -51,6 +51,7 @@ public:
 	virtual float getVelocityY() const { return m_velocity.y; }
 	virtual float getSpeedX() const { return m_speed.x; }
 	virtual float getSpeedY() const { return m_speed.y; }
+	virtual float getIsOnGround() const { return m_isOnGround; }
 	virtual float getGravityForce() const { return m_gravityForce; }
 	virtual float getJumpStrength() const { return m_jumpStrength; }
 	virtual MovingDirection getHorizontalMovingDirection() const { return m_horizontalDirection; }
@@ -61,7 +62,7 @@ public:
 	virtual void setVelocityY(const float vel) { m_velocity.y = vel; }
 	virtual void setSpeedX(const float speed) { m_speed.x = speed; }
 	virtual void setSpeedY(const float speed) { m_speed.y = speed; }
-	virtual void setOnGround(const bool flag) { m_isOnGround = flag; }
+	virtual void setIsOnGround(const bool flag) { m_isOnGround = flag; }
 	virtual void setGravityForce(const float gravity) { m_gravityForce = gravity; }
 	virtual void setJumpStrength(const float jumpStrength) { m_jumpStrength = jumpStrength; }
 	virtual void setHorizontalMovingDirection(const MovingDirection direction) { m_horizontalDirection = direction; }

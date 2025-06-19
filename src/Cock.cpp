@@ -52,6 +52,6 @@ void Cock::update(const Uint64 deltaTime) {
 		}
 	}
 	if (!m_isOnGround) {
-		setVelocityY(getVelocityY() + m_gravityForce * deltaTime);
+		setVelocityY(getVelocityY() + getGravityForce() * deltaTime);
 	}
 }
