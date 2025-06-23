@@ -40,6 +40,8 @@ private:
 	std::unique_ptr<Entity> createBeeSwarm();
 	// Creates Cock
 	std::unique_ptr<Entity> createCock();
+	// Creates Mushroom enemy
+	std::unique_ptr<Entity> createMushroom();
 	// Creates pause scene
 	std::unique_ptr<PauseMenu> createPauseScene();
 	

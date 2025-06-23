@@ -2,6 +2,7 @@
 
 #include "BeeSwarm.hpp"
 #include "Cock.hpp"
+#include "Mushroom.hpp"
 
 LevelScene::LevelScene(ResourceManager* resourceManager, int levelNum) :
 	m_resourceManager{ resourceManager } {
@@ -12,7 +13,8 @@ LevelScene::LevelScene(ResourceManager* resourceManager, int levelNum) :
 	m_pauseScene = createPauseScene();
 	//m_enemies.push_back(createSimpleEnemy());
 	//m_enemies.push_back(createBeeSwarm());
-	m_enemies.push_back(createCock());
+	//m_enemies.push_back(createCock());
+	m_enemies.push_back(createMushroom());
 }
 
 void LevelScene::handleEvent(const SDL_Event& event) {
@@ -219,6 +221,11 @@ std::unique_ptr<Entity> LevelScene::createBeeSwarm() {
 std::unique_ptr<Entity> LevelScene::createCock() {
 	std::unique_ptr<Cock> cock = std::make_unique<Cock>(1800.0f, 200.0f, 3.0f * TILE_SIZE, 1.0f * TILE_SIZE, nullptr);
 	return cock;
+}
+
+std::unique_ptr<Entity> LevelScene::createMushroom() {
+	std::unique_ptr<Mushroom> mushroom = std::make_unique<Mushroom>(1800.0f, 300.0f, 1.0f * TILE_SIZE, 1.0f * TILE_SIZE, nullptr);
+	return mushroom;
 }
 
 std::unique_ptr<PauseMenu> LevelScene::createPauseScene() {

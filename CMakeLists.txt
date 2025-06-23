@@ -112,6 +112,7 @@ add_executable("${PROJECT_NAME}" ${GUI_TYPE}
   "src/Enemy.cpp" "src/Enemy.hpp"
   "src/BeeSwarm.cpp" "src/BeeSwarm.hpp"
   "src/Cock.cpp" "src/Cock.hpp"
+  "src/Mushroom.cpp" "src/Mushroom.hpp"
 
   # Scenes and level
   "src/Level.cpp" "src/Level.hpp"
