@@ -3,11 +3,13 @@
 Mushroom::Mushroom(float x, float y, float width, float height, shared_SDL_Texture texture) :
 	Enemy(x, y, width, height, texture) {
 
-	setJumpStrength(0.1f*TILE_SIZE);
+	setJumpStrength(0.1f * TILE_SIZE);
 }
 
 void Mushroom::update(const Uint64 deltaTime) {
-	m_jumpCooldown -= deltaTime;
+	if (getIsOnGround()) {
+		m_jumpCooldown -= deltaTime;
+	}
 
 	if (m_jumpCooldown <= 0.0f) {
 		if (getIsOnGround()) {
@@ -17,7 +19,7 @@ void Mushroom::update(const Uint64 deltaTime) {
 		}
 	}
 
-	if (!getIsOnGround()) {
+	 if (!getIsOnGround()) {
 		setVelocityY(getVelocityY() + getGravityForce() * deltaTime);
 	}
 }
