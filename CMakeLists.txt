@@ -127,6 +127,12 @@ add_executable("${PROJECT_NAME}" ${GUI_TYPE}
   "src/TextLabel.cpp" "src/TextLabel.hpp"
 )
 
+# Add precompiled header source
+target_sources("${PROJECT_NAME}" PRIVATE "src/pch.cpp")
+
+# Enable precompiled headers
+target_precompile_headers("${PROJECT_NAME}" PRIVATE "src/pch.hpp")
+
 if(WIN32)
   # Включить GUI только для Release и RelWithDebInfo, чтобы в Debug была консоль
   set_target_properties(${PROJECT_NAME} PROPERTIES
