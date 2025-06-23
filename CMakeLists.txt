@@ -174,3 +174,7 @@ add_custom_command(TARGET "${PROJECT_NAME}" POST_BUILD
   COMMAND ${CMAKE_COMMAND} -E copy_directory "${ASSETS_SOURCE_DIR}" "${ASSETS_TARGET_DIR}"
   COMMENT "Copying assets directory next to executable..."
 )
+
+
+# Set startup project for Visual Studio
+set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${PROJECT_NAME})
