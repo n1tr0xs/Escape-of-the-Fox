@@ -18,7 +18,7 @@ namespace utils {
 		exit(statusCode);
 	}
 
-	static bool isCollide(SDL_FRect rect1, SDL_FRect rect2) {
+	bool isCollide(SDL_FRect rect1, SDL_FRect rect2) {
 		// AABB collision
 		return !(rect2.x + rect2.w < rect1.x ||
 			rect2.x > rect1.x + rect1.w ||
