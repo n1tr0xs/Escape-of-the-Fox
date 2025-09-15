@@ -112,6 +112,7 @@ add_executable("${PROJECT_NAME}" ${GUI_TYPE}
   "src/Enemy.cpp" "src/Enemy.hpp"
   "src/BeeSwarm.cpp" "src/BeeSwarm.hpp"
   "src/Cock.cpp" "src/Cock.hpp"
+  "src/Mushroom.cpp" "src/Mushroom.hpp"
 
   # Scenes and level
   "src/Level.cpp" "src/Level.hpp"
@@ -126,6 +127,12 @@ add_executable("${PROJECT_NAME}" ${GUI_TYPE}
   "src/MenuButton.cpp" "src/MenuButton.hpp"
   "src/TextLabel.cpp" "src/TextLabel.hpp"
 )
+
+# Add precompiled header source
+target_sources("${PROJECT_NAME}" PRIVATE "src/pch.cpp")
+
+# Enable precompiled headers
+target_precompile_headers("${PROJECT_NAME}" PRIVATE "src/pch.hpp")
 
 if(WIN32)
   # Включить GUI только для Release и RelWithDebInfo, чтобы в Debug была консоль
@@ -168,3 +175,7 @@ add_custom_command(TARGET "${PROJECT_NAME}" POST_BUILD
   COMMAND ${CMAKE_COMMAND} -E copy_directory "${ASSETS_SOURCE_DIR}" "${ASSETS_TARGET_DIR}"
   COMMENT "Copying assets directory next to executable..."
 )
+
+
+# Set startup project for Visual Studio
+set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${PROJECT_NAME})

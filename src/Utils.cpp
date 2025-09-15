@@ -1,4 +1,4 @@
-#include <SDL3/SDL.h>
+﻿#include <SDL3/SDL.h>
 #include <SDL3_ttf/SDL_ttf.h>
 //#include <SDL3_mixer/SDL_mixer.h>
 
@@ -24,6 +24,10 @@ namespace utils {
 			rect2.x > rect1.x + rect1.w ||
 			rect2.y + rect2.h < rect1.y ||
 			rect2.y > rect1.y + rect1.h);
+	}
+
+	float getRandom(const float low, const float high) {
+		return low + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (high - low)));
 	}
 
 }
