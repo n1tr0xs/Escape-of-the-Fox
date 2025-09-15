@@ -1,5 +1,5 @@
 #include <SDL3/SDL.h>
-#include <SDL3_mixer/SDL_mixer.h>
+//#include <SDL3_mixer/SDL_mixer.h>
 #include <memory>
 
 using unique_SDL_Window = std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)>;
@@ -9,4 +9,4 @@ using unique_SDL_Surface = std::unique_ptr<SDL_Surface, decltype(&SDL_DestroySur
 
 using shared_SDL_Texture = std::shared_ptr<SDL_Texture>;
 using shared_TTF_Font = std::shared_ptr<TTF_Font>;
-using shared_Mix_Chunk = std::shared_ptr<Mix_Chunk>;
+//using shared_Mix_Chunk = std::shared_ptr<Mix_Chunk>;

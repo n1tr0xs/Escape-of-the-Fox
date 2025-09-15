@@ -1,7 +1,7 @@
 #pragma once
 
 #include <SDL3_ttf/SDL_ttf.h>
-#include <SDL3_mixer/SDL_mixer.h>
+//#include <SDL3_mixer/SDL_mixer.h>
 #include <memory>
 #include <string>
 #include <unordered_map>
@@ -25,7 +25,7 @@ public:
 private:
 	ResourceManager* m_resourceManager{ nullptr };
 	shared_TTF_Font m_font{ nullptr };
-	shared_Mix_Chunk m_backgroundMusic{ nullptr };
+	//shared_Mix_Chunk m_backgroundMusic{ nullptr };
 
 	int m_selectedItem{ 0 };
 	bool m_enterPressed{ false };

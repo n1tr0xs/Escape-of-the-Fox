@@ -7,7 +7,7 @@ MenuScene::MenuScene(ResourceManager* resourceManager) :
 }
 
 MenuScene::~MenuScene() {
-	Mix_FadeOutChannel(BACKGROUND_MUSIC_CHANNEL, 1000);
+	//Mix_FadeOutChannel(BACKGROUND_MUSIC_CHANNEL, 1000);
 }
 
 void MenuScene::handleEvent(const SDL_Event& event) {
@@ -34,8 +34,8 @@ void MenuScene::handleEvent(const SDL_Event& event) {
 }
 
 void MenuScene::update(const Uint64 deltaTime) {
-	if (m_backgroundMusic && !Mix_Playing(BACKGROUND_MUSIC_CHANNEL))
-		Mix_PlayChannel(BACKGROUND_MUSIC_CHANNEL, m_backgroundMusic.get(), -1);
+	//if (m_backgroundMusic && !Mix_Playing(BACKGROUND_MUSIC_CHANNEL))
+		//Mix_PlayChannel(BACKGROUND_MUSIC_CHANNEL, m_backgroundMusic.get(), -1);
 	if (m_enterPressed) {
 		m_sceneResult = m_buttons[m_selectedItem]->getResult();
 
@@ -68,5 +68,5 @@ void MenuScene::addButton(const std::string& text, SceneResult result, SDL_Color
 }
 
 void MenuScene::addMusic(const std::string& fileName) {
-	m_backgroundMusic = m_resourceManager->loadSound(fileName);
+	//m_backgroundMusic = m_resourceManager->loadSound(fileName);
 }

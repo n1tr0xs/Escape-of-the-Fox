@@ -29,11 +29,11 @@ Engine::Engine(const std::string& title) {
 	m_resourceManager = std::make_unique<ResourceManager>(m_renderer.get());
 
 	// Audio system initialization
-	m_audioDeviceID = SDL_OpenAudioDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, NULL);
+	/*m_audioDeviceID = SDL_OpenAudioDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, NULL);
 	if (!m_audioDeviceID)
 		utils::SDL_Fail("Couldn't init Audio device.");
 	if (!Mix_OpenAudio(m_audioDeviceID, NULL))
-		utils::SDL_Fail("Couldn't open audio device.");
+		utils::SDL_Fail("Couldn't open audio device.");*/
 
 	// Creating MenuScene
 	m_currentScene = createMenuScene();
@@ -47,7 +47,7 @@ Engine::~Engine() {
 	m_resourceManager.reset();
 
 	SDL_CloseAudioDevice(m_audioDeviceID);
-	Mix_Quit();
+	//Mix_Quit();
 	TTF_Quit();
 	SDL_Quit();
 }

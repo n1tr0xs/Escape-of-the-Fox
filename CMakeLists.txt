@@ -87,7 +87,7 @@ FetchContent_Declare(
   GIT_TAG main
 )
 
-FetchContent_MakeAvailable(SDL3 SDL3_image SDL3_ttf SDL3_mixer)
+FetchContent_MakeAvailable(SDL3 SDL3_image SDL3_ttf )
 
 # Define source files
 add_executable("${PROJECT_NAME}" ${GUI_TYPE}
@@ -136,7 +136,7 @@ endif()
 
 # Link libraries
 target_link_libraries("${PROJECT_NAME}" PRIVATE 
-  SDL3_mixer::SDL3_mixer
+  
   SDL3_image::SDL3_image
   SDL3_ttf::SDL3_ttf
   SDL3::SDL3
@@ -156,7 +156,7 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
     "$<TARGET_FILE:SDL3::SDL3>"
     "$<TARGET_FILE:SDL3_image::SDL3_image>"
     "$<TARGET_FILE:SDL3_ttf::SDL3_ttf>"
-    "$<TARGET_FILE:SDL3_mixer::SDL3_mixer>"
+    
     "$<TARGET_FILE_DIR:${PROJECT_NAME}>"
 )
 
